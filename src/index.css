@@ -181,3 +181,49 @@
   }
   .custom-cursor, .cursor-dot { display: none !important; }
 }
+
+/* ────── Performance Hints ────── */
+/* Promote GSAP-animated elements to their own GPU layer */
+.hero-avatar,
+.hero-ring,
+.hero-char,
+.hero-cta,
+.hero-stat,
+.hero-bio,
+.hero-subtitle,
+.service-card,
+.cert-card-new {
+  will-change: opacity, transform;
+}
+
+/* Flip card – GPU layer */
+[style*="transform-style:preserve-3d"],
+[class*="[transform-style:preserve-3d]"] {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Prevent horizontal overflow on mobile globally */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Touch scrolling optimization */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth image rendering */
+img {
+  image-rendering: auto;
+}
+
+/* Responsive container guard */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+

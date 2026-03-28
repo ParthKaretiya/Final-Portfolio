@@ -9,6 +9,7 @@ import Preloader from "@/components/Preloader";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
+import Services from "@/components/Services";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
@@ -24,10 +25,11 @@ const Index = () => {
 
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.6, // Increased for a smoother glide
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      wheelMultiplier: 0.9, // Slightly softer wheel reaction
+      wheelMultiplier: 0.9,
+      touchMultiplier: 1.5,
     });
 
     lenis.on('scroll', ScrollTrigger.update);
@@ -70,6 +72,7 @@ const Index = () => {
           <Navbar />
           <Hero />
           <About />
+          <Services />
           <Skills />
           <Projects />
           <Experience />

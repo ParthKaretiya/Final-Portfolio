@@ -76,9 +76,9 @@ const Hero = () => {
       stagger: 2
     });
 
-    // Scroll parallax features
-    gsap.to('.hero-content-wrapper', {
-      yPercent: 25,
+    // Scroll parallax — only on the avatar so buttons stay visible
+    gsap.to('.hero-parallax-deco', {
+      yPercent: -20,
       ease: "none",
       scrollTrigger: {
         trigger: sectionRef.current,
@@ -90,46 +90,22 @@ const Hero = () => {
 
   }, { scope: sectionRef });
 
-  // Mouse Parallax & Scroll Skew
+  // Subtle mouse parallax on avatar only (no scroll skew — removes jank)
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
-    
-    let lastScrollY = window.scrollY;
-    let skew = 0;
-    
-    const handleEvents = (e?: MouseEvent) => {
-      // Mouse Parallax
-      if (e) {
-        const mx = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
-        const my = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-        const avatar = document.querySelector('.hero-avatar') as HTMLElement;
-        if (avatar) {
-          avatar.style.transform = `translate(${mx * 8}px, ${my * 8}px) scale(1)`;
-        }
-      }
 
-      // Scroll Skew
-      const currentScrollY = window.scrollY;
-      const diff = currentScrollY - lastScrollY;
-      skew = diff * 0.15;
-      lastScrollY = currentScrollY;
-      
-      const content = sectionRef.current?.querySelector('.hero-content-wrapper') as HTMLElement;
-      if (content) {
-        content.style.transform = `skewY(${Math.max(-5, Math.min(5, skew))}deg)`;
-        setTimeout(() => {
-          if (content) content.style.transform = `skewY(0deg)`;
-        }, 150);
+    const handleMouse = (e: MouseEvent) => {
+      const mx = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+      const my = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+      const avatar = document.querySelector('.hero-avatar') as HTMLElement;
+      if (avatar) {
+        avatar.style.transform = `translate(${mx * 6}px, ${my * 6}px) scale(1)`;
       }
     };
 
-    window.addEventListener('mousemove', handleEvents);
-    window.addEventListener('scroll', handleEvents);
-    return () => {
-      window.removeEventListener('mousemove', handleEvents);
-      window.removeEventListener('scroll', handleEvents);
-    };
+    window.addEventListener('mousemove', handleMouse, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMouse);
   }, []);
 
   const firstName = "PARTH".split("");
@@ -151,8 +127,8 @@ const Hero = () => {
 
       <div className="container mx-auto px-6 relative z-10 hero-content-wrapper">
         <div className="max-w-5xl mx-auto flex flex-col items-center text-center gap-8">
-          {/* Avatar with Ring */}
-          <div className="relative" style={{ perspective: "1000px" }}>
+          {/* Avatar with Ring — wrapped in hero-parallax-deco for subtle scroll depth */}
+          <div className="hero-parallax-deco relative" style={{ perspective: "1000px" }}>
             <div className="hero-ring absolute -inset-4 rounded-full opacity-0" style={{
               background: "conic-gradient(from 0deg, hsl(0 0% 100% / 0.3), transparent 25%, hsl(0 0% 100% / 0.1), transparent 50%, hsl(0 0% 100% / 0.3), transparent 75%)",
               filter: "blur(2px)",
@@ -210,10 +186,7 @@ const Hero = () => {
 
           {/* Bio */}
           <p className="hero-bio opacity-0 text-white/50 max-w-3xl leading-relaxed text-base md:text-lg">
-            Dedicated <span className="text-white">React Specialist</span> and Full-Stack Developer with a passion for 
-            architectural excellence and cybersecurity. I bridge the gap between 
-            robust backend scalability and premium, high-performance frontends, 
-            creating digital experiences that are <span className="text-blue-400">fundamentally secure</span>.
+            Dedicated <span className="text-white">Full-Stack Developer</span> with a strong passion for building scalable, secure, and high-performance web applications. I specialize in crafting modern, responsive frontends while designing robust backend architectures that ensure reliability and efficiency. With a keen interest in software architecture and cybersecurity, I focus on developing solutions that are not only visually compelling but also <span className="text-blue-400">fundamentally secure</span> and optimized for performance.
           </p>
 
           {/* Stats row */}
@@ -227,14 +200,14 @@ const Hero = () => {
           </div>
 
           {/* CTAs */}
-          <div className="flex flex-wrap justify-center gap-4 mt-6">
-            <a href="#" className="hero-cta opacity-0 group px-8 py-3.5 bg-white text-black font-bold rounded-full flex items-center gap-2 hover:bg-neutral-200 transition-all duration-300">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 mt-6 w-full px-2">
+            <a href="https://drive.google.com/file/d/17YweYR--TMHxc9NHtMwxqRTVO_ZO0Xor/view" target="_blank" rel="noopener noreferrer" className="hero-cta opacity-0 group px-7 py-3.5 bg-white text-black font-bold rounded-full flex items-center justify-center gap-2 hover:bg-neutral-200 transition-colors duration-200 w-full sm:w-auto">
               <FileText size={18} /> View Resume
             </a>
-            <a href="#projects" className="hero-cta opacity-0 px-8 py-3.5 border border-white/20 text-white font-medium rounded-full flex items-center gap-2 hover:bg-white/5 hover:border-white/40 transition-all duration-300">
+            <a href="#projects" className="hero-cta opacity-0 px-7 py-3.5 border border-white/20 text-white font-medium rounded-full flex items-center justify-center gap-2 hover:bg-white/5 hover:border-white/40 transition-colors duration-200 w-full sm:w-auto">
               <FolderOpen size={18} /> View Projects
             </a>
-            <a href="#contact" className="hero-cta opacity-0 px-8 py-3.5 bg-neutral-900 border border-white/10 text-white/80 font-medium rounded-full flex items-center gap-2 hover:text-white hover:border-white/30 transition-all duration-300">
+            <a href="#contact" className="hero-cta opacity-0 px-7 py-3.5 bg-neutral-900 border border-white/10 text-white/80 font-medium rounded-full flex items-center justify-center gap-2 hover:text-white hover:border-white/30 transition-colors duration-200 w-full sm:w-auto">
               <Mail size={18} /> Contact Me
             </a>
           </div>

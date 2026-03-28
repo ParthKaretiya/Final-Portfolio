@@ -130,17 +130,17 @@ const Certificates = () => {
 
     gsap.utils.toArray('.cert-card-new').forEach((card: any) => {
       gsap.fromTo(card,
-        { opacity: 0, y: 150, scale: 0.85 },
+        { opacity: 0, y: 50, scale: 0.95 },
         {
-          opacity: 1, 
-          y: 0, 
-          scale: 1, 
+          opacity: 1,
+          y: 0,
+          scale: 1,
           ease: 'power2.out',
-          scrollTrigger: { 
-            trigger: card, 
-            start: 'top 95%',
-            end: 'top 60%',
-            scrub: 1 
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 92%',
+            end: 'top 65%',
+            scrub: 0.5
           }
         }
       );

@@ -56,19 +56,21 @@ const About = () => {
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left: Bio */}
           <div className="space-y-6 text-muted-foreground text-base leading-relaxed">
-            <p className="reveal opacity-0">
-              I'm <span className="text-foreground font-semibold">Parth Karetiya</span>, a React Specialist
-              from <span className="inline-flex items-center gap-1 text-foreground"><MapPin size={14} className="text-primary" />Gujarat, India</span>.
-              I design and develop end-to-end web applications with a focus on clean architecture and thoughtful user experiences.
-            </p>
-            <p className="reveal opacity-0">
-              My journey into technology began with curiosity about how things work on the web. Now I specialize
-              in building responsive frontends and scalable backends using React, Node.js, and MongoDB.
-            </p>
-            <p className="reveal opacity-0">
-              When I'm not writing code, you'll find me exploring new technologies, participating in hackathons,
-              or learning about cloud computing and backend optimization.
-            </p>
+            <div className="reveal opacity-0 surface-card p-6 md:p-8 rounded-2xl border border-white/5 bg-black/40 backdrop-blur-xl hover:border-white/10 transition-colors shadow-2xl relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <p className="mb-5 relative z-10">
+                I'm <span className="text-foreground font-semibold text-lg tracking-wide">Parth Karetiya</span>, a <span className="text-cyan-400 font-medium">Full-Stack Developer</span> from <span className="inline-flex items-center gap-1 text-foreground"><MapPin size={16} className="text-cyan-400" />Gujarat, India</span>, focused on building modern, scalable, and high-performance web applications. I enjoy designing and developing end-to-end solutions with a strong emphasis on <span className="text-blue-400 font-medium">clean architecture</span>, maintainable code, and intuitive user experiences.
+              </p>
+              <p className="mb-5 relative z-10">
+                My journey into technology started with a curiosity about how the web works, which gradually evolved into a deep interest in full-stack development. Over time, I have gained hands-on experience in creating responsive and dynamic frontends, along with designing efficient and reliable backend systems using technologies like React, Node.js, and MongoDB.
+              </p>
+              <p className="mb-5 relative z-10">
+                I am particularly interested in writing <span className="text-purple-400 font-medium">optimized, secure, and scalable code</span>, ensuring that applications not only look great but also perform seamlessly under real-world conditions. I continuously strive to improve my understanding of software architecture, backend optimization, and cloud technologies.
+              </p>
+              <p className="relative z-10">
+                Outside of development, I actively participate in hackathons, explore new tools and frameworks, and stay updated with industry trends. I am driven by a passion for learning, building, and delivering impactful digital products that solve real-world problems.
+              </p>
+            </div>
           </div>
 
           {/* Right: Education */}

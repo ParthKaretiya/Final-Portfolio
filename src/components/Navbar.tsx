@@ -105,7 +105,7 @@ const Navbar = () => {
         </button>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <a
               key={link.name}
@@ -119,12 +119,22 @@ const Navbar = () => {
               {link.name}
             </a>
           ))}
-          <a
-            href="#contact"
-            className="nav-link opacity-0 px-6 py-2 bg-cyan-400 text-black text-sm font-bold rounded-full hover:bg-cyan-300 transition-all duration-300 shadow-[0_0_15px_rgba(34,211,238,0.2)] hover:shadow-[0_0_25px_rgba(34,211,238,0.4)]"
-          >
-            Let's Talk
-          </a>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://drive.google.com/file/d/17YweYR--TMHxc9NHtMwxqRTVO_ZO0Xor/view"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nav-link opacity-0 px-6 py-2 border border-cyan-400/50 text-white text-sm font-bold rounded-full hover:bg-cyan-400/10 transition-all duration-300"
+            >
+              Resume
+            </a>
+            <a
+              href="#contact"
+              className="nav-link opacity-0 px-6 py-2 bg-cyan-400 text-black text-sm font-bold rounded-full hover:bg-cyan-300 transition-all duration-300 shadow-[0_0_15px_rgba(34,211,238,0.2)] hover:shadow-[0_0_25px_rgba(34,211,238,0.4)]"
+            >
+              Let's Talk
+            </a>
+          </div>
         </div>
 
         {/* Mobile Toggle Button */}
@@ -154,13 +164,23 @@ const Navbar = () => {
               {link.name}
             </a>
           ))}
-          <a
-            href="#contact"
-            className="mobile-link mt-8 px-10 py-4 bg-cyan-400 text-black font-bold rounded-full opacity-0 shadow-[0_0_20px_rgba(34,211,238,0.3)]"
-            onClick={closeMenu}
-          >
-            Let's Talk
-          </a>
+          <div className="flex flex-col items-center gap-4 mt-8">
+            <a
+              href="https://drive.google.com/file/d/17YweYR--TMHxc9NHtMwxqRTVO_ZO0Xor/view"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mobile-link px-10 py-3 border border-cyan-400/50 text-white text-lg font-bold rounded-full opacity-0 hover:bg-cyan-400/10 transition-colors"
+            >
+              Resume
+            </a>
+            <a
+              href="#contact"
+              className="mobile-link px-10 py-4 bg-cyan-400 text-black text-lg font-bold rounded-full opacity-0 shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:bg-cyan-300 transition-colors"
+              onClick={closeMenu}
+            >
+              Let's Talk
+            </a>
+          </div>
         </div>
       </div>
     </header>
