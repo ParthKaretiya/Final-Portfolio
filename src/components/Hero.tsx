@@ -111,12 +111,12 @@ const Hero = () => {
   const firstName = "PARTH".split("");
   const lastName = "KARETIYA".split("");
 
-  const stats = [
-    { value: "2+", label: "Years Active" },
-    { value: "10+", label: "Projects" },
-    { value: "6", label: "Certifications" },
-    { value: "15+", label: "GitHub Repos" },
-  ];
+  // const stats = [
+  //   { value: "2+", label: "Years Active" },
+  //   { value: "10+", label: "Projects" },
+  //   { value: "6", label: "Certifications" },
+  //   { value: "15+", label: "GitHub Repos" },
+  // ];
 
   return (
     <section ref={sectionRef} className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
@@ -190,14 +190,14 @@ const Hero = () => {
           </p>
 
           {/* Stats row */}
-          <div className="flex flex-wrap justify-center gap-8 md:gap-16 mt-4">
+          {/* <div className="flex flex-wrap justify-center gap-8 md:gap-16 mt-4">
             {stats.map((stat) => (
               <div key={stat.label} className="hero-stat opacity-0 text-center group cursor-default">
                 <div className="text-3xl md:text-4xl font-bold text-white group-hover:text-white/80 transition-colors">{stat.value}</div>
                 <div className="text-[10px] font-mono text-white/40 tracking-[0.2em] uppercase mt-2">{stat.label}</div>
               </div>
             ))}
-          </div>
+          </div> */}
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 mt-6 w-full px-2">

@@ -67,9 +67,9 @@ const About = () => {
               <p className="mb-5 relative z-10">
                 I am particularly interested in writing <span className="text-purple-400 font-medium">optimized, secure, and scalable code</span>, ensuring that applications not only look great but also perform seamlessly under real-world conditions. I continuously strive to improve my understanding of software architecture, backend optimization, and cloud technologies.
               </p>
-              <p className="relative z-10">
+              {/* <p className="relative z-10">
                 Outside of development, I actively participate in hackathons, explore new tools and frameworks, and stay updated with industry trends. I am driven by a passion for learning, building, and delivering impactful digital products that solve real-world problems.
-              </p>
+              </p> */}
             </div>
           </div>
 
