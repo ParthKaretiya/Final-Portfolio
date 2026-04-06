@@ -1,9 +1,11 @@
 import { useRef, useState } from "react";
-import { Mail, MapPin, Send, Linkedin, Github, Youtube, CheckCircle, Loader2 } from "lucide-react";
+import { Mail, MapPin, Send, Linkedin, Github, Youtube, CheckCircle, Loader2, AlertCircle } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SonarRipples from "./animations/SonarRipples";
+import emailjs from "@emailjs/browser";
+import { toast } from "sonner";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,23 +19,50 @@ const socialLinks = [
 
 const Contact = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [focusedField, setFocusedField] = useState<string | null>(null);
-  const [submitState, setSubmitState] = useState<"idle" | "loading" | "success">("idle");
+  const [submitState, setSubmitState] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formRef.current) return;
+
     setSubmitState("loading");
-    setTimeout(() => {
-      setSubmitState("success");
+
+    try {
+      const result = await emailjs.sendForm(
+        "service_yzi4ecp",
+        "template_tfz37bb",
+        formRef.current,
+        "3Hah5t2_pT5FXOsy2"
+      );
+
+      if (result.text === "OK") {
+        setSubmitState("success");
+        toast.success("Message sent successfully!");
+        
+        setTimeout(() => {
+          gsap.fromTo('.success-icon', 
+            { scale: 0, rotation: -180 }, 
+            { scale: 1, rotation: 0, duration: 0.6, ease: 'back.out(1.7)' }
+          );
+        }, 10);
+
+        setTimeout(() => { 
+          setSubmitState("idle"); 
+          setFormData({ name: "", email: "", message: "" }); 
+        }, 3000);
+      }
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      setSubmitState("error");
+      toast.error("Failed to send message. Please try again.");
+      
       setTimeout(() => {
-        gsap.fromTo('.success-icon', 
-          { scale: 0, rotation: -180 }, 
-          { scale: 1, rotation: 0, duration: 0.6, ease: 'back.out(1.7)' }
-        );
-      }, 10);
-      setTimeout(() => { setSubmitState("idle"); setFormData({ name: "", email: "", message: "" }); }, 2500);
-    }, 1200);
+        setSubmitState("idle");
+      }, 3000);
+    }
   };
 
   useGSAP(() => {
@@ -127,24 +156,41 @@ const Contact = () => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {["name", "email"].map((field) => (
-              <div key={field} className="reveal-right opacity-0 relative">
-                <label htmlFor={field} className={`absolute left-0 transition-all duration-300 text-sm ${focusedField === field || formData[field as keyof typeof formData] ? "top-0 text-xs text-primary font-mono tracking-wider uppercase" : "top-4 text-muted-foreground"}`}>
-                  {field === "name" ? "Your Name" : "Email Address"}
-                </label>
-                <input
-                  type={field === "email" ? "email" : "text"}
-                  id={field}
-                  value={formData[field as keyof typeof formData]}
-                  onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
-                  onFocus={() => setFocusedField(field)}
-                  onBlur={() => setFocusedField(null)}
-                  className="w-full pt-6 pb-2 bg-transparent text-foreground border-b border-border focus:border-primary focus:outline-none transition-colors duration-300"
-                  required
-                />
-              </div>
-            ))}
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
+            <input type="hidden" name="to_name" value="Parth" />
+            <div className="reveal-right opacity-0 relative">
+              <label htmlFor="name" className={`absolute left-0 transition-all duration-300 text-sm ${focusedField === "name" || formData.name ? "top-0 text-xs text-primary font-mono tracking-wider uppercase" : "top-4 text-muted-foreground"}`}>
+                Your Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="from_name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onFocus={() => setFocusedField("name")}
+                onBlur={() => setFocusedField(null)}
+                className="w-full pt-6 pb-2 bg-transparent text-foreground border-b border-border focus:border-primary focus:outline-none transition-colors duration-300"
+                required
+              />
+            </div>
+
+            <div className="reveal-right opacity-0 relative">
+              <label htmlFor="email" className={`absolute left-0 transition-all duration-300 text-sm ${focusedField === "email" || formData.email ? "top-0 text-xs text-primary font-mono tracking-wider uppercase" : "top-4 text-muted-foreground"}`}>
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="reply_to"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onFocus={() => setFocusedField("email")}
+                onBlur={() => setFocusedField(null)}
+                className="w-full pt-6 pb-2 bg-transparent text-foreground border-b border-border focus:border-primary focus:outline-none transition-colors duration-300"
+                required
+              />
+            </div>
 
             <div className="reveal-right opacity-0 relative">
               <label htmlFor="message" className={`absolute left-0 transition-all duration-300 text-sm ${focusedField === "message" || formData.message ? "top-0 text-xs text-primary font-mono tracking-wider uppercase" : "top-4 text-muted-foreground"}`}>
@@ -152,6 +198,7 @@ const Contact = () => {
               </label>
               <textarea
                 id="message"
+                name="message"
                 rows={4}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -165,8 +212,9 @@ const Contact = () => {
             <button type="submit" className="reveal-right opacity-0 w-full px-6 py-3.5 bg-primary text-primary-foreground font-semibold rounded-lg flex items-center justify-center gap-2 hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-300 disabled:opacity-60" disabled={submitState !== "idle"}>
               {submitState === "loading" && <Loader2 className="w-4 h-4 animate-spin" />}
               {submitState === "success" && <CheckCircle className="success-icon w-4 h-4" />}
+              {submitState === "error" && <AlertCircle className="w-4 h-4" />}
               {submitState === "idle" && <Send className="w-4 h-4" />}
-              {submitState === "loading" ? "Sending..." : submitState === "success" ? "Message Sent!" : "Send Message"}
+              {submitState === "loading" ? "Sending..." : submitState === "success" ? "Message Sent!" : submitState === "error" ? "Failed to send" : "Send Message"}
             </button>
           </form>
         </div>
