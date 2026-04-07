@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ExternalLink, Github, ArrowUpRight, Code2 } from "lucide-react";
+import { ExternalLink, Github, ArrowUpRight, Code2, Youtube } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -229,6 +229,15 @@ const Projects = () => {
                     <Github className="w-5 h-5 text-white" />
                   </a>
                 )}
+                <a
+                  href="https://www.youtube.com/@ParthKaretiya0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-full border border-white/15 flex items-center justify-center hover:border-red-500/60 hover:bg-red-500/10 transition-all duration-300 shadow-[0_0_0_rgba(255,0,0,0)] hover:shadow-[0_0_18px_rgba(255,0,0,0.25)]"
+                  aria-label="YouTube Channel"
+                >
+                  <Youtube className="w-5 h-5 text-white" />
+                </a>
               </div>
             </div>
 
@@ -282,8 +291,21 @@ const Projects = () => {
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
-                <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                  <ArrowUpRight className="w-4 h-4 text-white" />
+                <div className="absolute top-4 right-4 flex flex-col gap-2">
+                  <div className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                    <ArrowUpRight className="w-4 h-4 text-white" />
+                  </div>
+                  <a
+                    href="https://www.youtube.com/@ParthKaretiya0"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-full border border-white/15 bg-black/30 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:border-red-500/60 hover:bg-red-500/10"
+                    aria-label="YouTube Channel"
+                  >
+                    <svg viewBox="0 0 24 24" className="w-4 h-4 fill-white">
+                      <path d="M10 15.5v-7l6 3.5-6 3.5zm12-7.5c0-1.66-1.34-3-3-3H5C3.34 5 2 6.34 2 8v8c0 1.66 1.34 3 3 3h14c1.66 0 3-1.34 3-3V8z" />
+                    </svg>
+                  </a>
                 </div>
               </div>
               <div className="p-6">

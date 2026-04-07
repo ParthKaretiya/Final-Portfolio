@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Youtube } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
@@ -121,6 +121,16 @@ const Navbar = () => {
           ))}
           <div className="flex items-center gap-4">
             <a
+              href="https://www.youtube.com/@ParthKaretiya0"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nav-link opacity-0 w-10 h-10 rounded-full border border-white/15 flex items-center justify-center hover:border-red-500/60 hover:bg-red-500/10 transition-all duration-300 shadow-[0_0_0_rgba(255,0,0,0)] hover:shadow-[0_0_18px_rgba(255,0,0,0.25)]"
+              aria-label="YouTube Channel"
+              title="YouTube"
+            >
+              <Youtube className="w-5 h-5 text-white group-hover:text-white" />
+            </a>
+            <a
               href="https://drive.google.com/file/d/17YweYR--TMHxc9NHtMwxqRTVO_ZO0Xor/view"
               target="_blank"
               rel="noopener noreferrer"
@@ -165,6 +175,16 @@ const Navbar = () => {
             </a>
           ))}
           <div className="flex flex-col items-center gap-4 mt-8">
+            <a
+              href="https://www.youtube.com/@ParthKaretiya0"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mobile-link w-12 h-12 rounded-full border border-white/15 flex items-center justify-center opacity-0 hover:border-red-500/60 hover:bg-red-500/10 transition-all duration-300"
+              aria-label="YouTube Channel"
+              title="YouTube"
+            >
+              <Youtube className="w-6 h-6 text-white" />
+            </a>
             <a
               href="https://drive.google.com/file/d/17YweYR--TMHxc9NHtMwxqRTVO_ZO0Xor/view"
               target="_blank"
