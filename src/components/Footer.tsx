@@ -36,7 +36,7 @@ const Footer = () => {
           </div>
 
           <p className="text-muted-foreground text-sm flex items-center gap-1">
-            Built with <Heart className="w-3.5 h-3.5 text-primary fill-primary" /> by <span className="text-foreground font-medium">Parth Karetiya</span>
+            &copy; {new Date().getFullYear()} <span className="text-foreground font-medium">Parth Karetiya</span> | Full Stack Developer Portfolio
           </p>
         </div>
       </div>

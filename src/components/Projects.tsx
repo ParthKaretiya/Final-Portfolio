@@ -3,6 +3,7 @@ import { ExternalLink, Github, ArrowUpRight, Code2, Youtube } from "lucide-react
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Link } from "react-router-dom";
 import AuroraMesh from "./animations/AuroraMesh";
 
 import imgPortfolio from "@/assets/project-portfolio.jpg";
@@ -14,9 +15,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
+    id: "pulseguard",
     title: "PulseGuard",
     subtitle: "Healthcare Emergency Response System",
-    description: "A real-time healthcare emergency response platform for hospital coordination and emergency medical assistance.",
+    description: "A real-time healthcare emergency response platform for hospital coordination and emergency medical assistance, developed by Parth Karetiya.",
     tech: ["React", "Node.js", "MongoDB", "Express", "Socket.io"],
     image: "https://i.postimg.cc/1zqGFQWM/Screenshot-2026-03-09-093959.png",
     githubUrl: "https://github.com/ParthKaretiya/HackX",
@@ -24,9 +26,10 @@ const projects = [
     featured: true,
   },
   {
+    id: "student-sync",
     title: "Student Sync",
     subtitle: "Campus Digital Ecosystem",
-    description: "A centralized digital ecosystem to bridge the gap between students, educators, and administrative data in real-time.",
+    description: "A centralized digital ecosystem for students and educators, part of the Parth Karetiya Portfolio.",
     tech: ["React", "Node.js", "Express", "MongoDB"],
     image: "https://i.postimg.cc/HWvnF0q9/image.png",
     githubUrl: "https://github.com/ParthKaretiya/StudentSync",
@@ -34,9 +37,10 @@ const projects = [
     featured: true,
   },
   {
+    id: "threatlens",
     title: "ThreatLens",
     subtitle: "Cybersecurity Threat Intelligence",
-    description: "A cybersecurity monitoring tool that analyzes system activity and detects suspicious behavior patterns.",
+    description: "Cybersecurity monitoring tool by Parth Karetiya, analyzing system activity and detecting suspicious behavior.",
     tech: ["React", "Python", "Node.js"],
     image: "https://i.postimg.cc/HxfK7hJ7/image.png",
     githubUrl: "https://github.com/ParthKaretiya",
@@ -44,6 +48,7 @@ const projects = [
     featured: true,
   },
   {
+    id: "cers-plus",
     title: "CERS+",
     subtitle: "Emergency Response System",
     description: "Coordination platform for emergency responders and healthcare services with approval workflows.",
@@ -53,6 +58,7 @@ const projects = [
     liveUrl: "https://cers-plus.web.app/",
   },
   {
+    id: "ai-resume-analyzer",
     title: "AI Resume Analyzer",
     subtitle: "NLP-Powered Tool",
     description: "An AI-powered tool that analyzes resumes and provides actionable improvement suggestions.",
@@ -218,7 +224,7 @@ const Projects = () => {
           <div key={project.title} className="project-card w-full md:w-[450px] lg:w-[500px] flex-shrink-0 opacity-0 bg-[#0f0f0f] rounded-2xl overflow-hidden group hover:border-primary/30 transition-all duration-500 hover:-translate-y-2 border border-white/10 shadow-xl">
             {/* Image */}
             <div className="relative h-60 md:h-72 overflow-hidden card-image-wrapper bg-black/60">
-              <img src={project.image} alt={project.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700 opacity-90 group-hover:opacity-100" loading="lazy" />
+              <img src={project.image} alt={`${project.title} - Parth Karetiya Portfolio`} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700 opacity-90 group-hover:opacity-100" loading="lazy" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-black/40 to-transparent" />
               <div className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/60 backdrop-blur-sm">
                 <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-primary rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-[0_0_15px_rgba(255,255,255,0.3)]" aria-label="Live demo">
@@ -244,8 +250,12 @@ const Projects = () => {
             {/* Content */}
             <div className="p-8">
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors">{project.title}</h3>
-                <ArrowUpRight className="w-6 h-6 text-primary opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                <Link to={`/projects/${project.id}`}>
+                  <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors hover:underline">{project.title}</h3>
+                </Link>
+                <Link to={`/projects/${project.id}`}>
+                  <ArrowUpRight className="w-6 h-6 text-primary opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                </Link>
               </div>
               <p className="text-primary/80 font-mono text-sm mb-4 tracking-wider">{project.subtitle}</p>
               <p className="text-white/60 text-base leading-relaxed mb-6 h-[72px] line-clamp-3">{project.description}</p>
@@ -286,7 +296,7 @@ const Projects = () => {
               <div className="h-48 relative overflow-hidden bg-black object-cover">
                 <img 
                   src={clone.image} 
-                  alt={clone.title}
+                  alt={`${clone.title} - Parth Karetiya Portfolio`}
                   className="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700"
                   loading="lazy"
                 />

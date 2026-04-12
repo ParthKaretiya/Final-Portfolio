@@ -263,7 +263,7 @@ const Certificates = () => {
               <div className="rounded-xl overflow-hidden border border-white/10 bg-black/50 aspect-auto md:aspect-video flex items-center justify-center">
                 <img
                   src={selectedCert.image}
-                  alt={selectedCert.title}
+                  alt={`${selectedCert.title} - Parth Karetiya Portfolio`}
                   className="w-full h-full object-contain"
                   loading="lazy"
                 />

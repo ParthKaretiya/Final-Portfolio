@@ -49,8 +49,8 @@ const About = () => {
 
       <div className="container mx-auto px-6">
         <div className="mb-16">
-          <p className="reveal opacity-0 text-primary font-mono text-sm tracking-widest uppercase mb-3">About</p>
-          <h2 className="reveal opacity-0 text-4xl md:text-5xl font-bold text-foreground tracking-tight">The Story So Far</h2>
+          <p className="reveal opacity-0 text-primary font-mono text-sm tracking-widest uppercase mb-3">About Parth Karetiya</p>
+          <h2 className="reveal opacity-0 text-4xl md:text-5xl font-bold text-foreground tracking-tight">Full Stack Developer Story</h2>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-16 items-start">

@@ -2,17 +2,19 @@ import { useState, useEffect, useRef } from "react";
 import { Menu, X, Youtube } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { Link, useLocation } from "react-router-dom";
 
 const navLinks = [
-  { name: "About", href: "#about" },
-  { name: "Skills", href: "#skills" },
-  { name: "Projects", href: "#projects" },
-  { name: "Experience", href: "#experience" },
-  { name: "Certificates", href: "#certificates" },
-  { name: "Contact", href: "#contact" },
+  { name: "About", href: "/about-parth-karetiya" },
+  { name: "Skills", href: "/#skills" },
+  { name: "Projects", href: "/#projects" },
+  { name: "Experience", href: "/#experience" },
+  { name: "Certificates", href: "/#certificates" },
+  { name: "Contact", href: "/#contact" },
 ];
 
 const Navbar = () => {
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
@@ -99,25 +101,25 @@ const Navbar = () => {
       <nav className="nav-wrapper container mx-auto px-6 py-4 flex items-center justify-between opacity-0">
         
         {/* Logo */}
-        <button onClick={() => window.scrollTo(0,0)} className="nav-link relative group flex items-center gap-0.5 z-50 opacity-0">
+        <Link to="/" className="nav-link relative group flex items-center gap-0.5 z-50 opacity-0">
           <span className="text-xl md:text-2xl font-black tracking-tight text-white" style={{ fontFamily: "'Cinzel', serif" }}>PK</span>
           <span className="text-xl md:text-2xl font-bold text-cyan-400">.</span>
-        </button>
+        </Link>
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.name}
-              href={link.href}
+              to={link.href}
               className={`nav-link opacity-0 text-sm font-medium transition-colors duration-300 ${
-                activeSection === link.href.substring(1)
+                activeSection === link.href.substring(link.href.indexOf('#') + 1)
                   ? "text-cyan-400"
                   : "text-white/60 hover:text-white"
               }`}
             >
               {link.name}
-            </a>
+            </Link>
           ))}
           <div className="flex items-center gap-4">
             <a
@@ -138,12 +140,12 @@ const Navbar = () => {
             >
               Resume
             </a>
-            <a
-              href="#contact"
+            <Link
+              to="/#contact"
               className="nav-link opacity-0 px-6 py-2 bg-cyan-400 text-black text-sm font-bold rounded-full hover:bg-cyan-300 transition-all duration-300 shadow-[0_0_15px_rgba(34,211,238,0.2)] hover:shadow-[0_0_25px_rgba(34,211,238,0.4)]"
             >
               Let's Talk
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -165,14 +167,14 @@ const Navbar = () => {
       <div className="mobile-menu-overlay hidden md:hidden fixed inset-0 bg-[#050505]/95 backdrop-blur-2xl z-40" style={{ clipPath: 'circle(0% at 100% 0%)' }}>
         <div className="flex flex-col items-center justify-center h-full gap-8">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.name}
-              href={link.href}
+              to={link.href}
               className="mobile-link text-3xl font-bold text-white hover:text-cyan-400 transition-colors opacity-0 tracking-tight"
               onClick={closeMenu}
             >
               {link.name}
-            </a>
+            </Link>
           ))}
           <div className="flex flex-col items-center gap-4 mt-8">
             <a
@@ -193,13 +195,13 @@ const Navbar = () => {
             >
               Resume
             </a>
-            <a
-              href="#contact"
+            <Link
+              to="/#contact"
               className="mobile-link px-10 py-4 bg-cyan-400 text-black text-lg font-bold rounded-full opacity-0 shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:bg-cyan-300 transition-colors"
               onClick={closeMenu}
             >
               Let's Talk
-            </a>
+            </Link>
           </div>
         </div>
       </div>

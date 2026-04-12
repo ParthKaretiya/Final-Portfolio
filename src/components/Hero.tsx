@@ -135,14 +135,15 @@ const Hero = () => {
             }} />
             <div className="hero-avatar relative w-36 h-36 lg:w-48 lg:h-48 rounded-full overflow-hidden opacity-0 border border-white/10 p-1 bg-black/50 backdrop-blur-sm">
               <div className="w-full h-full rounded-full overflow-hidden">
-                <img src={profilePicture} alt="Parth Karetiya" className="w-full h-full object-cover hover:scale-110 transition-all duration-700" />
+                <img src={profilePicture} alt="Parth Karetiya - Full Stack Developer Portfolio" className="w-full h-full object-cover hover:scale-110 transition-all duration-700" loading="eager" />
               </div>
             </div>
           </div>
 
-          {/* Name - Fixed Wrapping by grouping into word spans */}
+          {/* Name - Single H1 for SEO */}
           <h1 className="overflow-hidden leading-[1.1] py-2 flex flex-wrap justify-center gap-x-6" style={{ fontSize: "clamp(2.2rem, 9vw, 6rem)", fontFamily: "'Cinzel', serif" }}>
-            <span className="inline-block whitespace-nowrap">
+            <span className="sr-only">Parth Karetiya - Full Stack Developer</span>
+            <span className="inline-block whitespace-nowrap" aria-hidden="true">
               {firstName.map((char, i) => (
                 <span
                   key={`first-${i}`}
@@ -158,7 +159,7 @@ const Hero = () => {
                 </span>
               ))}
             </span>
-            <span className="inline-block whitespace-nowrap">
+            <span className="inline-block whitespace-nowrap" aria-hidden="true">
               {lastName.map((char, i) => (
                 <span
                   key={`last-${i}`}
