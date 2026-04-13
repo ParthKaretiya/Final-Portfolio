@@ -22,7 +22,7 @@ const projects = [
     tech: ["React", "Node.js", "MongoDB", "Express", "Socket.io"],
     image: "https://i.postimg.cc/1zqGFQWM/Screenshot-2026-03-09-093959.png",
     githubUrl: "https://github.com/ParthKaretiya/HackX",
-    liveUrl: "#",
+    liveUrl: "https://hack-x-chi.vercel.app/",
     featured: true,
   },
   {
