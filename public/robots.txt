@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://parth-karetiya.vercel.app/sitemap.xml
+Sitemap: https://parthkaretiya-flax.vercel.app/sitemap.xml

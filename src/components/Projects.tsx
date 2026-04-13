@@ -33,7 +33,7 @@ const projects = [
     tech: ["React", "Node.js", "Express", "MongoDB"],
     image: "https://i.postimg.cc/HWvnF0q9/image.png",
     githubUrl: "https://github.com/ParthKaretiya/StudentSync",
-    liveUrl: "https://studentsync-mu.vercel.app/",
+    liveUrl: "https://student-sync-tau.vercel.app/",
     featured: true,
   },
   {
