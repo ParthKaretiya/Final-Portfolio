@@ -1,11 +1,9 @@
-import { useRef, useEffect, useState, Suspense } from "react";
-import { Download, ExternalLink, Github, Youtube, MapPin } from "lucide-react";
+import { useRef, useEffect, useState } from "react";
+import { Download, ExternalLink, Github, Youtube } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Canvas } from "@react-three/fiber";
-import { motion, AnimatePresence } from "framer-motion";
-import WireframeSphere from "./animations/WireframeSphere";
+import { motion } from "framer-motion";
 
 const profilePic = "https://i.ibb.co/ds09MVLc/Untitled-design-1.png";
 
@@ -145,13 +143,12 @@ const Hero = () => {
           {/* Right Content (5 Columns) - Visuals */}
           <div className="lg:col-span-5 relative flex items-center justify-center hero-visual lg:-translate-y-20">
             
-            {/* 3D Wireframe Sphere Background */}
-            <div className="absolute inset-0 z-0 h-[600px] w-full">
-              <Canvas camera={{ position: [0, 0, 8], fov: 40 }}>
-                <Suspense fallback={null}>
-                  <WireframeSphere />
-                </Suspense>
-              </Canvas>
+            {/* Decorative Background */}
+            <div className="absolute inset-0 z-0 flex items-center justify-center">
+              <div className="absolute h-64 w-64 rounded-full border border-cyan-400/15 md:h-80 md:w-80 lg:h-[420px] lg:w-[420px]" />
+              <div className="absolute h-80 w-80 rounded-full border border-cyan-400/10 md:h-96 md:w-96 lg:h-[520px] lg:w-[520px]" />
+              <div className="absolute h-96 w-96 rounded-full border border-blue-500/10 md:h-[28rem] md:w-[28rem] lg:h-[620px] lg:w-[620px]" />
+              <div className="absolute h-48 w-48 rounded-full bg-cyan-400/10 blur-3xl md:h-64 md:w-64 lg:h-80 lg:w-80" />
             </div>
 
             {/* User Portrait with Floating elements */}
