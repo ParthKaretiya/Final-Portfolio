@@ -136,13 +136,13 @@ const Navbar = () => {
               href="https://drive.google.com/file/d/17YweYR--TMHxc9NHtMwxqRTVO_ZO0Xor/view"
               target="_blank"
               rel="noopener noreferrer"
-              className="nav-link opacity-0 px-6 py-2 border border-cyan-400/50 text-white text-sm font-bold rounded-full hover:bg-cyan-400/10 transition-all duration-300"
+              className="nav-link opacity-0 px-6 py-2 border border-white/20 text-white text-[11px] font-black uppercase tracking-widest rounded-full hover:bg-white/5 transition-all duration-300"
             >
               Resume
             </a>
             <Link
               to="/#contact"
-              className="nav-link opacity-0 px-6 py-2 bg-cyan-400 text-black text-sm font-bold rounded-full hover:bg-cyan-300 transition-all duration-300 shadow-[0_0_15px_rgba(34,211,238,0.2)] hover:shadow-[0_0_25px_rgba(34,211,238,0.4)]"
+              className="nav-link opacity-0 px-6 py-2 bg-cyan-400 text-black text-[11px] font-black uppercase tracking-widest rounded-full hover:bg-cyan-300 transition-all duration-300 shadow-[0_0_15px_rgba(34,211,238,0.2)]"
             >
               Let's Talk
             </Link>

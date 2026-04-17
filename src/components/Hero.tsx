@@ -1,228 +1,208 @@
-import { useRef, useEffect, useState } from "react";
-import { FileText, FolderOpen, Mail, ArrowDown } from "lucide-react";
+import { useRef, useEffect, useState, Suspense } from "react";
+import { Download, ExternalLink, Github, Youtube, MapPin } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Canvas } from "@react-three/fiber";
+import { motion, AnimatePresence } from "framer-motion";
+import WireframeSphere from "./animations/WireframeSphere";
+
+const profilePic = "https://i.ibb.co/ds09MVLc/Untitled-design-1.png";
 
 gsap.registerPlugin(ScrollTrigger);
-import profilePicture from "@/assets/profile-picture.png";
-import ParticleMesh from "./animations/ParticleMesh";
-
-const roles = ["React Specialist", "Full Stack Developer", "Problem Solver", "Code Craftsman"];
 
 const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const [currentRole, setCurrentRole] = useState("");
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [typedText, setTypedText] = useState("");
+  const fullText = "Full Stack Developer";
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
 
-  // Typewriter effect
+  // Typing effect
   useEffect(() => {
-    const target = roles[roleIndex];
-    let timeout: ReturnType<typeof setTimeout>;
-    if (!isDeleting && charIndex < target.length) {
-      timeout = setTimeout(() => { setCurrentRole(target.substring(0, charIndex + 1)); setCharIndex(charIndex + 1); }, 70);
-    } else if (!isDeleting && charIndex === target.length) {
-      timeout = setTimeout(() => setIsDeleting(true), 2200);
-    } else if (isDeleting && charIndex > 0) {
-      timeout = setTimeout(() => { setCurrentRole(target.substring(0, charIndex - 1)); setCharIndex(charIndex - 1); }, 35);
-    } else if (isDeleting && charIndex === 0) {
-      setIsDeleting(false);
-      setRoleIndex((prev) => (prev + 1) % roles.length);
-    }
-    return () => clearTimeout(timeout);
-  }, [charIndex, isDeleting, roleIndex]);
-
-  // Entrance animations and Scroll Parallax
-  useGSAP(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-      gsap.set(['.hero-avatar', '.hero-ring', '.hero-char', '.hero-subtitle', '.hero-bio', '.hero-stat', '.hero-cta', '.scroll-indicator'], { opacity: 1 });
-      return;
-    }
-
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-    // Initial states for cinematic impact
-    gsap.set('.hero-avatar', { scale: 1.5, opacity: 0, filter: 'blur(10px)' });
-    gsap.set('.hero-ring', { scale: 2, opacity: 0, filter: 'blur(20px)', rotation: -90 });
-    gsap.set('.hero-char', { opacity: 0, y: 100, rotationX: -120, scale: 1.2, filter: 'blur(10px)' });
-    gsap.set(['.hero-subtitle', '.hero-bio'], { opacity: 0, y: 40, filter: 'blur(10px)' });
-    gsap.set('.hero-stat', { opacity: 0, y: 20, scale: 0.9 });
-    gsap.set('.hero-cta', { opacity: 0, y: 30, scale: 0.9 });
-    gsap.set('.scroll-indicator', { opacity: 0, y: -20 });
-
-    tl.to('.hero-avatar', { scale: 1, opacity: 1, filter: 'blur(0px)', duration: 1.8, ease: 'expo.out' }, 0.2)
-      .to('.hero-ring', { scale: 1, opacity: 0.5, filter: 'blur(0px)', rotation: 0, duration: 2, ease: 'expo.out' }, 0.3)
-      .to('.hero-char', { opacity: 1, y: 0, rotationX: 0, scale: 1, filter: 'blur(0px)', duration: 1.5, stagger: 0.05, ease: 'expo.out' }, 0.4)
-      .to('.hero-subtitle', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' }, 1.2)
-      .to('.hero-bio', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'power3.out' }, 1.4)
-      .to('.hero-stat', { opacity: 1, y: 0, scale: 1, duration: 1, stagger: 0.1, ease: 'back.out(1.4)' }, 1.6)
-      .to('.hero-cta', { opacity: 1, y: 0, scale: 1, duration: 1, stagger: 0.1, ease: 'back.out(1.7)' }, 1.8)
-      .to('.scroll-indicator', { opacity: 1, y: 0, duration: 1 }, 2.2);
-
-    // Continuous ring rotation
-    gsap.to('.hero-ring', { rotation: "+=360", duration: 20, repeat: -1, ease: 'linear' });
-
-    // Ambient background glow animation
-    gsap.to('.bg-glow', {
-      scale: 1.2,
-      opacity: 0.06,
-      duration: 4,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      stagger: 2
-    });
-
-    // Scroll parallax — only on the avatar so buttons stay visible
-    gsap.to('.hero-parallax-deco', {
-      yPercent: -20,
-      ease: "none",
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
+    let i = 0;
+    const interval = setInterval(() => {
+      setTypedText(fullText.slice(0, i));
+      i++;
+      if (i > fullText.length) {
+        clearInterval(interval);
+        setIsTypingComplete(true);
       }
-    });
+    }, 100);
+    return () => clearInterval(interval);
+  }, []);
+
+  // GSAP Entrance animations
+  useGSAP(() => {
+    const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
+    tl.fromTo('.hero-badge', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8 })
+      .fromTo('.hero-title-line', { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 1, stagger: 0.2 }, "-=0.4")
+      .fromTo('.hero-description', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8 }, "-=0.6")
+      .fromTo('.hero-stat', { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.6, stagger: 0.1 }, "-=0.4")
+      .fromTo('.hero-cta', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, "-=0.6")
+      .fromTo('.hero-visual', { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 1.2 }, "-=1");
 
   }, { scope: sectionRef });
 
-  // Subtle mouse parallax on avatar only (no scroll skew — removes jank)
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    const handleMouse = (e: MouseEvent) => {
-      const mx = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
-      const my = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-      const avatar = document.querySelector('.hero-avatar') as HTMLElement;
-      if (avatar) {
-        avatar.style.transform = `translate(${mx * 6}px, ${my * 6}px) scale(1)`;
-      }
-    };
-
-    window.addEventListener('mousemove', handleMouse, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouse);
-  }, []);
-
-  const firstName = "PARTH".split("");
-  const lastName = "KARETIYA".split("");
-
-  // const stats = [
-  //   { value: "2+", label: "Years Active" },
-  //   { value: "10+", label: "Projects" },
-  //   { value: "6", label: "Certifications" },
-  //   { value: "15+", label: "GitHub Repos" },
-  // ];
+  const stats = [
+    { value: "10+", label: "PROJECTS BUILT" },
+    { value: "6+", label: "HACKATHONS" },
+    { value: "2+", label: "YEARS CODING" },
+  ];
 
   return (
-    <section ref={sectionRef} className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-      <ParticleMesh />
-      {/* Subtle background highlights */}
-      <div className="bg-glow absolute top-1/4 left-[10%] w-[500px] h-[500px] rounded-full opacity-[0.03] pointer-events-none" style={{ background: "radial-gradient(circle, #fff, transparent 70%)" }} />
-      <div className="bg-glow absolute bottom-1/4 right-[10%] w-[400px] h-[400px] rounded-full opacity-[0.02] pointer-events-none" style={{ background: "radial-gradient(circle, #fff, transparent 70%)" }} />
+    <section ref={sectionRef} className="min-h-screen flex items-center pt-24 pb-12 relative overflow-hidden bg-transparent">
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Left Content (7 Columns) */}
+          <div className="lg:col-span-7 flex flex-col items-start">
+            
+            {/* Status Badge */}
+            <div className="hero-badge mb-8 flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
+              <span className="flex h-2 w-2 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
+              </span>
+              <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] text-cyan-400 uppercase">
+                Available for work <span className="text-white/30 mx-2">•</span> Gujarat, India
+              </span>
+            </div>
 
-      <div className="container mx-auto px-6 relative z-10 hero-content-wrapper">
-        <div className="max-w-5xl mx-auto flex flex-col items-center text-center gap-8">
-          {/* Avatar with Ring — wrapped in hero-parallax-deco for subtle scroll depth */}
-          <div className="hero-parallax-deco relative" style={{ perspective: "1000px" }}>
-            <div className="hero-ring absolute -inset-4 rounded-full opacity-0" style={{
-              background: "conic-gradient(from 0deg, hsl(0 0% 100% / 0.3), transparent 25%, hsl(0 0% 100% / 0.1), transparent 50%, hsl(0 0% 100% / 0.3), transparent 75%)",
-              filter: "blur(2px)",
-            }} />
-            <div className="hero-avatar relative w-36 h-36 lg:w-48 lg:h-48 rounded-full overflow-hidden opacity-0 border border-white/10 p-1 bg-black/50 backdrop-blur-sm">
-              <div className="w-full h-full rounded-full overflow-hidden">
-                <img src={profilePicture} alt="Parth Karetiya - Full Stack Developer Portfolio" className="w-full h-full object-cover hover:scale-110 transition-all duration-700" loading="eager" />
+            {/* Main Heading */}
+            <div className="mb-8">
+              <h1 className="hero-title-line text-6xl md:text-7xl xl:text-8xl font-black leading-[0.85] tracking-tighter text-white mb-2" style={{ fontFamily: "'Cinzel', serif" }}>
+                PARTH
+              </h1>
+              <h1 className="hero-title-line text-6xl md:text-7xl xl:text-8xl font-black leading-[0.85] tracking-tighter bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+                KARETIYA
+              </h1>
+            </div>
+
+            {/* Role / Typing Effect */}
+            <div className="mb-8 h-8 flex items-center">
+              <p className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+                {typedText}
+                <span className="inline-block w-[2px] h-6 bg-cyan-400 ml-1 animate-pulse" />
+              </p>
+            </div>
+
+            {/* Description */}
+            <div className="hero-description max-w-xl mb-12">
+              <p className="text-white/60 text-lg md:text-xl leading-relaxed">
+                I engineer <span className="text-white font-bold">scalable full-stack systems</span> that merge flawless performance with pixel-perfect design. From real-time healthcare platforms to AI-powered tools — <span className="text-cyan-400 font-bold italic">I build software that ships and scales.</span>
+              </p>
+            </div>
+
+            {/* Stats */}
+            <div className="flex flex-wrap gap-12 mb-12">
+              {stats.map((stat, i) => (
+                <div key={i} className="hero-stat flex flex-col">
+                  <span className="text-3xl font-black text-white">{stat.value}</span>
+                  <span className="text-[10px] font-bold text-white/40 tracking-widest uppercase">{stat.label}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* CTAs */}
+            <div className="flex flex-wrap gap-4 mb-16">
+              <a 
+                href="https://drive.google.com/file/d/17YweYR--TMHxc9NHtMwxqRTVO_ZO0Xor/view" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hero-cta px-8 py-4 bg-cyan-400 text-black font-black text-sm rounded-full flex items-center gap-2.5 hover:bg-cyan-300 transition-all shadow-[0_0_20px_rgba(34,211,238,0.2)]"
+              >
+                <Download size={18} /> DOWNLOAD RESUME
+              </a>
+              <a 
+                href="#projects" 
+                className="hero-cta px-8 py-4 border border-white/20 text-white font-black text-sm rounded-full hover:bg-white/10 transition-all flex items-center gap-2"
+              >
+                VIEW PROJECTS <ExternalLink size={16} className="opacity-60" />
+              </a>
+              <a 
+                href="#contact" 
+                className="hero-cta px-8 py-4 border border-white/20 text-white font-black text-sm rounded-full hover:bg-white/10 transition-all"
+              >
+                GET IN TOUCH
+              </a>
+            </div>
+
+            {/* Social Links Bottom */}
+            <div className="flex items-center gap-6 pt-8 border-t border-white/5 w-full">
+              <a href="https://github.com/ParthKaretiya" className="text-white/40 hover:text-white transition-colors">
+                <Github size={20} />
+              </a>
+              <a href="https://www.youtube.com/@ParthKaretiya0" className="text-white/40 hover:text-white transition-colors">
+                <Youtube size={20} />
+              </a>
+              <div className="h-px flex-1 bg-white/5 mx-4" />
+              <span className="text-[10px] font-bold text-white/20 tracking-[0.3em] uppercase whitespace-nowrap">Full Stack Dev</span>
+            </div>
+
+          </div>
+
+          {/* Right Content (5 Columns) - Visuals */}
+          <div className="lg:col-span-5 relative flex items-center justify-center hero-visual lg:-translate-y-20">
+            
+            {/* 3D Wireframe Sphere Background */}
+            <div className="absolute inset-0 z-0 h-[600px] w-full">
+              <Canvas camera={{ position: [0, 0, 8], fov: 40 }}>
+                <Suspense fallback={null}>
+                  <WireframeSphere />
+                </Suspense>
+              </Canvas>
+            </div>
+
+            {/* User Portrait with Floating elements */}
+            <div className="relative z-10">
+              <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-[400px] lg:h-[400px]">
+                {/* Glow ring */}
+                <div className="absolute inset-[-15px] rounded-full border border-cyan-400/20 animate-pulse" />
+                <div className="absolute inset-[-30px] rounded-full border border-cyan-400/10 animate-pulse delay-75" />
+                
+                {/* Main Portrait Circle */}
+                <div className="w-full h-full rounded-full overflow-hidden border-2 border-white/10 bg-[#0A0A0A] shadow-2xl relative">
+                   <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/40 to-transparent mix-blend-overlay" />
+                   <img 
+                    src={profilePic} 
+                    alt="Parth Karetiya" 
+                    className="w-full h-full object-cover object-[center_25%] grayscale-[20%] hover:grayscale-0 transition-all duration-700 hover:scale-105" 
+                   />
+                </div>
+
+                {/* Floating Tags */}
+                <motion.div 
+                  initial={{ x: 50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 1, duration: 0.8 }}
+                  className="absolute -top-4 -right-8 z-20"
+                >
+                  <div className="px-4 py-2.5 bg-black/80 backdrop-blur-md border border-white/10 rounded-xl flex flex-col shadow-2xl">
+                    <span className="text-[8px] font-bold text-white/40 tracking-widest uppercase mb-1">Status</span>
+                    <div className="flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-green-400 shadow-[0_0_8px_#4ade80]" />
+                      <span className="text-xs font-bold text-white">Open to Work</span>
+                    </div>
+                  </div>
+                </motion.div>
+
+                <motion.div 
+                  initial={{ x: -50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 1.2, duration: 0.8 }}
+                  className="absolute -bottom-4 -left-8 z-20"
+                >
+                  <div className="px-4 py-2.5 bg-black/80 backdrop-blur-md border border-white/10 rounded-xl flex flex-col shadow-2xl">
+                    <span className="text-[8px] font-bold text-white/40 tracking-widest uppercase mb-1">Stack</span>
+                    <span className="text-xs font-bold text-cyan-400">React • Node • MongoDB</span>
+                  </div>
+                </motion.div>
               </div>
             </div>
+
           </div>
 
-          {/* Name - Single H1 for SEO */}
-          <h1 className="overflow-hidden leading-[1.1] py-2 flex flex-wrap justify-center gap-x-6" style={{ fontSize: "clamp(2.2rem, 9vw, 6rem)", fontFamily: "'Cinzel', serif" }}>
-            <span className="sr-only">Parth Karetiya - Full Stack Developer</span>
-            <span className="inline-block whitespace-nowrap" aria-hidden="true">
-              {firstName.map((char, i) => (
-                <span
-                  key={`first-${i}`}
-                  className="hero-char inline-block font-black opacity-0"
-                  style={{
-                    perspective: "600px",
-                    background: "linear-gradient(135deg, #fff 30%, #3b82f6 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}
-                >
-                  {char}
-                </span>
-              ))}
-            </span>
-            <span className="inline-block whitespace-nowrap" aria-hidden="true">
-              {lastName.map((char, i) => (
-                <span
-                  key={`last-${i}`}
-                  className="hero-char inline-block font-black opacity-0"
-                  style={{
-                    perspective: "600px",
-                    background: "linear-gradient(135deg, #fff 0%, #1d4ed8 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}
-                >
-                  {char}
-                </span>
-              ))}
-            </span>
-          </h1>
-
-          {/* Role typewriter */}
-          <div className="hero-subtitle opacity-0">
-            <span className="text-lg md:text-xl font-mono text-white/60 tracking-wider">
-              {currentRole}
-              <span className="inline-block w-[2px] h-[1.1em] bg-blue-500 ml-1 align-middle animate-pulse shadow-[0_0_8px_#3b82f6]" />
-            </span>
-          </div>
-
-          {/* Bio */}
-          <p className="hero-bio opacity-0 text-white/50 max-w-3xl leading-relaxed text-base md:text-lg">
-            Dedicated <span className="text-white">Full-Stack Developer</span> with a strong passion for building scalable, secure, and high-performance web applications. I specialize in crafting modern, responsive frontends while designing robust backend architectures that ensure reliability and efficiency. With a keen interest in software architecture and cybersecurity, I focus on developing solutions that are not only visually compelling but also <span className="text-blue-400">fundamentally secure</span> and optimized for performance.
-          </p>
-
-          {/* Stats row */}
-          {/* <div className="flex flex-wrap justify-center gap-8 md:gap-16 mt-4">
-            {stats.map((stat) => (
-              <div key={stat.label} className="hero-stat opacity-0 text-center group cursor-default">
-                <div className="text-3xl md:text-4xl font-bold text-white group-hover:text-white/80 transition-colors">{stat.value}</div>
-                <div className="text-[10px] font-mono text-white/40 tracking-[0.2em] uppercase mt-2">{stat.label}</div>
-              </div>
-            ))}
-          </div> */}
-
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 mt-6 w-full px-2">
-            <a href="https://drive.google.com/file/d/17YweYR--TMHxc9NHtMwxqRTVO_ZO0Xor/view" target="_blank" rel="noopener noreferrer" className="hero-cta opacity-0 group px-7 py-3.5 bg-white text-black font-bold rounded-full flex items-center justify-center gap-2 hover:bg-neutral-200 transition-colors duration-200 w-full sm:w-auto">
-              <FileText size={18} /> View Resume
-            </a>
-            <a href="#projects" className="hero-cta opacity-0 px-7 py-3.5 border border-white/20 text-white font-medium rounded-full flex items-center justify-center gap-2 hover:bg-white/5 hover:border-white/40 transition-colors duration-200 w-full sm:w-auto">
-              <FolderOpen size={18} /> View Projects
-            </a>
-            <a href="#contact" className="hero-cta opacity-0 px-7 py-3.5 bg-neutral-900 border border-white/10 text-white/80 font-medium rounded-full flex items-center justify-center gap-2 hover:text-white hover:border-white/30 transition-colors duration-200 w-full sm:w-auto">
-              <Mail size={18} /> Contact Me
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div
-        className="scroll-indicator absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 flex flex-col items-center gap-3 cursor-pointer group"
-        onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
-      >
-        <span className="text-[10px] text-white/30 tracking-[0.4em] uppercase font-mono group-hover:text-white/60 transition-colors">Digital Folio / 2024</span>
-        <div className="w-[1px] h-12 bg-gradient-to-b from-white/40 to-transparent flex items-start justify-center">
-            <div className="w-1 h-3 bg-white rounded-full animate-bounce mt-1" />
         </div>
       </div>
     </section>
