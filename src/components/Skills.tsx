@@ -1,12 +1,110 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Code2, Server, Database, Settings, ArrowRight } from "lucide-react";
+import { Code2, Server, Database, Settings, ArrowRight, X, Globe, Cpu, Layers } from "lucide-react";
+import { createPortal } from "react-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const DEVICON = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/";
+
+/* ─────────────────────────────────────────────────────────────────
+   Skill Popup Component (The "Cloud")
+───────────────────────────────────────────────────────────────── */
+const SkillPopup = ({ isOpen, onClose, category }: { isOpen: boolean, onClose: () => void, category: any }) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [onClose]);
+
+  useGSAP(() => {
+    if (isOpen) {
+      gsap.fromTo(modalRef.current, 
+        { opacity: 0, scale: 0.9, backdropFilter: "blur(0px)" },
+        { opacity: 1, scale: 1, backdropFilter: "blur(12px)", duration: 0.5, ease: "expo.out" }
+      );
+
+      // Animate floating logos
+      const logos = gsap.utils.toArray('.floating-logo');
+      logos.forEach((logo: any, i) => {
+        gsap.to(logo, {
+          x: "random(-20, 20)",
+          y: "random(-20, 20)",
+          rotation: "random(-10, 10)",
+          duration: "random(2, 4)",
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: i * 0.1
+        });
+      });
+    }
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  return createPortal(
+    <div 
+      ref={modalRef}
+      className="fixed inset-0 z-[10001] flex items-center justify-center p-4 md:p-8"
+      onClick={onClose}
+    >
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-xl" />
+      
+      <div 
+        ref={containerRef}
+        className={`relative w-full max-w-2xl bg-[#0A0A0A] border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl p-6 md:p-10 flex flex-col items-center text-center`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button 
+          onClick={onClose}
+          className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-white/10 transition-colors z-20"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
+        <div className={`w-16 h-16 rounded-xl ${category.bgAccent} border border-white/5 flex items-center justify-center mb-6`}>
+          <category.icon className={`w-8 h-8 ${category.accent}`} />
+        </div>
+
+        <h3 className="text-2xl md:text-4xl font-black text-white mb-3 tracking-tighter uppercase">{category.title}</h3>
+        <p className="text-white/50 text-base max-w-lg mb-8">{category.description}</p>
+
+        {/* Skill Cloud */}
+        <div className="relative w-full flex flex-wrap items-center justify-center gap-4 md:gap-6 py-8">
+          {category.skills.map((skill: any, idx: number) => (
+            <div 
+              key={idx} 
+              className="floating-logo group flex flex-col items-center gap-3 bg-white/[0.03] border border-white/10 rounded-2xl p-4 md:p-5 hover:bg-white/[0.08] transition-all duration-500 hover:border-white/20 hover:scale-105"
+              style={{ willChange: "transform" }}
+            >
+              <div className="w-10 h-10 md:w-12 md:h-12 relative flex items-center justify-center">
+                <img 
+                  src={`${DEVICON}${skill.logo}`} 
+                  alt={skill.name} 
+                  className="w-full h-full object-contain filter drop-shadow-xl"
+                  loading="lazy" 
+                />
+              </div>
+              <span className="text-[10px] font-black text-white/60 uppercase tracking-widest">{skill.name}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6 flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold text-white/30 uppercase tracking-widest">
+          <Layers className="w-3 h-3" />
+          Advanced Stack Components
+        </div>
+      </div>
+    </div>,
+    document.body
+  );
+};
 
 const skillsData = [
   { name: "React.js", logo: "react/react-original.svg", color: "rgba(97, 218, 251, 1)", glow: "shadow-[0_0_20px_rgba(97,218,251,0.5)]" },
@@ -106,7 +204,7 @@ const row2 = [...skillsData].sort(() => Math.random() - 0.5);
 /* ─────────────────────────────────────────────────────────────────
    Magnetic 3D Tilt Card Component
 ───────────────────────────────────────────────────────────────── */
-const Magnetic3DCard = ({ cat }: { cat: any }) => {
+const Magnetic3DCard = ({ cat, onOpen }: { cat: any, onOpen: () => void }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   
@@ -118,15 +216,12 @@ const Magnetic3DCard = ({ cat }: { cat: any }) => {
   useGSAP(() => {
     if (!cardRef.current || !contentRef.current) return;
     
-    // QuickTo for 3D Tilt
     xTo.current = gsap.quickTo(cardRef.current, "rotateY", { duration: 0.5, ease: "power3.out" });
     yTo.current = gsap.quickTo(cardRef.current, "rotateX", { duration: 0.5, ease: "power3.out" });
     
-    // QuickTo for Parallax content move
     xMoveTo.current = gsap.quickTo(contentRef.current, "x", { duration: 0.5, ease: "power3.out" });
     yMoveTo.current = gsap.quickTo(contentRef.current, "y", { duration: 0.5, ease: "power3.out" });
 
-    // Ensure perspective is set
     gsap.set(cardRef.current, { transformPerspective: 1000, transformStyle: "preserve-3d" });
     gsap.set(contentRef.current, { transformStyle: "preserve-3d", transform: "translateZ(40px)" });
   }, { scope: cardRef });
@@ -137,11 +232,9 @@ const Magnetic3DCard = ({ cat }: { cat: any }) => {
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
     
-    // Max rotation 12 degrees
     if (xTo.current) xTo.current(x * 24); 
     if (yTo.current) yTo.current(-y * 24);
     
-    // Max parallax move 10px
     if (xMoveTo.current) xMoveTo.current(x * 20);
     if (yMoveTo.current) yMoveTo.current(y * 20);
   };
@@ -151,8 +244,6 @@ const Magnetic3DCard = ({ cat }: { cat: any }) => {
     if (yTo.current) yTo.current(0);
     if (xMoveTo.current) xMoveTo.current(0);
     if (yMoveTo.current) yMoveTo.current(0);
-    
-    // Reset scale if needed
     gsap.to(cardRef.current, { scale: 1, duration: 0.5, ease: "power3.out" });
   };
 
@@ -180,7 +271,6 @@ const Magnetic3DCard = ({ cat }: { cat: any }) => {
           {cat.description}
         </p>
 
-        {/* Miniature Skill Logos & Names */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-auto mb-6">
           {cat.skills.map((skill: any, idx: number) => (
             <div key={idx} className="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-lg px-2.5 py-2 group-hover:bg-white/[0.06] transition-colors duration-300">
@@ -190,10 +280,13 @@ const Magnetic3DCard = ({ cat }: { cat: any }) => {
           ))}
         </div>
 
-        <div className="flex items-center gap-2 opacity-50 group-hover:opacity-100 transition-opacity duration-500">
+        <button 
+          onClick={(e) => { e.stopPropagation(); onOpen(); }}
+          className="flex items-center gap-2 opacity-50 group-hover:opacity-100 transition-opacity duration-500 pointer-events-auto w-fit"
+        >
           <span className={`text-sm font-bold uppercase tracking-widest ${cat.accent}`}>Advanced Systems</span>
           <ArrowRight className={`w-4 h-4 ${cat.accent} transform group-hover:translate-x-1 transition-transform duration-300`} />
-        </div>
+        </button>
       </div>
     </div>
   );
@@ -204,18 +297,22 @@ const Magnetic3DCard = ({ cat }: { cat: any }) => {
 ───────────────────────────────────────────────────────────────── */
 const MarqueeRow = ({ items, reverse = false, speed = 80 }: { items: any[], reverse?: boolean, speed?: number }) => {
   return (
-    <div className="flex overflow-hidden relative w-full mask-edges py-2 md:py-3">
+    <div className="flex overflow-hidden relative w-full mask-edges py-2 md:py-3" style={{ willChange: "transform" }}>
       <div 
         className={`flex gap-4 md:gap-5 whitespace-nowrap w-max ${reverse ? 'animate-marquee-reverse' : 'animate-marquee'}`}
-        style={{ "--duration": `${speed}s` } as React.CSSProperties}
+        style={{ 
+          "--duration": `${speed}s`,
+          transform: "translateZ(0)"
+        } as React.CSSProperties}
       >
-        {[...items, ...items, ...items, ...items].map((skill, i) => (
+        {[...items, ...items].map((skill, i) => (
           <div 
             key={`${skill.name}-${i}`} 
             className={`flex items-center gap-3 px-5 py-3 md:px-6 md:py-3.5 rounded-xl bg-[#080808] border border-white/10 hover:border-white/30 transition-all duration-300 group shrink-0 hover:${skill.glow} hover:-translate-y-1`}
+            style={{ willChange: "transform" }}
           >
             <div className="w-7 h-7 md:w-9 md:h-9 relative flex items-center justify-center">
-               <img src={`${DEVICON}${skill.logo}`} alt={skill.name} className="w-full h-full object-contain filter drop-shadow-md group-hover:scale-110 transition-transform duration-300" loading="lazy" />
+               <img src={`${DEVICON}${skill.logo}`} alt={skill.name} className="w-full h-full object-contain filter drop-shadow-md group-hover:scale-110 transition-transform duration-300" loading="lazy" style={{ transform: "translateZ(0)" }} />
                <div className="absolute inset-0 blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-300 z-[-1]" style={{ backgroundColor: skill.color }} />
             </div>
             <span className="text-white/80 font-bold text-sm md:text-base group-hover:text-white transition-colors duration-300 tracking-wide">
@@ -233,12 +330,12 @@ const MarqueeRow = ({ items, reverse = false, speed = 80 }: { items: any[], reve
 ───────────────────────────────────────────────────────────────── */
 const Skills = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const [activeCategory, setActiveCategory] = useState<any>(null);
 
   useGSAP(() => {
     const preferReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if(preferReducedMotion) return;
 
-    // 3D Staggered Reveal
     gsap.fromTo('.skill-category-card', 
       { opacity: 0, y: 80, rotateX: 15, scale: 0.9 },
       {
@@ -277,7 +374,6 @@ const Skills = () => {
         }
       `}} />
       
-      {/* Deep subtle background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[50vh] bg-indigo-900/10 blur-[150px] rounded-full pointer-events-none z-0" />
       
       <div className="container mx-auto px-6 mb-16 text-center z-10 relative">
@@ -289,16 +385,14 @@ const Skills = () => {
          </p>
       </div>
       
-      {/* 4 Category Detailed 3D Cards */}
       <div className="container mx-auto px-6 mb-24 relative z-10 perspective-1000">
         <div className="skill-categories-grid grid grid-cols-1 lg:grid-cols-2 gap-8">
           {categoryCards.map((cat, i) => (
-            <Magnetic3DCard key={i} cat={cat} />
+            <Magnetic3DCard key={i} cat={cat} onOpen={() => setActiveCategory(cat)} />
           ))}
         </div>
       </div>
 
-      {/* Infinite Marquee Toolset */}
       <div className="flex flex-col gap-4 relative z-10 w-[100vw] max-w-[100vw] -ml-[50vw] left-[50%] mt-8">
         <div className="container mx-auto px-6 mb-2 text-center">
           <p className="text-white/40 font-mono text-xs md:text-sm tracking-[0.3em] uppercase">Core Technologies Ecosystem</p>
@@ -307,6 +401,13 @@ const Skills = () => {
         <MarqueeRow items={row2} reverse={true} speed={80} />
       </div>
 
+      {activeCategory && (
+        <SkillPopup 
+          isOpen={!!activeCategory} 
+          onClose={() => setActiveCategory(null)} 
+          category={activeCategory} 
+        />
+      )}
     </section>
   );
 };

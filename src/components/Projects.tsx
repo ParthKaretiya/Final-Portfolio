@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { ExternalLink, Github, Rocket, Shield, Eye, Smartphone, AlertCircle, FileText, BarChart3, Clock, CheckCircle2, Globe } from "lucide-react";
+import CERSImg from "../CERS.png";
+import { ExternalLink, Github, Rocket, Shield, Eye, Smartphone, AlertCircle, FileText, BarChart3, Clock, CheckCircle2, Globe, MapPin, Activity } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -41,6 +42,20 @@ const mainProjects: ProjectData[] = [
     image: "https://i.postimg.cc/HxfK7hJ7/image.png",
     githubUrl: "https://github.com/ParthKaretiya", liveUrl: "https://threatlens-topaz.vercel.app/",
     color: "from-amber-500/20 to-orange-500/5", accent: "text-amber-400"
+  },
+  {
+    id: "cers", title: "CERS", subtitle: "Centralized Emergency Response System",
+    description: "An innovative digital ecosystem designed to transform emergency response through real-time location tracking, intelligent coordination, and seamless communication between citizens and authorities. Eliminates critical delays with a unified network of hospitals, police, and fire departments.",
+    features: [
+      { icon: MapPin, text: "Real-time Tracking: Instantly connect with nearest emergency services via precise geolocation." },
+      { icon: Rocket, text: "One-Click Alerts: Send immediate distress signals routed to relevant authorities without delay." },
+      { icon: Shield, text: "AI Coordination: Futuristic vision for predictive analytics and automated resource allocation." },
+      { icon: Activity, text: "Health Monitoring: Future-ready integration with IoT and wearables for proactive care." }
+    ],
+    tech: ["React", "Node.js", "Firebase", "Real-time Geolocation", "IoT Ready"],
+    image: CERSImg, 
+    githubUrl: "https://github.com/ParthKaretiya/CERS", liveUrl: "https://cers-plus.web.app/",
+    color: "from-rose-500/20 to-red-500/5", accent: "text-rose-400"
   },
   {
     id: "studysync", title: "StudySync", subtitle: "Campus Digital Ecosystem",
@@ -113,30 +128,38 @@ const Projects = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // Simple reveal animations — no pinning, no snap (removes scroll jank)
+    // Reveal main projects with simple, high-performance transforms
     gsap.utils.toArray('.project-section').forEach((section: any) => {
-      gsap.fromTo(section.querySelector('.project-content'),
-        { opacity: 0, y: 40 }, {
-          opacity: 1, y: 0, duration: 0.8, ease: "power3.out",
-          scrollTrigger: { trigger: section, start: "top 75%", toggleActions: "play none none reverse" }
-        }
-      );
-      gsap.fromTo(section.querySelector('.project-image'),
-        { opacity: 0, scale: 0.95 }, {
-          opacity: 1, scale: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: section, start: "top 75%", toggleActions: "play none none reverse" }
-        }
-      );
+      const content = section.querySelector('.project-content');
+      const image = section.querySelector('.project-image');
+      
+      if (content) {
+        gsap.fromTo(content,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1, y: 0, duration: 0.6, ease: "power2.out",
+            scrollTrigger: { trigger: section, start: "top 80%", toggleActions: "play none none reverse" }
+          }
+        );
+      }
+      
+      if (image) {
+        gsap.fromTo(image,
+          { opacity: 0, scale: 0.98 },
+          {
+            opacity: 1, scale: 1, duration: 0.8, ease: "power2.out",
+            scrollTrigger: { trigger: section, start: "top 80%", toggleActions: "play none none reverse" }
+          }
+        );
+      }
     });
-    gsap.fromTo('.clones-title', { opacity: 0, y: 20 }, {
-      opacity: 1, y: 0, scrollTrigger: { trigger: '.clones-title', start: "top 85%" }
-    });
+
+    // Optimized UI clones reveal
     gsap.fromTo('.clone-card', 
-      { opacity: 0, y: 80, rotateX: 15, scale: 0.9 }, 
+      { opacity: 0, y: 40 }, 
       {
-        opacity: 1, y: 0, rotateX: 0, scale: 1, 
-        stagger: 0.15, duration: 1, ease: "back.out(1.4)",
-        scrollTrigger: { trigger: '.clones-grid', start: "top 85%", toggleActions: "play none none reverse" }
+        opacity: 1, y: 0, stagger: 0.1, duration: 0.6, ease: "power2.out",
+        scrollTrigger: { trigger: '.clones-grid', start: "top 85%" }
       }
     );
   }, { scope: containerRef });
@@ -150,9 +173,17 @@ const Projects = () => {
         </h2>
       </div>
 
-      {/* Main Projects — no pinning, natural scroll */}
+      {/* Main Projects — Stacked Cards Effect */}
       {mainProjects.map((project, index) => (
-        <section key={project.id} className="project-section py-20 md:py-28 relative overflow-hidden bg-[#050505] border-b border-white/5">
+        <section 
+          key={project.id} 
+          className="project-section sticky min-h-screen flex items-start pt-32 pb-32 overflow-visible bg-[#050505] border-t border-white/10 rounded-t-[3rem] shadow-2xl"
+          style={{ 
+            zIndex: index + 10, 
+            top: `calc(${index * 40}px + 40px)`,
+            willChange: "transform"
+          }}
+        >
           <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center z-10 relative">
             <div className={`project-content lg:col-span-5 ${index % 2 !== 0 ? 'lg:order-2' : ''}`}>
               <p className="text-cyan-400 font-mono text-sm tracking-widest uppercase mb-3">Featured Innovation</p>
@@ -167,18 +198,55 @@ const Projects = () => {
                   </div>
                 ))}
               </div>
-              <div className="flex flex-wrap gap-3 pt-6 border-t border-white/5">
-                {project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/10 transition-all">GitHub</a>}
-                {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="px-6 py-2.5 rounded-xl bg-cyan-400 text-black font-black text-xs uppercase tracking-widest hover:bg-cyan-300 transition-all shadow-[0_0_15px_rgba(34,211,238,0.2)]">Launch Live</a>}
-              </div>
+              {/* Buttons removed - now in image overlay */}
             </div>
             <div className={`project-image lg:col-span-7 relative ${index % 2 !== 0 ? 'lg:order-1' : ''}`}>
               <div className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-white/10 group shadow-xl bg-[#080808]">
                 <img src={project.image} alt={project.title} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" loading="lazy" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-30" />
+                
+                {/* Image Hover Overlay */}
+                <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-4">
+                  {project.liveUrl && project.liveUrl !== "#" && (
+                    <a 
+                      href={project.liveUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="flex items-center gap-2 px-6 py-3 rounded-full bg-cyan-400 text-black font-black text-xs uppercase tracking-widest hover:bg-cyan-300 transition-all duration-300 shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:scale-105"
+                    >
+                      🔍 View Live
+                    </a>
+                  )}
+                  {project.githubUrl && (
+                    <a 
+                      href={project.githubUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/20 transition-all duration-300 backdrop-blur-md hover:scale-105"
+                    >
+                      🐙 GitHub
+                    </a>
+                  )}
+                </div>
               </div>
               <div className="absolute -bottom-4 -right-4 flex flex-wrap gap-1.5 max-w-[280px] justify-end">
-                {project.tech.map(t => (<span key={t} className="px-3 py-1.5 bg-black/80 backdrop-blur-md border border-white/10 rounded-lg text-[9px] text-white font-bold uppercase tracking-widest shadow-xl">{t}</span>))}
+                {project.tech.map(t => {
+                  const getTechColor = (tech: string) => {
+                    const tl = tech.toLowerCase();
+                    if (tl.includes("react")) return "text-cyan-400 border-cyan-400/20";
+                    if (tl.includes("node") || tl.includes("mongo")) return "text-green-400 border-green-400/20";
+                    if (tl.includes("python")) return "text-yellow-400 border-yellow-400/20";
+                    if (tl.includes("express") || tl.includes("socket")) return "text-purple-400 border-purple-400/20";
+                    if (tl.includes("firebase")) return "text-amber-500 border-amber-500/20";
+                    if (tl.includes("tailwind")) return "text-teal-400 border-teal-400/20";
+                    if (tl.includes("ai")) return "text-indigo-400 border-indigo-400/20";
+                    return "text-white border-white/10";
+                  };
+                  return (
+                    <span key={t} className={`px-3 py-1.5 bg-black/90 backdrop-blur-md border rounded-lg text-[9px] font-bold uppercase tracking-widest shadow-2xl transition-all hover:scale-110 ${getTechColor(t)}`}>
+                      {t}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -197,12 +265,20 @@ const Projects = () => {
               <div key={clone.id} className="clone-card group flex flex-col bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden hover:bg-white/[0.04] transition-all duration-500 hover:border-white/20 hover:-translate-y-1">
                 <div className="relative aspect-[16/10] overflow-hidden bg-[#080808]">
                   <img src={clone.image} alt={clone.title} className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none opacity-40" />
-                  {clone.liveUrl && clone.liveUrl !== "#" && (
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <a href={clone.liveUrl} target="_blank" rel="noopener noreferrer" className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-widest hover:bg-white/20 transition-all transform translate-y-3 group-hover:translate-y-0 duration-500">View Live ↗</a>
-                    </div>
-                  )}
+                  
+                  {/* Overlay for UI Clones */}
+                  <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3 px-4 text-center">
+                    {clone.liveUrl && clone.liveUrl !== "#" && (
+                      <a href={clone.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-cyan-400 text-black font-black text-[10px] uppercase tracking-widest hover:bg-cyan-300 transition-all duration-300 shadow-[0_0_15px_rgba(34,211,238,0.3)] hover:scale-105">
+                        🔍 View Live
+                      </a>
+                    )}
+                    {clone.githubUrl && (
+                      <a href={clone.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 border border-white/20 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/20 transition-all duration-300 backdrop-blur-md hover:scale-105">
+                        🐙 GitHub
+                      </a>
+                    )}
+                  </div>
                 </div>
                 <div className="p-6 flex-1 flex flex-col">
                   <h3 className="text-xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors">{clone.title}</h3>
@@ -212,9 +288,6 @@ const Projects = () => {
                     <div className="flex gap-1.5 flex-wrap">
                       {clone.tech.map(t => (<span key={t} className="text-[9px] text-white/30 font-bold uppercase tracking-widest bg-white/5 px-2 py-0.5 rounded">{t}</span>))}
                     </div>
-                    {clone.liveUrl && clone.liveUrl !== "#" && (
-                      <a href={clone.liveUrl} target="_blank" rel="noopener noreferrer" className="text-cyan-400 text-xs font-black uppercase tracking-widest hover:text-cyan-300 transition-colors flex items-center gap-1">Live <ExternalLink className="w-3 h-3" /></a>
-                    )}
                   </div>
                 </div>
               </div>

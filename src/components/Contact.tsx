@@ -10,10 +10,10 @@ import { toast } from "sonner";
 gsap.registerPlugin(ScrollTrigger);
 
 const socialLinks = [
-  { name: "LinkedIn", url: "https://www.linkedin.com/in/parth-karetiya-640a00371/", icon: Linkedin },
-  { name: "GitHub", url: "https://github.com/ParthKaretiya", icon: Github },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/parth-karetiya-640a00371/", icon: Linkedin, hoverColor: "hover:text-[#0A66C2] hover:border-[#0A66C2]/50 hover:bg-[#0A66C2]/10" },
+  { name: "GitHub", url: "https://github.com/ParthKaretiya", icon: Github, hoverColor: "hover:text-white hover:border-white/50 hover:bg-white/10" },
   { name: "X", url: "https://x.com/ParthKaretiya01", icon: () => <svg viewBox="0 0 24 24" className="w-[1.25em] h-[1.25em] fill-current"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg> },
-  { name: "YouTube", url: "https://www.youtube.com/channel/UCT9Xciz6LPl93aXqZ3Jse-Q", icon: Youtube },
+  { name: "YouTube", url: "https://www.youtube.com/channel/UCT9Xciz6LPl93aXqZ3Jse-Q", icon: Youtube, hoverColor: "hover:text-[#FF0000] hover:border-[#FF0000]/50 hover:bg-[#FF0000]/10" },
   { name: "LeetCode", url: "https://leetcode.com/u/fuvaLE5xdK/", icon: () => <svg viewBox="0 0 24 24" className="w-[1.25em] h-[1.25em] fill-current"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125 1.513 5.527 5.527 0 0 0 .062 1.488 5.337 5.337 0 0 0 .584 1.488 4.961 4.961 0 0 0 1.084 1.25v.001l2.895 3.162a1.37 1.37 0 0 0 1.884-.2l-2.69-2.936a1.366 1.366 0 0 1-.395-1.042c.038-.376.242-.712.55-1.002.32-.303.882-.57 1.706-.57h11.233a1.375 1.375 0 0 0 1.375-1.375v-1.188a1.375 1.375 0 0 0-1.375-1.375H13.62l7.042-7.615a1.373 1.373 0 0 0-.083-1.855L14.444.438A1.374 1.374 0 0 0 13.483 0zm4.254 20.306L14.444 23.44a1.375 1.375 0 0 1-1.856.06l-4.25-4.667a4.963 4.963 0 0 1-1.083-1.25H21.375c.76 0 1.375.615 1.375 1.375v1.187a1.375 1.375 0 0 1-1.375 1.375h-3.638z"/></svg> },
 ];
 
@@ -111,7 +111,9 @@ const Contact = () => {
   return (
     <section id="contact" className="py-28 relative overflow-hidden bg-[#050505]" ref={sectionRef}>
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-cyan-500/5 blur-[120px] rounded-full translate-x-1/2 translate-y-1/2" />
+        <div className="absolute -top-20 -left-20 w-[500px] h-[500px] bg-purple-600/10 blur-[150px] rounded-full" />
+        <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-emerald-500/10 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-cyan-500/15 blur-[120px] rounded-full translate-x-1/2 translate-y-1/2" />
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -158,7 +160,7 @@ const Contact = () => {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/5 transition-all duration-300 group"
+                    className={`w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 transition-all duration-300 group ${link.hoverColor}`}
                     title={link.name}
                   >
                     <link.icon className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />

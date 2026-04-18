@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -22,7 +23,26 @@ const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Native smooth scroll for anchor links (no Lenis overhead)
+    // Initialize Lenis Smooth Scroll with optimized settings
+    const lenis = new Lenis({
+      duration: 1.2, // Faster, snappier scroll
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.1, // Slight boost for speed
+      touchMultiplier: 1.5,
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+
+    gsap.ticker.add((time)=>{
+      lenis.raf(time * 1000);
+    });
+
+    gsap.ticker.lagSmoothing(1000, 16); // Better lag handling
+
+    // Handle Anchor Links with Lenis
     const handleClick = (e: MouseEvent) => {
       const anchor = (e.target as HTMLElement).closest('a');
       if (anchor) {
@@ -33,7 +53,7 @@ const Index = () => {
             const target = document.getElementById(hash);
             if (target) {
               e.preventDefault();
-              target.scrollIntoView({ behavior: "smooth", block: "start" });
+              lenis.scrollTo(target, { offset: 0, duration: 1.2 });
               window.history.pushState(null, "", `#${hash}`);
             }
           }
@@ -42,16 +62,29 @@ const Index = () => {
     };
     document.addEventListener("click", handleClick);
 
-    // Handle initial hash on load
-    if (window.location.hash) {
-      setTimeout(() => {
-        const target = document.querySelector(window.location.hash);
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 500);
-    }
+    // Optimized Global Vertical Snake Animation
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.global-snake-line', 
+        { y: "-100vh" },
+        { 
+          y: "100vh", 
+          ease: "none", 
+          scrollTrigger: { 
+            trigger: "body", 
+            start: "top top", 
+            end: "bottom bottom", 
+            scrub: 0.5, // Added slight delay to scrub for performance
+            fastScrollEnd: true,
+            preventOverlaps: true
+          }
+        }
+      );
+    });
 
     return () => {
       document.removeEventListener("click", handleClick);
+      ctx.revert();
+      lenis.destroy();
     };
   }, []);
 
@@ -64,6 +97,12 @@ const Index = () => {
         className={`min-h-screen bg-background relative transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}
       >
         <GridBackground />
+        
+        {/* Global Snake Line */}
+        <div className="fixed top-0 left-2 md:left-8 w-[2px] h-full z-[90] pointer-events-none opacity-60 overflow-hidden mix-blend-screen hidden sm:block">
+          <div className="global-snake-line w-full h-[40vh] bg-gradient-to-b from-transparent via-cyan-400 to-transparent blur-[1px]" />
+        </div>
+
         <div className="relative z-10">
           <Navbar />
           <Hero />

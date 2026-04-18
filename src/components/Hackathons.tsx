@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { Trophy, Calendar, MapPin, Code2, ExternalLink, Lightbulb, Zap, Rocket, ChevronLeft, ChevronRight, GraduationCap } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { Trophy, Calendar, MapPin, Code2, ExternalLink, Lightbulb, Zap, Rocket, ChevronLeft, ChevronRight, GraduationCap, Github } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -30,104 +30,122 @@ interface HackathonData {
   techStack: string[];
   achievement?: string;
   link?: string;
+  githubUrl?: string;
   color: string;
   accent: string;
-  cgpa?: string;
 }
 
 const hackathons: HackathonData[] = [
   {
     id: "electrosphere-2026",
-    name: "Electrosphere 2026",
+    name: "ElectroSphere 2K26",
     date: "Jan 2026",
     location: "Swaminarayan University",
     images: [electro001, electro02, electro03],
     projectBuilt: "ThreatLens",
-    problem: "Rising cybersecurity threats in local networks with lack of real-time monitoring tools for small-scale enterprises.",
-    challenges: "Processing large volumes of system activity logs in real-time without significant performance overhead.",
-    solution: "Developed a lightweight agent using Python and React that analyzes system activity and detects suspicious behavior patterns using machine learning.",
-    techStack: ["React", "Python", "Node.js", "REST APIs", "Data Analytics"],
-    achievement: "2nd Place Winner",
+    problem: "Security tools often glorify exploitation instead of focusing on clear, defense-driven risk reasoning.",
+    challenges: "Building a structured threat-modeling system without live payloads or weaponization.",
+    solution: "Developed an ethical static cybersecurity analysis platform that identifies risks and attack surfaces with clear reasoning, built with Team InnovateX.",
+    techStack: ["React", "Node.js", "AI Analysis", "REST APIs"],
+    achievement: "2nd Place (Software Edition)",
     link: "https://threatlens-topaz.vercel.app/",
+    githubUrl: "https://github.com/ParthKaretiya",
     color: "from-amber-500/20 to-orange-500/5",
-    accent: "text-amber-400",
-    cgpa: "9.67",
+    accent: "text-amber-400"
   },
   {
-    id: "hackx-2025",
-    name: "HackX Hackathon",
-    date: "2025",
+    id: "hack-the-spring",
+    name: "Hack The Spring",
+    date: "2026",
     location: "GEC Gandhinagar",
     images: [hackx01, hackx02, hackx03],
-    projectBuilt: "PulseGuard",
-    problem: "Delayed emergency response times in hospitals due to inefficient coordination between departments.",
-    challenges: "Ensuring zero-latency communication between medical staff during critical emergencies.",
-    solution: "Built a real-time coordination platform using Socket.io and React that allows instant updates and department-wide alerts.",
-    techStack: ["React", "Node.js", "MongoDB", "Express", "Socket.io"],
-    achievement: "Finalist (4th Rank)",
+    projectBuilt: "Pulse Guard",
+    problem: "Scam detection tools are too technical, leaving non-technical users (parents/children) vulnerable to fraud.",
+    challenges: "Integrating AI to translate complex suspicious link patterns into simple, understandable warnings within 2 days.",
+    solution: "Built an AI-powered cybersecurity tool focused on family safety that explains risks clearly instead of just marking them safe/unsafe.",
+    techStack: ["React", "Python", "AI", "Tailwind CSS"],
+    achievement: "4th Rank (Out of 100+ Teams)",
     link: "https://hack-x-chi.vercel.app/",
+    githubUrl: "https://github.com/ParthKaretiya",
     color: "from-cyan-500/20 to-blue-500/5",
-    accent: "text-cyan-400",
-    cgpa: "9.67",
+    accent: "text-cyan-400"
   },
   {
-    id: "sangam-hack",
-    name: "Sangam University Hackathon",
+    id: "su-hackathon",
+    name: "SU Hackathon Bhilwara",
     date: "2024",
     location: "Sangam University",
     images: [su01, su02, su03],
-    projectBuilt: "CERS+",
-    problem: "Inefficient facility logistics and resource allocation during large-scale events.",
-    challenges: "Managing complex database relationships for real-time inventory and staff tracking.",
-    solution: "Designed a dedicated platform for real-time facility logistics with dynamic user interactions and secure backend logic.",
-    techStack: ["React", "Firebase", "Tailwind CSS", "Node.js"],
+    projectBuilt: "CERS",
+    problem: "Delays in communication and lack of synchronization between emergency services often lead to severe consequences.",
+    challenges: "Creating a unified digital network with real-time location tracking and instant distress routing under pressure.",
+    solution: "Developed a Centralized Emergency Response System alongside Team CodePulse to connect hospitals, police, and fire departments instantly.",
+    techStack: ["React", "Node.js", "MongoDB", "Express", "Socket.io"],
     achievement: "Finalist",
     link: "https://cers-plus.web.app/",
+    githubUrl: "https://github.com/ParthKaretiya",
     color: "from-violet-500/20 to-purple-500/5",
-    accent: "text-violet-400",
-    cgpa: "9.67",
+    accent: "text-violet-400"
   }
 ];
 
 const ImageGallery = ({ images, name }: { images: string[]; name: string }) => {
   const [activeIdx, setActiveIdx] = useState(0);
 
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const interval = setInterval(() => {
+      setActiveIdx((prev) => (prev + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   return (
-    <div className="relative aspect-video xl:aspect-auto xl:h-full min-h-[240px] overflow-hidden group/gallery bg-black/40 flex items-center justify-center">
-      {/* Main image — object-contain prevents cropping */}
-      <img
-        src={images[activeIdx]}
-        alt={`${name} - image ${activeIdx + 1}`}
-        className="w-full h-full object-contain max-h-[320px] xl:max-h-full transition-all duration-500"
-        loading="lazy"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+    <div className="relative aspect-video xl:aspect-auto xl:h-full min-h-[320px] overflow-hidden group/gallery bg-[#080808]">
+      {/* Sliding Images Container */}
+      <div 
+        className="flex h-full transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]"
+        style={{ transform: `translateX(-${activeIdx * 100}%)` }}
+      >
+        {images.map((img, i) => (
+          <div key={i} className="min-w-full h-full flex items-center justify-center p-4">
+            <img
+              src={img}
+              alt={`${name} - image ${i + 1}`}
+              className="max-w-full max-h-full object-contain shadow-2xl rounded-xl"
+              loading="lazy"
+            />
+          </div>
+        ))}
+      </div>
+
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
 
       {/* Navigation arrows */}
       {images.length > 1 && (
         <>
           <button
             onClick={() => setActiveIdx((prev) => (prev - 1 + images.length) % images.length)}
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white opacity-0 group-hover/gallery:opacity-100 transition-opacity duration-300 hover:bg-black/70 z-10"
+            className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white opacity-0 group-hover/gallery:opacity-100 transition-all duration-300 hover:bg-black/60 z-10"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={() => setActiveIdx((prev) => (prev + 1) % images.length)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white opacity-0 group-hover/gallery:opacity-100 transition-opacity duration-300 hover:bg-black/70 z-10"
+            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white opacity-0 group-hover/gallery:opacity-100 transition-all duration-300 hover:bg-black/60 z-10"
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-5 h-5" />
           </button>
         </>
       )}
 
       {/* Dot indicators */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-10">
         {images.map((_img, i) => (
           <button
             key={i}
             onClick={() => setActiveIdx(i)}
-            className={`transition-all duration-300 rounded-full ${i === activeIdx ? "w-7 h-2 bg-white" : "w-2 h-2 bg-white/40 hover:bg-white/60"
+            className={`transition-all duration-500 rounded-full h-1.5 ${i === activeIdx ? "w-8 bg-cyan-400" : "w-2 bg-white/30 hover:bg-white/50"
               }`}
           />
         ))}
@@ -140,23 +158,30 @@ const Hackathons = () => {
   const sectionRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    const revealElements = gsap.utils.toArray('.hack-reveal');
-    revealElements.forEach((el: any) => {
-      gsap.fromTo(el,
-        { opacity: 0, y: 30 },
+    const cards = gsap.utils.toArray('.hack-card');
+    cards.forEach((card: any) => {
+      gsap.fromTo(card,
+        { opacity: 0, y: 100, rotateX: 5, scale: 0.95 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          ease: "power3.out",
+          rotateX: 0,
+          scale: 1,
+          duration: 1.2,
+          ease: "expo.out",
           scrollTrigger: {
-            trigger: el,
+            trigger: card,
             start: "top 85%",
             toggleActions: "play none none reverse"
           }
         }
       );
     });
+
+    gsap.fromTo('.hack-reveal', 
+      { opacity: 0, x: -30 },
+      { opacity: 1, x: 0, stagger: 0.2, duration: 1, ease: "power3.out", scrollTrigger: { trigger: '.hackathon-header', start: "top 80%" }}
+    );
   }, { scope: sectionRef });
 
   return (
@@ -168,7 +193,7 @@ const Hackathons = () => {
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-3xl mb-16">
+        <div className="max-w-3xl mb-16 hackathon-header">
           <p className="hack-reveal text-cyan-400 font-mono text-sm tracking-widest uppercase mb-3">Competitive Building</p>
           <h2 className="hack-reveal text-4xl md:text-6xl font-bold text-white tracking-tight mb-6" style={{ fontFamily: "'Cinzel', serif" }}>
             Hackathon <span className="text-white/40 font-light">Journey</span>
@@ -178,20 +203,15 @@ const Hackathons = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-12 lg:gap-20">
+        <div className="relative">
           {hackathons.map((hack, index) => (
             <div
               key={hack.id}
-              className="hack-reveal group relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
+              className="hack-card group relative sticky min-h-screen flex items-start pt-32 pb-32 bg-[#050505] shadow-[0_-30px_50px_rgba(0,0,0,0.8)] border-t border-white/10 rounded-t-[3rem] overflow-visible"
+              style={{ zIndex: index + 10, top: `calc(${index * 40}px + 40px)` }}
             >
-              {/* Timeline dot & line (Desktop) */}
-              <div className="hidden lg:flex col-span-1 flex-col items-center h-full pt-2">
-                <div className={`w-4 h-4 rounded-full bg-gradient-to-br ${hack.color} border border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:scale-125 transition-transform duration-500`} />
-                <div className="w-[1px] flex-1 bg-gradient-to-b from-white/20 to-transparent mt-4" />
-              </div>
-
               {/* Content Card */}
-              <div className="lg:col-span-11 bg-white/[0.02] border border-white/10 rounded-[2rem] overflow-hidden backdrop-blur-sm group-hover:bg-white/[0.04] transition-all duration-500 group-hover:border-white/20">
+              <div className="w-full bg-white/[0.02] border border-white/10 rounded-[2rem] backdrop-blur-sm group-hover:bg-white/[0.04] transition-all duration-500 group-hover:border-white/20">
                 <div className="grid grid-cols-1 xl:grid-cols-2">
 
                   {/* Image Gallery Side */}
@@ -224,18 +244,7 @@ const Hackathons = () => {
                         </div>
                       </div>
 
-                      {/* CGPA Badge */}
-                      {hack.cgpa && (
-                        <div className="flex items-center gap-3 mb-8 p-3 rounded-xl bg-white/[0.03] border border-white/8 w-fit">
-                          <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                            <GraduationCap className="w-4 h-4 text-emerald-400" />
-                          </div>
-                          <div>
-                            <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">Academic CGPA</p>
-                            <p className="text-emerald-400 font-black text-lg leading-tight">{hack.cgpa}</p>
-                          </div>
-                        </div>
-                      )}
+                      {/* CGPA Badge Removed as requested */}
 
                       <div className="space-y-6 mb-10">
                         <div className="flex gap-4">
@@ -272,22 +281,49 @@ const Hackathons = () => {
 
                     <div className="flex flex-wrap items-end justify-between gap-6 pt-6 border-t border-white/5">
                       <div className="flex flex-wrap gap-2">
-                        {hack.techStack.map(tech => (
-                          <span key={tech} className="px-3 py-1 rounded-full bg-white/5 border border-white/5 text-[10px] text-white/40 font-medium">
-                            {tech}
-                          </span>
-                        ))}
+                        {hack.techStack.map(tech => {
+                          const getTechColor = (t: string) => {
+                            const tl = t.toLowerCase();
+                            if (tl.includes("react")) return "text-cyan-400 border-cyan-400/20 bg-cyan-400/5";
+                            if (tl.includes("node") || tl.includes("mongo")) return "text-green-400 border-green-400/20 bg-green-400/5";
+                            if (tl.includes("python")) return "text-yellow-400 border-yellow-400/20 bg-yellow-400/5";
+                            if (tl.includes("express") || tl.includes("socket")) return "text-gray-300 border-gray-400/20 bg-gray-400/5";
+                            if (tl.includes("firebase")) return "text-amber-500 border-amber-500/20 bg-amber-500/5";
+                            if (tl.includes("tailwind")) return "text-teal-400 border-teal-400/20 bg-teal-400/5";
+                            if (tl.includes("ai")) return "text-purple-400 border-purple-400/20 bg-purple-400/5";
+                            return "text-white/60 border-white/10 bg-white/5";
+                          };
+                          return (
+                            <span key={tech} className={`px-3 py-1 rounded-full border text-[10px] font-medium transition-colors hover:brightness-125 ${getTechColor(tech)}`}>
+                              {tech}
+                            </span>
+                          );
+                        })}
                       </div>
-                      {hack.link && hack.link !== "#" && (
-                        <a
-                          href={hack.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-widest hover:text-cyan-300 transition-colors"
-                        >
-                          View Project <ExternalLink className="w-3 h-3" />
-                        </a>
-                      )}
+                      <div className="flex flex-wrap gap-4 pt-6 border-t border-white/5 w-full">
+                        {hack.githubUrl && (
+                          <a
+                            href={hack.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group/btn flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                          >
+                            <Github className="w-4 h-4 transition-transform group-hover/btn:scale-110" />
+                            GitHub
+                          </a>
+                        )}
+                        {hack.link && hack.link !== "#" && (
+                          <a
+                            href={hack.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group/btn flex items-center gap-2 px-8 py-3 rounded-2xl bg-cyan-400 text-black text-xs font-black uppercase tracking-widest hover:bg-cyan-300 transition-all duration-300 shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)]"
+                          >
+                            Live Demo
+                            <ExternalLink className="w-4 h-4 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

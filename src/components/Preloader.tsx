@@ -44,50 +44,51 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
       opacity: 1,
       scale: 1,
       rotationX: 0,
-      duration: 1.2,
-      stagger: 0.1,
+      duration: 0.8,
+      stagger: 0.05,
       ease: "expo.out",
-    }, 0.2);
+    }, 0.1);
 
     // 2. Animate progress bar simulating load
     tl.to('.progress-bar', {
       scaleX: 1,
-      duration: 2.5,
+      duration: 1.5,
       ease: "power2.inOut",
       onUpdate: function() {
         setProgress(Math.round(this.progress() * 100));
       }
-    }, 0.5);
+    }, 0.3);
 
     // 3. Reveal role subtitle
     tl.to('.role-text', {
       opacity: 1,
       y: 0,
-      duration: 1,
+      duration: 0.6,
       ease: "power3.out"
-    }, 1.2);
+    }, 0.8);
 
     // 4. Cinematic Exit: Scale up the text massively before clipping out
     tl.to(chars, {
       scale: 3,
       opacity: 0,
       filter: 'blur(20px)',
-      duration: 1,
-      stagger: 0.05,
+      duration: 0.8,
+      stagger: 0.03,
       ease: "power3.in"
-    }, 3.5);
+    }, 2.0);
 
     tl.to(['.progress-bar-container', '.role-text', '.percent-text'], {
       opacity: 0,
       y: -20,
-      duration: 0.6,
+      duration: 0.5,
       ease: "power2.in"
-    }, 3.5);
+    }, 2.0);
 
     return () => { tl.kill(); };
   }, [onComplete]);
 
   const name = "PARTH";
+  const subtitle = "VALAR MORGHULIS";
 
   return (
     <div ref={containerRef} className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#030303] overflow-hidden" style={{ perspective: "1000px" }}>
@@ -96,19 +97,32 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none mix-blend-screen" />
 
       {/* Main typography */}
-      <div className="relative z-10 flex overflow-hidden mb-6 py-4">
+      <div className="relative z-10 flex overflow-hidden mb-2 py-2 flex-wrap justify-center">
         {name.split("").map((char, index) => (
           <span 
             key={index} 
             className="char text-6xl md:text-8xl lg:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50"
-            style={{ fontFamily: "'Cinzel', serif" }}
+            style={{ fontFamily: "'Cinzel', serif", minWidth: char === " " ? "1rem" : "auto" }}
           >
-            {char}
+            {char === " " ? "\u00A0" : char}
           </span>
         ))}
       </div>
 
-      <div className="role-text text-cyan-400/80 font-mono text-sm tracking-[0.4em] uppercase mb-12 relative z-10">
+      {/* Valar Morghulis Subtitle */}
+      <div className="relative z-10 flex overflow-hidden mb-8 py-2 flex-wrap justify-center opacity-80">
+        {subtitle.split("").map((char, index) => (
+          <span 
+            key={`sub-${index}`} 
+            className="char text-xl md:text-2xl lg:text-3xl font-bold text-cyan-400 tracking-[0.3em] md:tracking-[0.5em]"
+            style={{ fontFamily: "'Cinzel', serif", minWidth: char === " " ? "0.5rem" : "auto" }}
+          >
+            {char === " " ? "\u00A0" : char}
+          </span>
+        ))}
+      </div>
+
+      <div className="role-text text-white/40 font-mono text-xs tracking-[0.4em] uppercase mb-12 relative z-10">
         Digital Experience
       </div>
 
