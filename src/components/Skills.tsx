@@ -1,257 +1,312 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Code2, Server, Database, Settings } from "lucide-react";
-import CircuitBoard from "./animations/CircuitBoard";
+import { Code2, Server, Database, Settings, ArrowRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const skillCategories = [
+const DEVICON = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/";
+
+const skillsData = [
+  { name: "React.js", logo: "react/react-original.svg", color: "rgba(97, 218, 251, 1)", glow: "shadow-[0_0_20px_rgba(97,218,251,0.5)]" },
+  { name: "Next.js", logo: "nextjs/nextjs-original.svg", color: "rgba(255, 255, 255, 1)", glow: "shadow-[0_0_20px_rgba(255,255,255,0.4)]" },
+  { name: "TypeScript", logo: "typescript/typescript-original.svg", color: "rgba(49, 120, 198, 1)", glow: "shadow-[0_0_20px_rgba(49,120,198,0.5)]" },
+  { name: "JavaScript", logo: "javascript/javascript-original.svg", color: "rgba(247, 223, 30, 1)", glow: "shadow-[0_0_20px_rgba(247,223,30,0.5)]" },
+  { name: "Tailwind CSS", logo: "tailwindcss/tailwindcss-original.svg", color: "rgba(6, 182, 212, 1)", glow: "shadow-[0_0_20px_rgba(6,182,212,0.5)]" },
+  { name: "Node.js", logo: "nodejs/nodejs-original.svg", color: "rgba(51, 153, 51, 1)", glow: "shadow-[0_0_20px_rgba(51,153,51,0.5)]" },
+  { name: "Express.js", logo: "express/express-original.svg", color: "rgba(255, 255, 255, 1)", glow: "shadow-[0_0_20px_rgba(255,255,255,0.4)]" },
+  { name: "MongoDB", logo: "mongodb/mongodb-original.svg", color: "rgba(71, 162, 72, 1)", glow: "shadow-[0_0_20px_rgba(71,162,72,0.5)]" },
+  { name: "PostgreSQL", logo: "postgresql/postgresql-original.svg", color: "rgba(51, 103, 145, 1)", glow: "shadow-[0_0_20px_rgba(51,103,145,0.5)]" },
+  { name: "Python", logo: "python/python-original.svg", color: "rgba(55, 118, 171, 1)", glow: "shadow-[0_0_20px_rgba(55,118,171,0.5)]" },
+  { name: "AWS", logo: "amazonwebservices/amazonwebservices-original-wordmark.svg", color: "rgba(255, 153, 0, 1)", glow: "shadow-[0_0_20px_rgba(255,153,0,0.5)]" },
+  { name: "Docker", logo: "docker/docker-original.svg", color: "rgba(36, 150, 237, 1)", glow: "shadow-[0_0_20px_rgba(36,150,237,0.5)]" },
+  { name: "Git", logo: "git/git-original.svg", color: "rgba(240, 80, 50, 1)", glow: "shadow-[0_0_20px_rgba(240,80,50,0.5)]" },
+  { name: "Firebase", logo: "firebase/firebase-plain.svg", color: "rgba(255, 202, 40, 1)", glow: "shadow-[0_0_20px_rgba(255,202,40,0.5)]" },
+  { name: "Redis", logo: "redis/redis-original.svg", color: "rgba(220, 56, 45, 1)", glow: "shadow-[0_0_20px_rgba(220,56,45,0.5)]" },
+  { name: "GraphQL", logo: "graphql/graphql-plain.svg", color: "rgba(225, 0, 152, 1)", glow: "shadow-[0_0_20px_rgba(225,0,152,0.5)]" },
+  { name: "Redux", logo: "redux/redux-original.svg", color: "rgba(118, 74, 188, 1)", glow: "shadow-[0_0_20px_rgba(118,74,188,0.5)]" },
+  { name: "Supabase", logo: "supabase/supabase-original.svg", color: "rgba(63, 207, 142, 1)", glow: "shadow-[0_0_20px_rgba(63,207,142,0.5)]" },
+];
+
+const categoryCards = [
   {
-    id: "frontend",
     title: "Frontend Engineering",
     icon: Code2,
-    description: "Building responsive, accessible, and high-performance user interfaces with modern web standards.",
-    color: "from-cyan-500/20 to-blue-500/5",
+    description: "Architecting pixel-perfect, highly responsive user interfaces with modern web ecosystems.",
     accent: "text-cyan-400",
+    bgAccent: "bg-cyan-500/10",
+    borderAccent: "group-hover:border-cyan-500/50",
+    shadowAccent: "group-hover:shadow-[0_0_30px_rgba(34,211,238,0.15)]",
     skills: [
-      { name: "React.js", level: 95, logo: "react/react-original.svg" },
-      { name: "Next.js", level: 85, logo: "nextjs/nextjs-original.svg" },
-      { name: "TypeScript", level: 90, logo: "typescript/typescript-original.svg" },
-      { name: "JavaScript", level: 95, logo: "javascript/javascript-original.svg" },
-      { name: "Tailwind CSS", level: 95, logo: "tailwindcss/tailwindcss-original.svg" },
-      { name: "Redux", level: 80, logo: "redux/redux-original.svg" },
-      { name: "GSAP", level: 75, logo: "javascript/javascript-original.svg" }, // devicon doesn't have gsap yet
-      { name: "HTML5/CSS3", level: 98, logo: "html5/html5-original.svg" }
+      { name: "React", logo: "react/react-original.svg" },
+      { name: "Next.js", logo: "nextjs/nextjs-original.svg" },
+      { name: "TypeScript", logo: "typescript/typescript-original.svg" },
+      { name: "JavaScript", logo: "javascript/javascript-original.svg" },
+      { name: "Tailwind", logo: "tailwindcss/tailwindcss-original.svg" },
+      { name: "Redux", logo: "redux/redux-original.svg" },
     ]
   },
   {
-    id: "backend",
     title: "Backend Architecture",
     icon: Server,
-    description: "Designing scalable microservices, robust REST APIs, and real-time socket connections.",
-    color: "from-emerald-500/20 to-green-500/5",
-    accent: "text-emerald-400",
+    description: "Designing scalable microservices, robust RESTful APIs, and real-time socket communication.",
+    accent: "text-amber-400",
+    bgAccent: "bg-amber-500/10",
+    borderAccent: "group-hover:border-amber-500/50",
+    shadowAccent: "group-hover:shadow-[0_0_30px_rgba(251,191,36,0.15)]",
     skills: [
-      { name: "Node.js", level: 88, logo: "nodejs/nodejs-original.svg" },
-      { name: "Express.js", level: 85, logo: "express/express-original.svg" },
-      { name: "Python", level: 80, logo: "python/python-original.svg" },
-      { name: "Django", level: 70, logo: "django/django-plain.svg" },
-      { name: "GraphQL", level: 75, logo: "graphql/graphql-plain.svg" },
-      { name: "REST APIs", level: 95, logo: "nodejs/nodejs-original.svg" },
-      { name: "Socket.io", level: 82, logo: "socketio/socketio-original.svg" },
-      { name: "C++", level: 65, logo: "cplusplus/cplusplus-original.svg" }
+      { name: "Node.js", logo: "nodejs/nodejs-original.svg" },
+      { name: "Express", logo: "express/express-original.svg" },
+      { name: "Python", logo: "python/python-original.svg" },
+      { name: "GraphQL", logo: "graphql/graphql-plain.svg" },
+      { name: "C++", logo: "cplusplus/cplusplus-original.svg" },
+      { name: "Socket.io", logo: "socketio/socketio-original.svg" },
     ]
   },
   {
-    id: "database",
     title: "Database & Cloud",
     icon: Database,
     description: "Managing data persistence with structured relational databases and flexible NoSQL solutions.",
-    color: "from-purple-500/20 to-fuchsia-500/5",
-    accent: "text-purple-400",
+    accent: "text-emerald-400",
+    bgAccent: "bg-emerald-500/10",
+    borderAccent: "group-hover:border-emerald-500/50",
+    shadowAccent: "group-hover:shadow-[0_0_30px_rgba(52,211,153,0.15)]",
     skills: [
-      { name: "MongoDB", level: 90, logo: "mongodb/mongodb-original.svg" },
-      { name: "PostgreSQL", level: 80, logo: "postgresql/postgresql-original.svg" },
-      { name: "MySQL", level: 85, logo: "mysql/mysql-original.svg" },
-      { name: "Redis", level: 70, logo: "redis/redis-original.svg" },
-      { name: "Firebase", level: 88, logo: "firebase/firebase-plain.svg" },
-      { name: "Supabase", level: 75, logo: "supabase/supabase-original.svg" },
-      { name: "AWS S3/EC2", level: 65, logo: "amazonwebservices/amazonwebservices-original-wordmark.svg" },
-      { name: "Vercel", level: 90, logo: "vercel/vercel-original.svg" }
+      { name: "MongoDB", logo: "mongodb/mongodb-original.svg" },
+      { name: "PostgreSQL", logo: "postgresql/postgresql-original.svg" },
+      { name: "Firebase", logo: "firebase/firebase-plain.svg" },
+      { name: "AWS", logo: "amazonwebservices/amazonwebservices-original-wordmark.svg" },
+      { name: "Supabase", logo: "supabase/supabase-original.svg" },
+      { name: "Redis", logo: "redis/redis-original.svg" },
     ]
   },
   {
-    id: "devops",
-    title: "DevOps & Tools",
+    title: "DevOps & Tooling",
     icon: Settings,
     description: "Streamlining deployment pipelines, containerizing applications, and maintaining system health.",
-    color: "from-orange-500/20 to-red-500/5",
-    accent: "text-orange-400",
+    accent: "text-violet-400",
+    bgAccent: "bg-violet-500/10",
+    borderAccent: "group-hover:border-violet-500/50",
+    shadowAccent: "group-hover:shadow-[0_0_30px_rgba(139,92,246,0.15)]",
     skills: [
-      { name: "Git", level: 92, logo: "git/git-original.svg" },
-      { name: "GitHub/Actions", level: 88, logo: "github/github-original.svg" },
-      { name: "Docker", level: 75, logo: "docker/docker-original.svg" },
-      { name: "Linux", level: 85, logo: "linux/linux-original.svg" },
-      { name: "Nginx", level: 70, logo: "nginx/nginx-original.svg" },
-      { name: "Postman", level: 90, logo: "postman/postman-original.svg" },
-      { name: "Jest", level: 65, logo: "jest/jest-plain.svg" },
-      { name: "VS Code", level: 95, logo: "vscode/vscode-original.svg" }
+      { name: "Git", logo: "git/git-original.svg" },
+      { name: "Docker", logo: "docker/docker-original.svg" },
+      { name: "Linux", logo: "linux/linux-original.svg" },
+      { name: "Jest", logo: "jest/jest-plain.svg" },
+      { name: "GitHub", logo: "github/github-original.svg" },
+      { name: "Figma", logo: "figma/figma-original.svg" },
     ]
   }
 ];
 
-const Skills = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+const row1 = [...skillsData].sort(() => Math.random() - 0.5);
+const row2 = [...skillsData].sort(() => Math.random() - 0.5);
+
+/* ─────────────────────────────────────────────────────────────────
+   Magnetic 3D Tilt Card Component
+───────────────────────────────────────────────────────────────── */
+const Magnetic3DCard = ({ cat }: { cat: any }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  
+  const xTo = useRef<gsap.QuickToFunc>();
+  const yTo = useRef<gsap.QuickToFunc>();
+  const xMoveTo = useRef<gsap.QuickToFunc>();
+  const yMoveTo = useRef<gsap.QuickToFunc>();
 
   useGSAP(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-      gsap.set(['.reveal', '.skill-panel'], { opacity: 1 });
-      return;
-    }
+    if (!cardRef.current || !contentRef.current) return;
+    
+    // QuickTo for 3D Tilt
+    xTo.current = gsap.quickTo(cardRef.current, "rotateY", { duration: 0.5, ease: "power3.out" });
+    yTo.current = gsap.quickTo(cardRef.current, "rotateX", { duration: 0.5, ease: "power3.out" });
+    
+    // QuickTo for Parallax content move
+    xMoveTo.current = gsap.quickTo(contentRef.current, "x", { duration: 0.5, ease: "power3.out" });
+    yMoveTo.current = gsap.quickTo(contentRef.current, "y", { duration: 0.5, ease: "power3.out" });
 
-    // Header reveal
-    gsap.fromTo('.reveal', 
-      { opacity: 0, y: 30 }, 
-      { 
-        opacity: 1, y: 0, stagger: 0.1, duration: 0.8, ease: 'power3.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' }
-      }
-    );
+    // Ensure perspective is set
+    gsap.set(cardRef.current, { transformPerspective: 1000, transformStyle: "preserve-3d" });
+    gsap.set(contentRef.current, { transformStyle: "preserve-3d", transform: "translateZ(40px)" });
+  }, { scope: cardRef });
 
-    let mm = gsap.matchMedia(sectionRef);
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    
+    // Max rotation 12 degrees
+    if (xTo.current) xTo.current(x * 24); 
+    if (yTo.current) yTo.current(-y * 24);
+    
+    // Max parallax move 10px
+    if (xMoveTo.current) xMoveTo.current(x * 20);
+    if (yMoveTo.current) yMoveTo.current(y * 20);
+  };
 
-    // Desktop: Horizontal Pinning
-    mm.add("(min-width: 768px)", () => {
-      const container = scrollContainerRef.current;
-      if (container) {
-        const getScrollAmount = () => container.scrollWidth - window.innerWidth;
+  const handleMouseLeave = () => {
+    if (xTo.current) xTo.current(0);
+    if (yTo.current) yTo.current(0);
+    if (xMoveTo.current) xMoveTo.current(0);
+    if (yMoveTo.current) yMoveTo.current(0);
+    
+    // Reset scale if needed
+    gsap.to(cardRef.current, { scale: 1, duration: 0.5, ease: "power3.out" });
+  };
 
-        const tween = gsap.to(container, {
-          x: () => -getScrollAmount(),
-          ease: "none",
-          scrollTrigger: {
-            trigger: container,
-            start: "center center",
-            end: () => `+=${getScrollAmount()}`,
-            pin: true,
-            scrub: 1,
-            invalidateOnRefresh: true,
-          }
-        });
-        
-        // Animate progress bars as panels come into view
-        const panels = gsap.utils.toArray('.skill-panel') as HTMLElement[];
-        panels.forEach((panel) => {
-          const bars = panel.querySelectorAll('.progress-fill');
-          gsap.from(bars, {
-            width: 0,
-            duration: 1.5,
-            ease: "power3.out",
-            stagger: 0.1,
-            scrollTrigger: {
-              containerAnimation: tween,
-              trigger: panel,
-              start: "left center+=200", 
-              toggleActions: "play none none reverse",
-            }
-          });
-        });
-      }
-    });
-
-    // Mobile: Vertical Stacking
-    mm.add("(max-width: 767px)", () => {
-      const panels = gsap.utils.toArray('.skill-panel') as HTMLElement[];
-      panels.forEach((panel) => {
-        gsap.fromTo(panel,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1, y: 0, duration: 0.8, ease: "power3.out",
-            scrollTrigger: {
-              trigger: panel,
-              start: "top 85%",
-              toggleActions: "play none none reverse"
-            }
-          }
-        );
-        const bars = panel.querySelectorAll('.progress-fill');
-        gsap.from(bars, {
-          width: 0,
-          duration: 1.5,
-          ease: "power3.out",
-          stagger: 0.1,
-          scrollTrigger: {
-            trigger: panel,
-            start: "top 80%", 
-            toggleActions: "play none none reverse",
-          }
-        });
-      });
-    });
-
-  }, { scope: sectionRef });
+  const handleMouseEnter = () => {
+    gsap.to(cardRef.current, { scale: 1.02, duration: 0.5, ease: "power3.out" });
+  };
 
   return (
-    <section id="skills" className="py-28 relative overflow-hidden bg-[#050505]" ref={sectionRef}>
-      <CircuitBoard />
-      <div className="container mx-auto px-6 mb-12 relative z-10">
-        <div className="max-w-3xl">
-          <p className="reveal opacity-0 text-cyan-400 font-mono text-sm tracking-widest uppercase mb-3 text-shadow-[0_0_10px_rgba(34,211,238,0.5)]">Technical Arsenal</p>
-          <h2 className="reveal opacity-0 text-4xl md:text-6xl font-bold text-white tracking-tight mb-6" style={{ fontFamily: "'Cinzel', serif" }}>
-            Full Stack <span className="text-white/40 font-light">Ecosystem</span>
-          </h2>
-          <p className="reveal opacity-0 text-white/60 text-lg leading-relaxed max-w-2xl">
-            A comprehensive overview of my technical capabilities. From pixel-perfect frontends to robust database architectures and deployment pipelines.
-          </p>
+    <div 
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
+      className={`skill-category-card relative group bg-[#0A0A0A]/80 backdrop-blur-md border border-white/10 rounded-2xl p-8 flex flex-col transition-colors duration-500 ${cat.borderAccent} ${cat.shadowAccent} z-10 hover:z-20`}
+    >
+      <div ref={contentRef} className="flex flex-col h-full pointer-events-none">
+        <div className="flex items-center gap-4 mb-5">
+          <div className={`w-12 h-12 rounded-xl ${cat.bgAccent} border border-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-500`}>
+            <cat.icon className={`w-6 h-6 ${cat.accent}`} />
+          </div>
+          <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight">{cat.title}</h3>
+        </div>
+        
+        <p className="text-white/60 text-sm md:text-base leading-relaxed mb-6">
+          {cat.description}
+        </p>
+
+        {/* Miniature Skill Logos & Names */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-auto mb-6">
+          {cat.skills.map((skill: any, idx: number) => (
+            <div key={idx} className="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-lg px-2.5 py-2 group-hover:bg-white/[0.06] transition-colors duration-300">
+              <img src={`${DEVICON}${skill.logo}`} alt={skill.name} className="w-3.5 h-3.5 object-contain filter drop-shadow-sm" loading="lazy" />
+              <span className="text-[10px] md:text-[11px] font-bold text-white/70 uppercase tracking-widest truncate">{skill.name}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-2 opacity-50 group-hover:opacity-100 transition-opacity duration-500">
+          <span className={`text-sm font-bold uppercase tracking-widest ${cat.accent}`}>Advanced Systems</span>
+          <ArrowRight className={`w-4 h-4 ${cat.accent} transform group-hover:translate-x-1 transition-transform duration-300`} />
         </div>
       </div>
+    </div>
+  );
+};
 
-      <div ref={scrollContainerRef} className="flex flex-col md:flex-row gap-8 px-6 pb-20 w-full md:w-max items-start pt-10">
-        {skillCategories.map((category) => (
+/* ─────────────────────────────────────────────────────────────────
+   Marquee Component
+───────────────────────────────────────────────────────────────── */
+const MarqueeRow = ({ items, reverse = false, speed = 80 }: { items: any[], reverse?: boolean, speed?: number }) => {
+  return (
+    <div className="flex overflow-hidden relative w-full mask-edges py-2 md:py-3">
+      <div 
+        className={`flex gap-4 md:gap-5 whitespace-nowrap w-max ${reverse ? 'animate-marquee-reverse' : 'animate-marquee'}`}
+        style={{ "--duration": `${speed}s` } as React.CSSProperties}
+      >
+        {[...items, ...items, ...items, ...items].map((skill, i) => (
           <div 
-            key={category.id} 
-            className="skill-panel w-full md:w-[600px] lg:w-[800px] flex-shrink-0 opacity-100 bg-[#0a0a0a] border border-white/5 rounded-[2rem] overflow-hidden group hover:border-white/10 transition-colors duration-500 relative"
+            key={`${skill.name}-${i}`} 
+            className={`flex items-center gap-3 px-5 py-3 md:px-6 md:py-3.5 rounded-xl bg-[#080808] border border-white/10 hover:border-white/30 transition-all duration-300 group shrink-0 hover:${skill.glow} hover:-translate-y-1`}
           >
-            {/* Background Gradient Detail */}
-            <div className={`absolute top-0 right-0 w-full h-[500px] bg-gradient-to-br ${category.color} rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 opacity-50 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
-
-            <div className="grid lg:grid-cols-5 h-full relative z-10 p-8 md:p-12 gap-12">
-              
-              {/* Category Info (Left Column) */}
-              <div className="lg:col-span-2 flex flex-col justify-between">
-                <div>
-                  <div className={`w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 shadow-xl`}>
-                    <category.icon className={`w-6 h-6 ${category.accent}`} />
-                  </div>
-                  <h3 className="text-3xl font-bold text-white mb-4 tracking-tight">{category.title}</h3>
-                  <p className="text-white/50 text-sm leading-relaxed mb-8">
-                    {category.description}
-                  </p>
-                </div>
-                
-                <div className="hidden lg:block">
-                  <div className="h-[1px] w-12 bg-white/20 mb-4" />
-                  <p className="font-mono text-[10px] text-white/30 uppercase tracking-widest">{category.skills.length} Technologies</p>
-                </div>
-              </div>
-
-              {/* Skills Grid (Right Column) */}
-              <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                {category.skills.map((skill) => (
-                  <div key={skill.name} className="flex flex-col gap-2">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded bg-white/5 flex items-center justify-center p-1.5 border border-white/5 group-hover:border-white/20 transition-colors">
-                        <img 
-                          src={`https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${skill.logo}`} 
-                          alt={skill.name} 
-                          className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" 
-                          onError={(e) => { e.currentTarget.src = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" }}
-                        />
-                      </div>
-                      <div className="flex-1 flex justify-between items-center">
-                        <span className="text-white/80 font-medium text-sm">{skill.name}</span>
-                        <span className={`font-mono text-xs ${category.accent} opacity-80`}>{skill.level}%</span>
-                      </div>
-                    </div>
-                    {/* Progress Bar */}
-                    <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
-                      <div 
-                        className={`h-full bg-white/20 progress-fill rounded-full shadow-[0_0_10px_rgba(255,255,255,0.1)]`} 
-                        style={{ width: `${skill.level}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-
+            <div className="w-7 h-7 md:w-9 md:h-9 relative flex items-center justify-center">
+               <img src={`${DEVICON}${skill.logo}`} alt={skill.name} className="w-full h-full object-contain filter drop-shadow-md group-hover:scale-110 transition-transform duration-300" loading="lazy" />
+               <div className="absolute inset-0 blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-300 z-[-1]" style={{ backgroundColor: skill.color }} />
             </div>
+            <span className="text-white/80 font-bold text-sm md:text-base group-hover:text-white transition-colors duration-300 tracking-wide">
+              {skill.name}
+            </span>
           </div>
         ))}
       </div>
+    </div>
+  );
+};
+
+/* ─────────────────────────────────────────────────────────────────
+   Main Skills Section
+───────────────────────────────────────────────────────────────── */
+const Skills = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useGSAP(() => {
+    const preferReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if(preferReducedMotion) return;
+
+    // 3D Staggered Reveal
+    gsap.fromTo('.skill-category-card', 
+      { opacity: 0, y: 80, rotateX: 15, scale: 0.9 },
+      {
+        opacity: 1, y: 0, rotateX: 0, scale: 1,
+        stagger: 0.2,
+        duration: 1,
+        ease: "back.out(1.5)",
+        scrollTrigger: {
+          trigger: '.skill-categories-grid',
+          start: 'top 85%',
+        }
+      }
+    );
+  }, { scope: sectionRef });
+
+  return (
+    <section id="skills" className="py-20 md:py-28 bg-[#020202] relative overflow-hidden border-y border-white/5" ref={sectionRef}>
+      <style dangerouslySetInnerHTML={{__html: `
+        .mask-edges {
+          mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+          -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        }
+        .animate-marquee {
+          animation: marquee var(--duration) linear infinite;
+        }
+        .animate-marquee-reverse {
+          animation: marquee-reverse var(--duration) linear infinite;
+        }
+        @keyframes marquee {
+          0% { transform: translateX(0%); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes marquee-reverse {
+          0% { transform: translateX(-50%); }
+          100% { transform: translateX(0%); }
+        }
+      `}} />
+      
+      {/* Deep subtle background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[50vh] bg-indigo-900/10 blur-[150px] rounded-full pointer-events-none z-0" />
+      
+      <div className="container mx-auto px-6 mb-16 text-center z-10 relative">
+         <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter" style={{ fontFamily: "'Cinzel', serif" }}>
+           Skill <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-500">Arsenal</span>
+         </h2>
+         <p className="text-white/50 text-base md:text-lg max-w-2xl mx-auto mt-4 font-light">
+           My core technical stack and areas of architectural expertise.
+         </p>
+      </div>
+      
+      {/* 4 Category Detailed 3D Cards */}
+      <div className="container mx-auto px-6 mb-24 relative z-10 perspective-1000">
+        <div className="skill-categories-grid grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {categoryCards.map((cat, i) => (
+            <Magnetic3DCard key={i} cat={cat} />
+          ))}
+        </div>
+      </div>
+
+      {/* Infinite Marquee Toolset */}
+      <div className="flex flex-col gap-4 relative z-10 w-[100vw] max-w-[100vw] -ml-[50vw] left-[50%] mt-8">
+        <div className="container mx-auto px-6 mb-2 text-center">
+          <p className="text-white/40 font-mono text-xs md:text-sm tracking-[0.3em] uppercase">Core Technologies Ecosystem</p>
+        </div>
+        <MarqueeRow items={row1} speed={70} />
+        <MarqueeRow items={row2} reverse={true} speed={80} />
+      </div>
+
     </section>
   );
 };

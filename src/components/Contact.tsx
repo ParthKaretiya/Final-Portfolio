@@ -109,114 +109,134 @@ const Contact = () => {
   }, { scope: sectionRef });
 
   return (
-    <section id="contact" className="py-28 relative overflow-hidden" ref={sectionRef}>
-      <SonarRipples />
-      {/* Cinematic Ambient Background Orb */}
-      <div className="absolute bottom-0 left-1/2 w-[800px] h-[500px] bg-primary/10 rounded-full blur-[150px] -translate-x-1/2 translate-y-1/2 pointer-events-none animate-pulse" style={{ animationDuration: '5s' }} />
+    <section id="contact" className="py-28 relative overflow-hidden bg-[#050505]" ref={sectionRef}>
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-cyan-500/5 blur-[120px] rounded-full translate-x-1/2 translate-y-1/2" />
+      </div>
 
-      <div className="container mx-auto px-6">
-        <div className="mb-16">
-          <p className="reveal opacity-0 text-primary font-mono text-sm tracking-widest uppercase mb-3">Contact</p>
-          <h2 className="reveal opacity-0 text-4xl md:text-5xl font-bold text-foreground tracking-tight mb-4">Let's Connect</h2>
-          <p className="reveal opacity-0 text-muted-foreground max-w-xl">Have a project in mind or want to collaborate? Drop me a message.</p>
-        </div>
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          
+          {/* Left Column: Info */}
+          <div className="reveal-left">
+            <p className="text-cyan-400 font-mono text-sm tracking-widest uppercase mb-3">Get in Touch</p>
+            <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight mb-6" style={{ fontFamily: "'Cinzel', serif" }}>
+              Let's <span className="text-white/40 font-light">Connect</span>
+            </h2>
+            <p className="text-white/60 text-sm md:text-base leading-relaxed max-w-md mb-10">
+              Have a project in mind or just want to say hello? I'm always open to new opportunities and collaborations.
+            </p>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-5xl">
-          {/* Info */}
-          <div className="reveal-left opacity-0">
-            <div className="space-y-5 mb-8">
-              <div className="flex items-center gap-4 group">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:scale-105 transition-all duration-300">
-                  <Mail className="w-5 h-5 text-primary group-hover:text-primary-foreground transition-colors" />
+            <div className="space-y-8">
+              <div className="flex items-center gap-6 group">
+                <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-cyan-400 group-hover:border-cyan-400 transition-all duration-500">
+                  <Mail className="w-6 h-6 text-cyan-400 group-hover:text-black transition-colors" />
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground font-mono uppercase tracking-wider">Email</p>
-                  <a href="mailto:parthkaretiya@gmail.com" className="text-foreground hover:text-primary transition-colors text-sm">parthkaretiya@gmail.com</a>
+                  <p className="text-white/40 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1">Email Me</p>
+                  <a href="mailto:parthkaretiya0@gmail.com" className="text-base md:text-lg font-bold text-white hover:text-cyan-400 transition-colors">parthkaretiya0@gmail.com</a>
                 </div>
               </div>
-              <div className="flex items-center gap-4 group">
-                <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent group-hover:scale-105 transition-all duration-300">
-                  <MapPin className="w-5 h-5 text-accent group-hover:text-accent-foreground transition-colors" />
+
+              <div className="flex items-center gap-6 group">
+                <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-purple-400 group-hover:border-purple-400 transition-all duration-500">
+                  <MapPin className="w-6 h-6 text-purple-400 group-hover:text-black transition-colors" />
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground font-mono uppercase tracking-wider">Location</p>
-                  <p className="text-foreground text-sm">Gujarat, India</p>
+                  <p className="text-white/40 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1">Location</p>
+                  <p className="text-base md:text-lg font-bold text-white">Gujarat, India</p>
                 </div>
               </div>
             </div>
 
-            <h4 className="text-sm font-semibold text-foreground mb-3 tracking-wider">Socials</h4>
-            <div className="reveal-left opacity-0 flex gap-2">
-              {socialLinks.map((social) => (
-                <a key={social.name} href={social.url} target="_blank" rel="noopener noreferrer" className="social-icon-link w-10 h-10 surface-card rounded-lg flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/20 transition-all duration-300" aria-label={social.name}>
-                  <social.icon />
-                </a>
-              ))}
+            <div className="mt-16 pt-8 border-t border-white/5">
+              <p className="text-white/40 text-xs font-bold uppercase tracking-widest mb-6">Social Profiles</p>
+              <div className="flex flex-wrap gap-4">
+                {socialLinks.map((link) => (
+                  <a 
+                    key={link.name}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/5 transition-all duration-300 group"
+                    title={link.name}
+                  >
+                    <link.icon className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Form */}
-          <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
-            <input type="hidden" name="to_name" value="Parth" />
-            <div className="reveal-right opacity-0 relative">
-              <label htmlFor="name" className={`absolute left-0 transition-all duration-300 text-sm ${focusedField === "name" || formData.name ? "top-0 text-xs text-primary font-mono tracking-wider uppercase" : "top-4 text-muted-foreground"}`}>
-                Your Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="from_name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                onFocus={() => setFocusedField("name")}
-                onBlur={() => setFocusedField(null)}
-                className="w-full pt-6 pb-2 bg-transparent text-foreground border-b border-border focus:border-primary focus:outline-none transition-colors duration-300"
-                required
-              />
-            </div>
+          {/* Right Column: Form */}
+          <div className="reveal-right">
+            <div className="bg-white/[0.02] border border-white/10 rounded-[2.5rem] p-8 md:p-12 backdrop-blur-xl relative overflow-hidden group">
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-cyan-400/10 blur-3xl rounded-full" />
+              
+              <form ref={formRef} onSubmit={handleSubmit} className="relative z-10 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] md:text-xs font-bold text-white/40 uppercase tracking-widest ml-1">Your Name</label>
+                    <input 
+                      type="text" 
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-3 text-sm text-white placeholder:text-white/10 focus:outline-none focus:border-cyan-400/50 focus:bg-white/[0.08] transition-all"
+                      placeholder="John Doe"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] md:text-xs font-bold text-white/40 uppercase tracking-widest ml-1">Your Email</label>
+                    <input 
+                      type="email" 
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-3 text-sm text-white placeholder:text-white/10 focus:outline-none focus:border-cyan-400/50 focus:bg-white/[0.08] transition-all"
+                      placeholder="john@example.com"
+                    />
+                  </div>
+                </div>
 
-            <div className="reveal-right opacity-0 relative">
-              <label htmlFor="email" className={`absolute left-0 transition-all duration-300 text-sm ${focusedField === "email" || formData.email ? "top-0 text-xs text-primary font-mono tracking-wider uppercase" : "top-4 text-muted-foreground"}`}>
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="reply_to"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                onFocus={() => setFocusedField("email")}
-                onBlur={() => setFocusedField(null)}
-                className="w-full pt-6 pb-2 bg-transparent text-foreground border-b border-border focus:border-primary focus:outline-none transition-colors duration-300"
-                required
-              />
-            </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] md:text-xs font-bold text-white/40 uppercase tracking-widest ml-1">Message</label>
+                  <textarea 
+                    name="message"
+                    required
+                    rows={5}
+                    value={formData.message}
+                    onChange={(e) => setFormData({...formData, message: e.target.value})}
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-3 text-sm text-white placeholder:text-white/10 focus:outline-none focus:border-cyan-400/50 focus:bg-white/[0.08] transition-all resize-none"
+                    placeholder="Tell me about your project..."
+                  />
+                </div>
 
-            <div className="reveal-right opacity-0 relative">
-              <label htmlFor="message" className={`absolute left-0 transition-all duration-300 text-sm ${focusedField === "message" || formData.message ? "top-0 text-xs text-primary font-mono tracking-wider uppercase" : "top-4 text-muted-foreground"}`}>
-                Your Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows={4}
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                onFocus={() => setFocusedField("message")}
-                onBlur={() => setFocusedField(null)}
-                className="w-full pt-6 pb-2 bg-transparent text-foreground border-b border-border focus:border-primary focus:outline-none transition-colors duration-300 resize-none"
-                required
-              />
+                <button 
+                  type="submit"
+                  disabled={submitState === "loading"}
+                  className="w-full bg-cyan-400 hover:bg-cyan-300 disabled:bg-cyan-900/50 disabled:cursor-not-allowed text-black font-black uppercase tracking-[0.2em] py-5 rounded-2xl transition-all duration-300 shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] flex items-center justify-center gap-3 active:scale-95"
+                >
+                  {submitState === "loading" ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" /> Sending...
+                    </>
+                  ) : submitState === "success" ? (
+                    <>
+                      <CheckCircle className="w-5 h-5" /> Message Sent!
+                    </>
+                  ) : (
+                    <>
+                      Send Message <Send className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+              </form>
             </div>
+          </div>
 
-            <button type="submit" className="reveal-right opacity-0 w-full px-6 py-3.5 bg-primary text-primary-foreground font-semibold rounded-lg flex items-center justify-center gap-2 hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-300 disabled:opacity-60" disabled={submitState !== "idle"}>
-              {submitState === "loading" && <Loader2 className="w-4 h-4 animate-spin" />}
-              {submitState === "success" && <CheckCircle className="success-icon w-4 h-4" />}
-              {submitState === "error" && <AlertCircle className="w-4 h-4" />}
-              {submitState === "idle" && <Send className="w-4 h-4" />}
-              {submitState === "loading" ? "Sending..." : submitState === "success" ? "Message Sent!" : submitState === "error" ? "Failed to send" : "Send Message"}
-            </button>
-          </form>
         </div>
       </div>
     </section>

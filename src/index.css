@@ -1,8 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
   :root {
     --background: 0 0% 2%;
     --foreground: 0 0% 98%;
@@ -42,9 +48,10 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
-    font-family: 'Outfit', sans-serif;
+    @apply bg-[#050505] text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
     position: relative;
+    overflow-x: hidden;
   }
 
   body::before {
@@ -54,7 +61,7 @@
     z-index: 50;
     pointer-events: none;
     opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   }
 
   h1,
@@ -64,43 +71,138 @@
   h5,
   h6 {
     font-family: 'Cinzel', serif;
-    letter-spacing: 0.02em;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    @apply leading-relaxed;
+    letter-spacing: -0.01em;
   }
 
   ::selection {
-    background: hsl(0 0% 90% / 0.3);
-    color: hsl(0 0% 100%);
+    background: #22d3ee;
+    color: #000;
   }
 }
 
 @layer utilities {
-  .text-gradient {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(0 0% 100%), hsl(0 0% 60%));
+  .text-glow {
+    text-shadow: 0 0 10px currentColor;
   }
 
-  .text-gradient-silver {
+  .glow-cyan {
+    @apply shadow-[0_0_20px_rgba(34, 211, 238, 0.3)];
+  }
+
+  .glow-purple {
+    @apply shadow-[0_0_20px_rgba(168, 85, 247, 0.3)];
+  }
+
+  .glow-amber {
+    @apply shadow-[0_0_20px_rgba(251, 191, 36, 0.3)];
+  }
+
+  .text-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(0 0% 100%), hsl(0 0% 70%), hsl(0 0% 100%));
+    background-image: linear-gradient(to right, #fff, #a1a1aa);
   }
 
   .glass {
-    background: hsl(0 0% 4% / 0.7);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid hsl(0 0% 100% / 0.06);
+    @apply bg-white/[0.03] backdrop-blur-xl border border-white/10;
   }
 
-  .glass-card {
-    background: hsl(0 0% 100% / 0.03);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid hsl(0 0% 100% / 0.06);
+  .glass-dark {
+    @apply bg-black/40 backdrop-blur-xl border border-white/5;
   }
+}
 
+@layer components {
   .surface-card {
     background: hsl(0 0% 7%);
     border: 1px solid hsl(0 0% 100% / 0.06);
+  }
+
+  .card-accent-cyan {
+    background: linear-gradient(180deg, hsl(0 0% 7%), hsl(0 0% 5%));
+    border: 1px solid hsl(188 100% 55% / 0.2);
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.04), 0 0 0 1px hsl(188 100% 55% / 0.03);
+  }
+
+  .card-accent-emerald {
+    background: linear-gradient(180deg, hsl(0 0% 7%), hsl(0 0% 5%));
+    border: 1px solid hsl(160 84% 45% / 0.2);
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.04), 0 0 0 1px hsl(160 84% 45% / 0.03);
+  }
+
+  .card-accent-violet {
+    background: linear-gradient(180deg, hsl(0 0% 7%), hsl(0 0% 5%));
+    border: 1px solid hsl(272 92% 64% / 0.2);
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.04), 0 0 0 1px hsl(272 92% 64% / 0.03);
+  }
+
+  .card-accent-amber {
+    background: linear-gradient(180deg, hsl(0 0% 7%), hsl(0 0% 5%));
+    border: 1px solid hsl(38 95% 58% / 0.22);
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.04), 0 0 0 1px hsl(38 95% 58% / 0.04);
+  }
+
+  .card-accent-rose {
+    background: linear-gradient(180deg, hsl(0 0% 7%), hsl(0 0% 5%));
+    border: 1px solid hsl(345 82% 60% / 0.22);
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.04), 0 0 0 1px hsl(345 82% 60% / 0.04);
+  }
+
+  .card-accent-sky {
+    background: linear-gradient(180deg, hsl(0 0% 7%), hsl(0 0% 5%));
+    border: 1px solid hsl(199 95% 55% / 0.2);
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.04), 0 0 0 1px hsl(199 95% 55% / 0.03);
+  }
+
+  .accent-line-cyan,
+  .accent-line-emerald,
+  .accent-line-violet,
+  .accent-line-amber,
+  .accent-line-rose,
+  .accent-line-sky {
+    position: relative;
+  }
+
+  .accent-line-cyan::before,
+  .accent-line-emerald::before,
+  .accent-line-violet::before,
+  .accent-line-amber::before,
+  .accent-line-rose::before,
+  .accent-line-sky::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 24px;
+    right: 24px;
+    height: 1px;
+  }
+
+  .accent-line-cyan::before {
+    background: linear-gradient(90deg, transparent, hsl(188 100% 55% / 0.9), transparent);
+  }
+
+  .accent-line-emerald::before {
+    background: linear-gradient(90deg, transparent, hsl(160 84% 45% / 0.9), transparent);
+  }
+
+  .accent-line-violet::before {
+    background: linear-gradient(90deg, transparent, hsl(272 92% 64% / 0.9), transparent);
+  }
+
+  .accent-line-amber::before {
+    background: linear-gradient(90deg, transparent, hsl(38 95% 58% / 0.95), transparent);
+  }
+
+  .accent-line-rose::before {
+    background: linear-gradient(90deg, transparent, hsl(345 82% 60% / 0.95), transparent);
+  }
+
+  .accent-line-sky::before {
+    background: linear-gradient(90deg, transparent, hsl(199 95% 55% / 0.95), transparent);
   }
 
   @keyframes shimmer {
@@ -187,7 +289,7 @@
   }
 }
 
-/* Custom cursor */
+/* Custom cursor — GPU accelerated */
 .custom-cursor {
   position: fixed;
   width: 20px;
@@ -197,9 +299,9 @@
   pointer-events: none;
   z-index: 9999;
   mix-blend-mode: difference;
-  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-    height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-    background 0.3s ease;
+  will-change: transform;
+  transform: translate3d(-100px, -100px, 0);
+  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
 }
 
 .custom-cursor.hovering {
@@ -217,6 +319,8 @@
   background: hsl(0 0% 100%);
   pointer-events: none;
   z-index: 9999;
+  will-change: transform;
+  transform: translate3d(-100px, -100px, 0);
 }
 
 /* Preloader */
@@ -269,10 +373,20 @@
 }
 
 /* Prevent horizontal overflow on mobile globally */
-html,
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
 body {
   overflow-x: hidden;
   max-width: 100vw;
+}
+
+/* Section containment for paint performance */
+section {
+  contain: layout style;
 }
 
 /* Touch scrolling optimization */

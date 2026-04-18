@@ -5,11 +5,10 @@ import gsap from "gsap";
 import { Link, useLocation } from "react-router-dom";
 
 const navLinks = [
-  { name: "About", href: "/about-parth-karetiya" },
+  { name: "Home", href: "/#home" },
   { name: "Skills", href: "/#skills" },
   { name: "Projects", href: "/#projects" },
-  { name: "Experience", href: "/#experience" },
-  { name: "Certificates", href: "/#certificates" },
+  { name: "Hackathons", href: "/#hackathons" },
   { name: "Contact", href: "/#contact" },
 ];
 
@@ -24,12 +23,16 @@ const Navbar = () => {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-      const sections = navLinks.map((l) => l.href.substring(1));
+      const sections = navLinks.map((l) => {
+        const href = l.href;
+        return href.includes('#') ? href.split('#')[1] : null;
+      }).filter(Boolean) as string[];
+
       const current = sections.find((s) => {
         const el = document.getElementById(s);
         if (el) {
           const r = el.getBoundingClientRect();
-          return r.top <= 120 && r.bottom >= 120;
+          return r.top <= 150 && r.bottom >= 150;
         }
         return false;
       });
@@ -97,30 +100,47 @@ const Navbar = () => {
   };
 
   return (
-    <header ref={navRef} className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${isScrolled ? "bg-black/80 backdrop-blur-md border-b border-white/5" : "bg-transparent"}`}>
-      <nav className="nav-wrapper container mx-auto px-6 py-4 flex items-center justify-between opacity-0">
+    <header 
+      ref={navRef} 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled 
+          ? "bg-black/40 backdrop-blur-xl border-b border-white/10 py-3" 
+          : "bg-transparent py-5"
+      }`}
+    >
+      <nav className="nav-wrapper container mx-auto px-6 flex items-center justify-between opacity-0">
         
         {/* Logo */}
         <Link to="/" className="nav-link relative group flex items-center gap-0.5 z-50 opacity-0">
-          <span className="text-xl md:text-2xl font-black tracking-tight text-white" style={{ fontFamily: "'Cinzel', serif" }}>PK</span>
-          <span className="text-xl md:text-2xl font-bold text-cyan-400">.</span>
+          <span className="text-2xl md:text-3xl font-black tracking-tighter text-white" style={{ fontFamily: "'Cinzel', serif" }}>PK</span>
+          <span className="text-2xl md:text-3xl font-bold text-cyan-400">.</span>
+          <div className="absolute -inset-2 bg-cyan-400/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.href}
-              className={`nav-link opacity-0 text-sm font-medium transition-colors duration-300 ${
-                activeSection === link.href.substring(link.href.indexOf('#') + 1)
-                  ? "text-cyan-400"
-                  : "text-white/60 hover:text-white"
-              }`}
-            >
-              {link.name}
-            </Link>
-          ))}
+        <div className="hidden md:flex items-center gap-8">
+          <div className="flex items-center gap-1 bg-white/5 backdrop-blur-md rounded-full px-2 py-1 border border-white/10">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.substring(link.href.indexOf('#') + 1) || (activeSection === "" && link.name === "Home");
+              return (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className={`nav-link opacity-0 px-4 py-2 text-xs font-bold uppercase tracking-widest transition-all duration-300 rounded-full relative group ${
+                    isActive
+                      ? "text-cyan-400"
+                      : "text-white/50 hover:text-white"
+                  }`}
+                >
+                  {link.name}
+                  {isActive && (
+                    <div className="absolute inset-0 bg-cyan-400/10 rounded-full -z-10" />
+                  )}
+                  <div className={`absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-cyan-400 transition-all duration-300 ${isActive ? "opacity-100 scale-100" : "opacity-0 scale-0 group-hover:opacity-50 group-hover:scale-100"}`} />
+                </Link>
+              );
+            })}
+          </div>
           <div className="flex items-center gap-4">
             <a
               href="https://www.youtube.com/@ParthKaretiya0"
@@ -142,7 +162,7 @@ const Navbar = () => {
             </a>
             <Link
               to="/#contact"
-              className="nav-link opacity-0 px-6 py-2 bg-cyan-400 text-black text-[11px] font-black uppercase tracking-widest rounded-full hover:bg-cyan-300 transition-all duration-300 shadow-[0_0_15px_rgba(34,211,238,0.2)]"
+              className="nav-link opacity-0 px-6 py-2 bg-cyan-400 text-black text-[11px] font-black uppercase tracking-widest rounded-2xl hover:bg-cyan-300 transition-all duration-300 shadow-[0_0_15px_rgba(34,211,238,0.2)]"
             >
               Let's Talk
             </Link>

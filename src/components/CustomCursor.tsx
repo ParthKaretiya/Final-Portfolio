@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { prefersReducedMotion } from "@/animations/anime";
 
 const CustomCursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -8,7 +7,11 @@ const CustomCursor = () => {
   const target = useRef({ x: -100, y: -100 });
 
   useEffect(() => {
-    if (prefersReducedMotion() || (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches)) return;
+    // Skip on touch devices or reduced motion
+    if (typeof window === "undefined") return;
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isTouch || reducedMotion) return;
 
     const cursor = cursorRef.current;
     const dot = dotRef.current;
@@ -25,44 +28,44 @@ const CustomCursor = () => {
 
     let frameId: number;
     const raf = () => {
-      pos.current.x += (target.current.x - pos.current.x) * 0.12;
-      pos.current.y += (target.current.y - pos.current.y) * 0.12;
-      cursor.style.transform = `translate(${pos.current.x - 10}px, ${pos.current.y - 10}px)`;
-      dot.style.transform = `translate(${target.current.x - 2.5}px, ${target.current.y - 2.5}px)`;
+      // Higher lerp = snappier cursor, less lag
+      pos.current.x += (target.current.x - pos.current.x) * 0.2;
+      pos.current.y += (target.current.y - pos.current.y) * 0.2;
+      cursor.style.transform = `translate3d(${pos.current.x - 10}px, ${pos.current.y - 10}px, 0)`;
+      dot.style.transform = `translate3d(${target.current.x - 2.5}px, ${target.current.y - 2.5}px, 0)`;
       frameId = requestAnimationFrame(raf);
     };
     frameId = requestAnimationFrame(raf);
 
-    const addHover = () => cursor.classList.add("hovering");
-    const removeHover = () => cursor.classList.remove("hovering");
-    const selector = "a, button, [role='button'], input, textarea, select";
+    // Use event delegation instead of MutationObserver (much lighter)
+    const onPointerOver = (e: PointerEvent) => {
+      const el = e.target as HTMLElement;
+      if (el.closest("a, button, [role='button'], input, textarea, select")) {
+        cursor.classList.add("hovering");
+      }
+    };
+    const onPointerOut = (e: PointerEvent) => {
+      const el = e.target as HTMLElement;
+      if (el.closest("a, button, [role='button'], input, textarea, select")) {
+        cursor.classList.remove("hovering");
+      }
+    };
 
-    const observer = new MutationObserver(() => {
-      document.querySelectorAll(selector).forEach((el) => {
-        el.removeEventListener("mouseenter", addHover);
-        el.removeEventListener("mouseleave", removeHover);
-        el.addEventListener("mouseenter", addHover);
-        el.addEventListener("mouseleave", removeHover);
-      });
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-    document.querySelectorAll(selector).forEach((el) => {
-      el.addEventListener("mouseenter", addHover);
-      el.addEventListener("mouseleave", removeHover);
-    });
-
-    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mousemove", onMove, { passive: true });
     document.addEventListener("mouseenter", onEnter);
     document.addEventListener("mouseleave", onLeave);
+    document.addEventListener("pointerover", onPointerOver, { passive: true });
+    document.addEventListener("pointerout", onPointerOut, { passive: true });
 
     return () => {
       cancelAnimationFrame(frameId);
       document.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseenter", onEnter);
       document.removeEventListener("mouseleave", onLeave);
+      document.removeEventListener("pointerover", onPointerOver);
+      document.removeEventListener("pointerout", onPointerOut);
       document.body.style.cursor = "";
       style.remove();
-      observer.disconnect();
     };
   }, []);
 

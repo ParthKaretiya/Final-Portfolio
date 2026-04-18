@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -9,10 +8,9 @@ import Preloader from "@/components/Preloader";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
-import Services from "@/components/Services";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
-import Experience from "@/components/Experience";
+import Hackathons from "@/components/Hackathons";
 import Certificates from "@/components/Certificates";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -24,38 +22,36 @@ const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      wheelMultiplier: 0.9,
-      touchMultiplier: 1.5,
-    });
-
-    lenis.on('scroll', ScrollTrigger.update);
-
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-
-    gsap.ticker.lagSmoothing(0);
-
+    // Native smooth scroll for anchor links (no Lenis overhead)
     const handleClick = (e: MouseEvent) => {
-      const anchor = (e.target as HTMLElement).closest('a[href^="#"]');
+      const anchor = (e.target as HTMLElement).closest('a');
       if (anchor) {
-        e.preventDefault();
         const href = anchor.getAttribute("href");
-        if (href && href !== "#") {
-          const target = document.querySelector(href);
-          if (target) lenis.scrollTo(target as HTMLElement, { offset: -80 });
+        if (href && href.includes("#")) {
+          const [path, hash] = href.split("#");
+          if (path === "" || path === "/" || path === window.location.pathname) {
+            const target = document.getElementById(hash);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({ behavior: "smooth", block: "start" });
+              window.history.pushState(null, "", `#${hash}`);
+            }
+          }
         }
       }
     };
     document.addEventListener("click", handleClick);
 
+    // Handle initial hash on load
+    if (window.location.hash) {
+      setTimeout(() => {
+        const target = document.querySelector(window.location.hash);
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 500);
+    }
+
     return () => {
       document.removeEventListener("click", handleClick);
-      lenis.destroy();
     };
   }, []);
 
@@ -72,10 +68,9 @@ const Index = () => {
           <Navbar />
           <Hero />
           <About />
-          <Services />
           <Skills />
           <Projects />
-          <Experience />
+          <Hackathons />
           <Certificates />
           <Contact />
           <Footer />
