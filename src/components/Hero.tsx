@@ -107,10 +107,8 @@ const Hero = () => {
             {/* Main Heading */}
             <div className="mb-4">
               <h1 className="hero-title-line text-6xl md:text-7xl xl:text-8xl font-black leading-[0.85] tracking-tighter text-white mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
-                PARTH
-              </h1>
-              <h1 className="hero-title-line text-6xl md:text-7xl xl:text-8xl font-black leading-[0.85] tracking-tighter bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent" style={{ fontFamily: "'Playfair Display', serif" }}>
-                KARETIYA
+                PARTH<br />
+                <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">KARETIYA</span>
               </h1>
             </div>
 

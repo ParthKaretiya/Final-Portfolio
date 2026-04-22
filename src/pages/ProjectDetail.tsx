@@ -65,19 +65,13 @@ const projects = [
   },
 ];
 
+import { Helmet } from "react-helmet-async";
+
 const ProjectDetail = () => {
   const { id } = useParams();
   const project = projects.find((p) => p.id === id);
 
   useEffect(() => {
-    if (project) {
-      document.title = `${project.title} | Parth Karetiya Portfolio`;
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription) {
-        metaDescription.setAttribute("content", `${project.description.substring(0, 160)}... Project by Parth Karetiya.`);
-      }
-    }
-
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -103,6 +97,11 @@ const ProjectDetail = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{project.title} | Parth Karetiya | Full Stack Developer Project</title>
+        <meta name="description" content={`${project.description.substring(0, 150)}... Explore this project by Parth Karetiya, a Full Stack Developer.`} />
+        <link rel="canonical" href={`https://parthkaretiya-portfolio.vercel.app/projects/${project.id}`} />
+      </Helmet>
       <CustomCursor />
       <ScrollProgress />
       <div className="min-h-screen bg-background relative">

@@ -18,6 +18,7 @@ import Footer from "@/components/Footer";
 import GridBackground from "@/components/GridBackground";
 import ScrollProgress from "@/components/ScrollProgress";
 import CustomCursor from "@/components/CustomCursor";
+import { Helmet } from "react-helmet-async";
 
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -90,6 +91,11 @@ const Index = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Parth Karetiya | Full Stack Developer | React & MERN Specialist</title>
+        <meta name="description" content="Parth Karetiya is a highly skilled Full Stack Developer specializing in React, Node.js, and the MERN stack. View my portfolio for high-performance web applications." />
+        <link rel="canonical" href="https://parthkaretiya-portfolio.vercel.app/" />
+      </Helmet>
       {!isLoaded && <Preloader onComplete={() => setIsLoaded(true)} />}
       <CustomCursor />
       <ScrollProgress />

@@ -1,6 +1,7 @@
 {
-  "short_name": "Parth Karetiya",
+  "short_name": "Parth",
   "name": "Parth Karetiya | Full Stack Developer Portfolio",
+  "description": "Portfolio of Parth Karetiya, a Full Stack Developer specializing in React and the MERN stack.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,8 +19,8 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#020202"
 }

@@ -11,14 +11,10 @@ import CustomCursor from "@/components/CustomCursor";
 
 gsap.registerPlugin(ScrollTrigger);
 
+import { Helmet } from "react-helmet-async";
+
 const AboutPage = () => {
   useEffect(() => {
-    document.title = "About Parth Karetiya | Full Stack Developer";
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute("content", "Learn more about Parth Karetiya, a Full Stack Developer from Gujarat, India. Discover his skills, education, and journey in web development.");
-    }
-
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -42,6 +38,11 @@ const AboutPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>About Parth Karetiya | Full Stack Developer | Experience & Skills</title>
+        <meta name="description" content="Learn more about Parth Karetiya, a Full Stack Developer from Gujarat, India. Discover his technical skills, computer engineering education, and his journey in building high-performance web applications." />
+        <link rel="canonical" href="https://parthkaretiya-portfolio.vercel.app/about-parth-karetiya" />
+      </Helmet>
       <CustomCursor />
       <ScrollProgress />
       <div className="min-h-screen bg-background relative">
