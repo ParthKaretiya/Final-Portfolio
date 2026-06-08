@@ -19,6 +19,14 @@ import ss01 from "../StudentSync01.png";
 import ss02 from "../StudentSync02.png";
 import ss03 from "../StudentSync03.png";
 
+// Import UI Clone thumbnails
+import teslaThumb from "../assets/tesla_clone.png";
+import rarePlaneteThumb from "../assets/rare_planete_clone.png";
+import mercedesThumb from "../assets/mercedes_clone.png";
+import bigbasketThumb from "../assets/bigbasket_clone.png";
+import arretoThumb from "../assets/arreto_clone.png";
+import alibabaThumb from "../assets/alibaba_clone.png";
+
 gsap.registerPlugin(ScrollTrigger);
 
 interface ProjectData {
@@ -111,49 +119,49 @@ const UIClones: ProjectData[] = [
     id: "tesla-clone", title: "Tesla Clone", subtitle: "High-Fidelity UI",
     description: "Pixel-perfect reconstruction of the Tesla website. Implemented smooth hero scroll animations, responsive image galleries, and the signature full-viewport section layout with CSS Grid. Optimized for consistent rendering across Chrome, Firefox, and Safari.",
     features: [], tech: ["HTML5", "CSS3", "JavaScript"],
-    images: ["https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=1000&auto=format&fit=crop"],
+    images: [teslaThumb],
     githubUrl: "https://github.com/ParthKaretiya", liveUrl: "https://teslaclone111.netlify.app/",
     color: "from-gray-500/20 to-slate-500/5", accent: "text-white"
   },
   {
-    id: "big-basket-clone", title: "Big Basket Clone", subtitle: "E-commerce UI",
-    description: "Full e-commerce UI clone with complex multi-level category navigation, responsive product grids with lazy-loaded images, and a functional cart sidebar. Built with vanilla CSS Grid handling 200+ product cards without layout shifts.",
+    id: "rare-planete-clone", title: "Rare Planete Clone", subtitle: "Nature-themed UI",
+    description: "A botanically-inspired website UI mockup focusing on deep forest aesthetic, clean layout grids, and visual hierarchy. Features custom elegant serif typography, beautiful cards showcasing rare plants, and detailed layout sections.",
     features: [], tech: ["HTML5", "CSS3", "JavaScript"],
-    images: ["https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1000&auto=format&fit=crop"],
-    githubUrl: "https://github.com/ParthKaretiya", liveUrl: "https://bigbasketclone111.netlify.app/",
-    color: "from-green-500/20 to-emerald-500/5", accent: "text-emerald-400"
-  },
-  {
-    id: "alibaba-clone", title: "Alibaba Clone", subtitle: "B2B Marketplace UI",
-    description: "Responsive implementation of the Alibaba B2B marketplace with advanced grid layouts, supplier card components, and RFQ flow mockups. Implemented a global header/footer system and category sidebar with 50+ sub-category links.",
-    features: [], tech: ["HTML5", "CSS3", "JavaScript"],
-    images: ["https://images.unsplash.com/photo-1586528116311-ad8ed7c1590f?q=80&w=1000&auto=format&fit=crop"],
-    githubUrl: "https://github.com/ParthKaretiya", liveUrl: "https://alibabaclone1.netlify.app/",
-    color: "from-orange-500/20 to-amber-500/5", accent: "text-amber-400"
+    images: [rarePlaneteThumb],
+    githubUrl: "https://github.com/ParthKaretiya", liveUrl: "https://rareplaneteclone1.netlify.app/",
+    color: "from-green-600/20 to-emerald-700/5", accent: "text-emerald-400"
   },
   {
     id: "mercedes-clone", title: "Mercedes-Benz Clone", subtitle: "Luxury Automotive UI",
     description: "High-end recreation of the Mercedes-Benz portal with premium dark-themed aesthetics, cinematic hero sections, and multi-page navigation. Built 5+ pages including SUV, Electric, AMG, and Contact with unified global styling.",
     features: [], tech: ["HTML5", "CSS3", "JavaScript"],
-    images: ["https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=1000&auto=format&fit=crop"],
-    githubUrl: "https://github.com/ParthKaretiya", liveUrl: "#",
+    images: [mercedesThumb],
+    githubUrl: "https://github.com/ParthKaretiya", liveUrl: "https://mercedecclone1.netlify.app/",
     color: "from-slate-400/20 to-zinc-500/5", accent: "text-slate-300"
   },
   {
-    id: "expense-manager", title: "Expense Manager", subtitle: "Finance Tracker UI",
-    description: "Interactive expense tracking application with visual chart analytics, budget management by category, and transaction history. Features local storage persistence and dynamic pie/bar chart breakdowns for spending insights.",
+    id: "big-basket-clone", title: "Big Basket Clone", subtitle: "E-commerce UI",
+    description: "Full e-commerce UI clone with complex multi-level category navigation, responsive product grids with lazy-loaded images, and a functional cart sidebar. Built with vanilla CSS Grid handling 200+ product cards without layout shifts.",
     features: [], tech: ["HTML5", "CSS3", "JavaScript"],
-    images: ["https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1000&auto=format&fit=crop"],
-    githubUrl: "https://github.com/ParthKaretiya", liveUrl: "#",
-    color: "from-teal-500/20 to-cyan-500/5", accent: "text-teal-400"
+    images: [bigbasketThumb],
+    githubUrl: "https://github.com/ParthKaretiya", liveUrl: "https://bigbasketclone111.netlify.app/",
+    color: "from-lime-500/20 to-green-600/5", accent: "text-lime-400"
   },
   {
-    id: "portfolio-v1", title: "Portfolio v1", subtitle: "Personal Brand UI",
-    description: "First iteration of my personal portfolio featuring dark-mode design, smooth scroll animations, and a project showcase grid. Served as the foundation for the current portfolio with lessons learned in responsive layout and performance.",
+    id: "arreto-clone", title: "Arreto Clone", subtitle: "Fashion E-commerce UI",
+    description: "A modern, chic fashion storefront clone focusing on product showcases, minimalist item grids, and sleek transition states. Features clean catalog layouts, elegant typography, responsive product drawers, and clean design.",
     features: [], tech: ["HTML5", "CSS3", "JavaScript"],
-    images: ["https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop"],
-    githubUrl: "https://github.com/ParthKaretiya", liveUrl: "#",
-    color: "from-indigo-500/20 to-blue-500/5", accent: "text-indigo-400"
+    images: [arretoThumb],
+    githubUrl: "https://github.com/ParthKaretiya", liveUrl: "https://arretoclone.netlify.app/",
+    color: "from-rose-500/20 to-pink-600/5", accent: "text-rose-400"
+  },
+  {
+    id: "alibaba-clone", title: "Alibaba Clone", subtitle: "B2B Marketplace UI",
+    description: "Responsive implementation of the Alibaba B2B marketplace with advanced grid layouts, supplier card components, and RFQ flow mockups. Implemented a global header/footer system and category sidebar with 50+ sub-category links.",
+    features: [], tech: ["HTML5", "CSS3", "JavaScript"],
+    images: [alibabaThumb],
+    githubUrl: "https://github.com/ParthKaretiya", liveUrl: "https://alibabaclone1.netlify.app/",
+    color: "from-orange-500/20 to-amber-600/5", accent: "text-orange-400"
   },
 ];
 
