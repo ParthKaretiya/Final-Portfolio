@@ -80,9 +80,8 @@ const Hero = () => {
   }, { scope: sectionRef });
 
   const stats = [
-    { value: "10+", label: "PROJECTS BUILT" },
-    { value: "6+", label: "HACKATHONS" },
-    { value: "2+", label: "YEARS CODING" },
+    { value: "6+", label: "PROJECTS BUILT" },
+    { value: "5+", label: "HACKATHONS" },
   ];
 
   return (

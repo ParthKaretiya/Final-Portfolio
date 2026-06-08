@@ -27,6 +27,22 @@ const categoryColors: Record<string, {
 // ─── Data ────────────────────────────────────────────────────────────────────
 const certificates = [
   {
+    id: "PARTH-CERT-2026",
+    title: "Participation Certificate",
+    issuer: "Parth Karetiya — Official Recognition",
+    description: "Official certificate of participation and recognition awarded for demonstrating exceptional skills and commitment in a competitive technical event.",
+    image: "https://i.postimg.cc/qvyrvKnr/Parth-Karetiya-Certificate-(1).png",
+    category: "HACKATHON", year: "2026", icon: Award,
+  },
+  {
+    id: "ADITYA-2-0-2026",
+    title: "Aditya 2.0 Hackathon",
+    issuer: "Aditya Engineering College",
+    description: "Certificate of participation in Aditya 2.0, a prestigious national-level hackathon focused on innovation, problem-solving, and building impactful tech solutions.",
+    image: "https://i.postimg.cc/cLRqSSyx/Adivta-2-0.png",
+    category: "HACKATHON", year: "2026", icon: Code2,
+  },
+  {
     id: "ELECTRO-SPHERE-2026",
     title: "ElectroSphereᴰᴹ 2K26 — 2nd Place",
     issuer: "Swaminarayan University",

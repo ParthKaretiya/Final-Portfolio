@@ -26,7 +26,7 @@ const education = [
   },
   {
     degree: "12th Grade (HSC)",
-    institution: "JNV, Amreli",
+    institution: "Jawahar Navodaya Vidyalaya Amreli",
     grade: "82%", gradeLabel: "Percentage",
     status: "Completed", year: "2023",
     description: "Focused on Mathematics, Physics, and Computer Science. Developed strong analytical and problem-solving foundations at this prestigious national-level residential institution.",
@@ -36,7 +36,7 @@ const education = [
   },
   {
     degree: "10th Grade (SSC)",
-    institution: "JNV, Amreli",
+    institution: "Jawahar Navodaya Vidyalaya Amreli",
     grade: "86.5%", gradeLabel: "Percentage",
     status: "Completed", year: "2021",
     description: "Excelled in Science and Mathematics at a nationally-selected JNV institution. Built early interest in technology and programming, earning merit recognition among top performers.",
@@ -123,13 +123,16 @@ const About = () => {
               </h3>
               <div className="space-y-5">
                 <p className="text-white/80 text-base leading-relaxed font-medium">
-                  A passionate <span className="text-cyan-400 font-bold">Full-Stack Engineer</span> and Computer Science student from Gujarat, India. I specialize in <span className="text-white font-bold">React, Node.js, MongoDB, and TypeScript</span> — building high-performance, scalable web applications that seamlessly bridge the gap between complex backend architectures and intuitive, pixel-perfect user interfaces.
+                  I’m a passionate Full Stack Developer and problem solver who loves building modern, scalable, and user-focused web applications. I enjoy turning ideas into real-world digital products using clean UI design, efficient backend systems, and optimized code.
                 </p>
                 <p className="text-white/60 text-sm md:text-base leading-relaxed">
-                  My engineering journey is driven by an intense curiosity to solve real-world problems. I've architected real-time healthcare coordination platforms like <span className="text-amber-400 font-medium">PulseGuard</span>, managing hundreds of concurrent connections with sub-100ms latency, and developed AI-powered cybersecurity tools such as <span className="text-emerald-400 font-medium">ThreatLens</span>, which won accolades at national-level hackathons.
+                  I actively participate in hackathons and enjoy building innovative solutions under pressure while collaborating with teams and exploring new technologies. My development journey focuses on creating responsive, high-performance applications with modern technologies and best practices.
                 </p>
                 <p className="text-white/60 text-sm md:text-base leading-relaxed">
-                  Beyond just writing clean code, I am deeply invested in system design, robust CI/CD pipelines, and crafting digital experiences that feel both native and cinematic. I thrive in high-pressure hackathon environments, collaborating with brilliant minds to engineer solutions that ship, scale, and make a tangible impact.
+                  I enjoy working with technologies like React.js, Node.js, Express.js, MongoDB, JavaScript, and C++. I’m constantly learning new tools, improving my development skills, and building impactful projects that solve real-world problems.
+                </p>
+                <p className="text-white/60 text-sm md:text-base leading-relaxed">
+                  Currently, I’m focused on full stack development, backend architecture, and creating professional-grade applications with modern user experiences.
                 </p>
               </div>
             </div>

@@ -100,7 +100,7 @@ const Index = () => {
       <CustomCursor />
       <ScrollProgress />
       <div
-        className={`min-h-screen bg-background relative transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+        className="min-h-screen bg-background relative"
       >
         <GridBackground />
         

@@ -18,16 +18,8 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
 
     const tl = gsap.timeline({
       onComplete: () => {
-        // Final exit transition
-        gsap.to(containerRef.current, {
-          yPercent: -100,
-          duration: 1.2,
-          ease: "power4.inOut",
-          onComplete: () => {
-            if (containerRef.current) containerRef.current.style.display = 'none';
-            onComplete();
-          }
-        });
+        if (containerRef.current) containerRef.current.style.display = 'none';
+        onComplete();
       }
     });
 
@@ -55,56 +47,63 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
       rotationX: 0,
       rotationY: 0,
       filter: 'blur(0px)',
-      duration: 0.8,
-      stagger: 0.04,
+      duration: 0.5,
+      stagger: 0.02,
       ease: "back.out(1.5)",
-    }, 0.1);
+    }, 0.05);
 
     // 1.5 Floating effect
     tl.to(chars, {
-      y: "-=15",
-      rotationZ: () => Math.random() * 4 - 2, // slight tilt
-      duration: 1.0,
+      y: "-=10",
+      rotationZ: () => Math.random() * 2 - 1, // slight tilt
+      duration: 0.6,
       yoyo: true,
       repeat: 1,
       ease: "sine.inOut",
-      stagger: 0.06
-    }, "+=0.2");
+      stagger: 0.03
+    }, "+=0.1");
 
     // 2. Animate progress bar simulating load
     tl.to('.progress-bar', {
       scaleX: 1,
-      duration: 1.8,
+      duration: 1.6,
       ease: "power2.inOut",
       onUpdate: function() {
         setProgress(Math.round(this.progress() * 100));
       }
-    }, 0.3);
+    }, 0.1);
 
     // 3. Reveal role subtitle
     tl.to('.role-text', {
       opacity: 1,
       y: 0,
-      duration: 0.6,
+      duration: 0.4,
       ease: "power3.out"
-    }, 0.6);
+    }, 0.5);
 
     // 4. Cinematic Exit: Scale up the text massively before clipping out
     tl.to(chars, {
       scale: 4,
       opacity: 0,
       filter: 'blur(20px)',
-      duration: 0.6,
-      stagger: 0.04,
+      duration: 0.4,
+      stagger: 0.02,
       ease: "power3.in"
-    }, 2.4);
+    }, 2.0);
 
     tl.to(['.progress-bar-container', '.role-text', '.percent-text'], {
       opacity: 0,
       y: -20,
-      duration: 0.4,
+      duration: 0.3,
       ease: "power2.in"
-    }, 2.4);
+    }, 2.0);
+
+    // Final exit transition - slide up the whole preloader
+    tl.to(containerRef.current, {
+      yPercent: -100,
+      duration: 0.4,
+      ease: "power4.inOut"
+    }, 2.7);
 
     return () => { tl.kill(); };
   }, [onComplete]);
@@ -126,8 +125,8 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
     const state = chars.map((char, index) => ({
       target: char,
       isSpace: char === " ",
-      // Faster cycles: max ~40 cycles = 1.2 seconds max scrambling
-      cycles: 5 + (index * 2) + Math.floor(Math.random() * 10),
+      // Scramble for ~1 second, then let it sit readable for ~1 second
+      cycles: 10 + (index * 2) + Math.floor(Math.random() * 15),
       current: char === " " ? " " : letters[Math.floor(Math.random() * letters.length)]
     }));
 
@@ -163,10 +162,10 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
         );
 
         if (allLocked) clearInterval(interval);
-      }, 30); // 30ms -> much faster glitching
+      }, 20); // 20ms -> hyper glitching
       
       return () => clearInterval(interval);
-    }, 100);
+    }, 50);
 
     return () => clearTimeout(startTimeout);
   }, []);
