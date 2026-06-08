@@ -472,7 +472,7 @@ const Skills = () => {
     return () => clearInterval(typeInterval);
   }, [activeSkill]);
 
-  // GSAP animations for stagger loading cartridges & pulsing core reactor
+  // GSAP animations for stagger loading cartridges
   useGSAP(() => {
     // Reveal header
     gsap.fromTo('.skills-header-content', 
@@ -552,6 +552,34 @@ const Skills = () => {
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
           background: rgba(255, 255, 255, 0.15);
         }
+        @keyframes line-flow {
+          to {
+            stroke-dashoffset: -20;
+          }
+        }
+        .animate-line-flow {
+          animation: line-flow 0.8s linear infinite;
+        }
+        @keyframes float-orbiter-0 {
+          0%, 100% { transform: translate(-50%, -50%) translateY(0px) translateX(0px); }
+          50% { transform: translate(-50%, -50%) translateY(-6px) translateX(3px); }
+        }
+        @keyframes float-orbiter-1 {
+          0%, 100% { transform: translate(-50%, -50%) translateY(0px) translateX(0px); }
+          50% { transform: translate(-50%, -50%) translateY(5px) translateX(-4px); }
+        }
+        @keyframes float-orbiter-2 {
+          0%, 100% { transform: translate(-50%, -50%) translateY(0px) translateX(0px); }
+          50% { transform: translate(-50%, -50%) translateY(-4px) translateX(-5px); }
+        }
+        @keyframes float-orbiter-3 {
+          0%, 100% { transform: translate(-50%, -50%) translateY(0px) translateX(0px); }
+          50% { transform: translate(-50%, -50%) translateY(6px) translateX(4px); }
+        }
+        .float-orbiter-0 { animation: float-orbiter-0 5s ease-in-out infinite; }
+        .float-orbiter-1 { animation: float-orbiter-1 6s ease-in-out infinite; }
+        .float-orbiter-2 { animation: float-orbiter-2 5.5s ease-in-out infinite; }
+        .float-orbiter-3 { animation: float-orbiter-3 6.5s ease-in-out infinite; }
       `}} />
       
       {/* Background ambient lighting */}
@@ -645,23 +673,58 @@ const Skills = () => {
             {/* Tech grid mesh line overlay */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:16px_28px] pointer-events-none" />
 
-            {/* Core Reactor Visualisation */}
-            <div className="w-full md:w-1/2 flex items-center justify-center relative shrink-0">
-              <div ref={coreRef} className="relative w-56 h-56 flex items-center justify-center">
+            {/* Core Reactor Visualisation with Constellation Orbiters */}
+            <div className="w-full md:w-1/2 flex items-center justify-center relative shrink-0 min-h-[300px]">
+              <div className="relative w-72 h-72 flex items-center justify-center">
                 
                 {/* Radial color backglow */}
                 <div 
-                  className="absolute inset-8 rounded-full transition-all duration-700 blur-3xl opacity-20" 
+                  className="absolute inset-12 rounded-full transition-all duration-700 blur-3xl opacity-20 animate-pulse" 
                   style={{ backgroundColor: activeSkill.color }} 
                 />
 
-                {/* Concentric rings systems */}
-                <svg className="absolute w-full h-full" viewBox="0 0 200 200">
+                {/* Concentric rings systems & line connections */}
+                <svg className="absolute w-full h-full overflow-visible" viewBox="0 0 200 200">
                   {/* Scope target elements */}
                   <circle cx="100" cy="100" r="95" stroke="currentColor" strokeWidth="0.5" className="text-white/5" fill="none" />
                   <circle cx="100" cy="100" r="75" stroke="currentColor" strokeWidth="0.5" className="text-white/5" strokeDasharray="3 3" fill="none" />
                   <line x1="100" y1="5" x2="100" y2="195" stroke="currentColor" strokeWidth="0.5" className="text-white/5" />
                   <line x1="5" y1="100" x2="195" y2="100" stroke="currentColor" strokeWidth="0.5" className="text-white/5" />
+
+                  {/* SVG connection lines to orbiting nodes */}
+                  {filteredSkills.map((skill, idx) => {
+                    const isActive = activeSkill.name === skill.name;
+                    const angleRad = (idx * 2 * Math.PI) / filteredSkills.length - Math.PI / 2;
+                    const cx = 100 + 72 * Math.cos(angleRad);
+                    const cy = 100 + 72 * Math.sin(angleRad);
+
+                    return isActive ? (
+                      <line
+                        key={skill.name}
+                        x1="100"
+                        y1="100"
+                        x2={cx}
+                        y2={cy}
+                        stroke={skill.color}
+                        strokeWidth="1.5"
+                        strokeDasharray="4 6"
+                        className="animate-line-flow"
+                        style={{ filter: `drop-shadow(0 0 4px ${skill.color})` }}
+                      />
+                    ) : (
+                      <line
+                        key={skill.name}
+                        x1="100"
+                        y1="100"
+                        x2={cx}
+                        y2={cy}
+                        stroke="currentColor"
+                        strokeWidth="0.5"
+                        className="text-white/10"
+                        strokeDasharray="2 4"
+                      />
+                    );
+                  })}
 
                   {/* Outer mechanical dial ring */}
                   <circle 
@@ -671,57 +734,87 @@ const Skills = () => {
                     stroke={activeSkill.color} 
                     strokeWidth="1.5" 
                     strokeDasharray="40 80 15 35" 
-                    className="origin-center animate-[spin_12s_linear_infinite] transition-colors duration-700" 
+                    className="origin-center animate-[spin_15s_linear_infinite] transition-colors duration-700" 
                     fill="none" 
-                    opacity="0.3"
-                  />
-
-                  {/* Secondary reverse counter ring */}
-                  <circle 
-                    cx="100" 
-                    cy="100" 
-                    r="68" 
-                    stroke="currentColor" 
-                    strokeWidth="0.8" 
-                    strokeDasharray="50 25 10 35" 
-                    className="text-white/20 origin-center animate-[spin_9s_linear_infinite_reverse]" 
-                    fill="none" 
+                    opacity="0.25"
                   />
 
                   {/* Inner energizer circuit ring */}
                   <circle 
                     cx="100" 
                     cy="100" 
-                    r="52" 
+                    r="48" 
                     stroke={activeSkill.color} 
                     strokeWidth="2.2" 
-                    strokeDasharray="12 18" 
-                    className="origin-center animate-[spin_6s_linear_infinite] transition-colors duration-700" 
+                    strokeDasharray="10 15" 
+                    className="origin-center animate-[spin_7s_linear_infinite] transition-colors duration-700" 
                     fill="none" 
-                    opacity="0.85"
+                    opacity="0.8"
                   />
 
-                  {/* Vector radar nodes */}
-                  <circle cx="100" cy="15" r="2.5" fill={activeSkill.color} className="transition-colors duration-700 animate-pulse" />
-                  <circle cx="100" cy="185" r="2.5" fill={activeSkill.color} className="transition-colors duration-700 animate-pulse" />
-                  <circle cx="15" cy="100" r="2.5" fill={activeSkill.color} className="transition-colors duration-700 animate-pulse" />
-                  <circle cx="185" cy="100" r="2.5" fill={activeSkill.color} className="transition-colors duration-700 animate-pulse" />
+                  {/* Radar Sweeper Line */}
+                  <line 
+                    x1="100" 
+                    y1="100" 
+                    x2="100" 
+                    y2="15" 
+                    stroke={activeSkill.color} 
+                    strokeWidth="0.8" 
+                    className="origin-center animate-[spin_10s_linear_infinite] opacity-20 transition-colors duration-700" 
+                  />
                 </svg>
 
                 {/* Selected cartridge active chip in the absolute core center */}
                 <div 
-                  className="z-10 w-24 h-24 rounded-full bg-[#030303] border flex flex-col items-center justify-center p-4 shadow-2xl transition-all duration-700" 
-                  style={{ borderColor: activeSkill.color }}
+                  ref={coreRef}
+                  className="z-10 w-20 h-20 rounded-full bg-[#030303] border flex flex-col items-center justify-center p-3 shadow-2xl transition-all duration-700" 
+                  style={{ borderColor: activeSkill.color, boxShadow: `0 0 20px ${activeSkill.color}33` }}
                 >
                   <img 
                     src={`${DEVICON}${activeSkill.logo}`} 
                     alt={activeSkill.name} 
-                    className="w-10 h-10 object-contain filter drop-shadow-lg"
+                    className="w-8 h-8 object-contain filter drop-shadow-lg"
                   />
-                  <span className="text-[7px] font-black text-white/50 tracking-widest mt-1.5 uppercase truncate max-w-full">
+                  <span className="text-[7px] font-black text-white/50 tracking-widest mt-1 uppercase truncate max-w-full">
                     {activeSkill.name}
                   </span>
                 </div>
+
+                {/* Orbiting Satellite Node Buttons (Constellation displaying ALL active category logos) */}
+                {filteredSkills.map((skill, idx) => {
+                  const isActive = activeSkill.name === skill.name;
+                  const angleRad = (idx * 2 * Math.PI) / filteredSkills.length - Math.PI / 2;
+                  const leftPercent = 50 + 36 * Math.cos(angleRad); // 36% radius of container
+                  const topPercent = 50 + 36 * Math.sin(angleRad);
+                  const floatClass = `float-orbiter-${idx % 4}`;
+
+                  return (
+                    <button
+                      key={skill.name}
+                      onClick={() => setActiveSkill(skill)}
+                      className={`absolute w-12 h-12 rounded-full bg-[#050505] border flex items-center justify-center p-2.5 transition-all duration-300 hover:scale-115 z-20 group/orbiter ${floatClass}`}
+                      style={{
+                        left: `${leftPercent}%`,
+                        top: `${topPercent}%`,
+                        borderColor: isActive ? skill.color : 'rgba(255, 255, 255, 0.08)',
+                        boxShadow: isActive ? `0 0 15px ${skill.color}44` : 'none',
+                      }}
+                    >
+                      <img 
+                        src={`${DEVICON}${skill.logo}`} 
+                        alt={skill.name} 
+                        className={`w-full h-full object-contain filter transition-all duration-300 ${
+                          isActive ? 'scale-100' : 'scale-90 opacity-60 group-hover/orbiter:opacity-100 group-hover/orbiter:scale-100'
+                        }`} 
+                      />
+                      
+                      {/* Tooltip on Hover */}
+                      <span className="absolute bottom-full mb-2 scale-0 group-hover/orbiter:scale-100 transition-all duration-200 bg-black/95 border border-white/10 rounded px-2.5 py-1 text-[8px] font-mono font-bold uppercase tracking-widest text-white whitespace-nowrap z-30 pointer-events-none shadow-2xl">
+                        {skill.name}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
