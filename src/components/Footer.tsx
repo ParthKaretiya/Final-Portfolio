@@ -22,9 +22,14 @@ const Footer = () => {
     <footer className="py-8 border-t border-border/50">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-1">
-            <span className="text-lg font-bold text-foreground tracking-tight">PK</span>
-            <span className="text-lg font-bold text-primary">.</span>
+          <div className="flex items-center gap-2">
+            <img 
+              src="https://www.levista.art/wp-content/uploads/2024/10/PK-Ready-made-monogram-logo-for-wedding-business-350x350.webp" 
+              alt="PK Logo" 
+              className="w-7 h-7 object-contain rounded-full border border-white/10 bg-black/50 p-0.5"
+            />
+            <span className="text-base font-bold text-foreground tracking-tight">Parth</span>
+            <span className="text-base font-bold text-cyan-400">.</span>
           </div>
 
           <div className="flex gap-2">

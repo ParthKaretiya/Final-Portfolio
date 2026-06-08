@@ -112,8 +112,13 @@ const Navbar = () => {
       <nav className="nav-wrapper container mx-auto px-6 flex items-center justify-between opacity-0">
         
         {/* Logo */}
-        <Link to="/" className="nav-link relative group flex items-center gap-0.5 z-50 opacity-0">
-          <span className="text-2xl md:text-3xl font-black tracking-tighter text-white" style={{ fontFamily: "'Cinzel', serif" }}>PK</span>
+        <Link to="/" className="nav-link relative group flex items-center gap-3 z-50 opacity-0">
+          <img 
+            src="https://www.levista.art/wp-content/uploads/2024/10/PK-Ready-made-monogram-logo-for-wedding-business-350x350.webp" 
+            alt="PK Logo" 
+            className="w-10 h-10 object-contain rounded-full border border-white/10 bg-black/50 p-0.5 group-hover:border-cyan-400/50 group-hover:scale-105 transition-all duration-300"
+          />
+          <span className="text-2xl md:text-3xl font-black tracking-tighter text-white" style={{ fontFamily: "'Cinzel', serif" }}>Parth</span>
           <span className="text-2xl md:text-3xl font-bold text-cyan-400">.</span>
           <div className="absolute -inset-2 bg-cyan-400/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </Link>
