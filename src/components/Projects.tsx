@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ExternalLink, Github, Rocket, Shield, Eye, Smartphone, AlertCircle, FileText, BarChart3, Clock, CheckCircle2, Globe, MapPin, Activity } from "lucide-react";
+import { ExternalLink, Github, Rocket, Shield, Eye, Smartphone, AlertCircle, FileText, BarChart3, Clock, CheckCircle2, Globe, MapPin, Activity, Users } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -29,6 +29,25 @@ interface ProjectData {
 }
 
 const mainProjects: ProjectData[] = [
+  {
+    id: "hometrust", title: "HomeTrust", subtitle: "Institutional-Grade Real Estate Intelligence Platform",
+    description: "AI-powered real estate platform providing verified rentals, neighborhood intelligence, scam detection, trust badges, and broker accountability to create transparency in the housing market. Built to empower homebuyers and renters with institutional-grade transparency – completely free.",
+    features: [
+      { icon: MapPin, text: "Neighborhood Reports: Get 11-parameter livability scores (AQI, crime, flood risk, walkability) for any pincode." },
+      { icon: CheckCircle2, text: "Verified Rentals: Browse only KYC-verified broker listings with trust badges (Bronze to Platinum)." },
+      { icon: Shield, text: "AI Scam Detection: Automated flagging of fake photos, unrealistic prices, and duplicate listings." },
+      { icon: BarChart3, text: "Rent vs Buy Analyzer: Compare long-term financial outcomes including appreciation and rent inflation." },
+      { icon: Users, text: "Community Moderation: One-click reporting and strike system to eliminate repeat offenders." }
+    ],
+    tech: ["React", "Node.js", "AI", "Tailwind"],
+    images: [
+      "https://i.postimg.cc/7Lnq3gfg/Screenshot-2026-06-08-171436.png",
+      "https://i.postimg.cc/Y0Z7rRsp/Screenshot-2026-06-08-171451.png",
+      "https://i.postimg.cc/3J07SMkN/Screenshot-2026-06-08-171612.png"
+    ],
+    githubUrl: "https://github.com/ParthKaretiya/homeTrust", liveUrl: "https://home-trust-main.vercel.app/",
+    color: "from-blue-500/20 to-indigo-500/5", accent: "text-blue-400"
+  },
   {
     id: "pulseguard", title: "PulseGuard", subtitle: "AI Cybersecurity & Parental Suite",
     description: "A comprehensive digital safety ecosystem powered by AI to protect families and offices from modern cyber threats. Built at HackX Hackathon, handling real-time threat detection across 500+ concurrent WebSocket connections with sub-100ms latency.",
