@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 const CustomCursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const followerRef = useRef<HTMLDivElement>(null);
-  const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -62,29 +61,34 @@ const CustomCursor = () => {
     document.head.appendChild(style);
 
     // Optimized quickTo for high performance
-    const xTo = gsap.quickTo(cursor, "x", { duration: 0.1, ease: "power3" });
-    const yTo = gsap.quickTo(cursor, "y", { duration: 0.1, ease: "power3" });
-    const fxTo = gsap.quickTo(follower, "x", { duration: 0.4, ease: "power3" });
-    const fyTo = gsap.quickTo(follower, "y", { duration: 0.4, ease: "power3" });
+    const xTo = gsap.quickTo(cursor, "x", { duration: 0.08, ease: "power3" });
+    const yTo = gsap.quickTo(cursor, "y", { duration: 0.08, ease: "power3" });
+    const fxTo = gsap.quickTo(follower, "x", { duration: 0.35, ease: "power3" });
+    const fyTo = gsap.quickTo(follower, "y", { duration: 0.35, ease: "power3" });
+
+    let isHovering = false;
 
     const handleMouseMove = (e: MouseEvent) => {
+      const offset = isHovering ? 28 : 16;
       xTo(e.clientX - 4);
       yTo(e.clientY - 4);
-      fxTo(e.clientX - (isHovering ? 28 : 16));
-      fyTo(e.clientY - (isHovering ? 28 : 16));
+      fxTo(e.clientX - offset);
+      fyTo(e.clientY - offset);
     };
 
     const handlePointerOver = (e: PointerEvent) => {
       const el = e.target as HTMLElement;
-      if (el.closest("a, button, [role='button'], input, textarea, select, .group, .clickable")) {
-        setIsHovering(true);
+      if (el.closest("a, button, [role='button'], input, textarea, select, .group, .clickable, .project-card, .hack-card, .skill-cartridge")) {
+        isHovering = true;
+        follower.classList.add("hovering");
       }
     };
 
     const handlePointerOut = (e: PointerEvent) => {
       const el = e.target as HTMLElement;
-      if (el.closest("a, button, [role='button'], input, textarea, select, .group, .clickable")) {
-        setIsHovering(false);
+      if (el.closest("a, button, [role='button'], input, textarea, select, .group, .clickable, .project-card, .hack-card, .skill-cartridge")) {
+        isHovering = false;
+        follower.classList.remove("hovering");
       }
     };
 
@@ -99,12 +103,12 @@ const CustomCursor = () => {
       document.body.style.cursor = "auto";
       style.remove();
     };
-  }, [isHovering]);
+  }, []);
 
   return (
     <div className="cursor-container">
       <div ref={cursorRef} className="cursor-main" />
-      <div ref={followerRef} className={`cursor-follower ${isHovering ? 'hovering' : ''}`} />
+      <div ref={followerRef} className="cursor-follower" />
     </div>
   );
 };

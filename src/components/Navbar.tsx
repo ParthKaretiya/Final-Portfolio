@@ -114,7 +114,7 @@ const Navbar = () => {
         {/* Logo */}
         <Link to="/" className="nav-link relative group flex items-center gap-3 z-50 opacity-0">
           <img 
-            src="https://www.levista.art/wp-content/uploads/2024/10/PK-Ready-made-monogram-logo-for-wedding-business-350x350.webp" 
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQulxBkoR50r-Az1t9MzNWmiS359FeAZ_0RIw&s" 
             alt="PK Logo" 
             className="w-10 h-10 object-contain rounded-full border border-white/10 bg-black/50 p-0.5 group-hover:border-cyan-400/50 group-hover:scale-105 transition-all duration-300"
           />
