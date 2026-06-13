@@ -111,12 +111,12 @@ const Contact = () => {
   return (
     <section id="contact" className="py-28 relative overflow-hidden bg-[#050505]" ref={sectionRef}>
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute -top-20 -left-20 w-[500px] h-[500px] bg-purple-600/10 blur-[150px] rounded-full" />
-        <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-emerald-500/10 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-cyan-500/15 blur-[120px] rounded-full translate-x-1/2 translate-y-1/2" />
+        <div className="absolute -top-20 -left-20 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-purple-600/10 blur-[150px] rounded-full" />
+        <div className="absolute top-1/2 right-1/4 w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] bg-emerald-500/10 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] bg-cyan-500/15 blur-[120px] rounded-full translate-x-1/2 translate-y-1/2" />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           
           {/* Left Column: Info */}

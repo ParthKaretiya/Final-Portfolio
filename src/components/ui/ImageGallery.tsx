@@ -18,18 +18,18 @@ const ImageGallery = ({ images, name }: ImageGalleryProps) => {
   }, [images.length]);
 
   return (
-    <div className="relative aspect-video xl:aspect-auto xl:h-full min-h-[320px] overflow-hidden group/gallery bg-[#080808]">
+    <div className="absolute inset-0 w-full h-full overflow-hidden group/gallery bg-[#080808]">
       {/* Sliding Images Container */}
       <div 
         className="flex h-full transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]"
         style={{ transform: `translateX(-${activeIdx * 100}%)` }}
       >
         {images.map((img, i) => (
-          <div key={i} className="min-w-full h-full flex items-center justify-center p-4">
+          <div key={i} className="min-w-full h-full shrink-0 relative">
             <img
               src={img}
               alt={`${name} - image ${i + 1}`}
-              className="max-w-full max-h-full object-contain shadow-2xl rounded-xl"
+              className="absolute inset-0 w-full h-full object-cover object-center"
               loading="lazy"
             />
           </div>

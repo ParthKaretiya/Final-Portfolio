@@ -86,7 +86,7 @@ const Hero = () => {
 
   return (
     <section id="home" ref={sectionRef} className="min-h-screen flex items-center pt-20 pb-8 relative overflow-hidden bg-transparent">
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           {/* Left Content (7 Columns) */}
@@ -105,7 +105,7 @@ const Hero = () => {
 
             {/* Main Heading */}
             <div className="mb-4">
-              <h1 className="hero-title-line text-6xl md:text-7xl xl:text-8xl font-black leading-[0.85] tracking-tighter text-white mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <h1 className="hero-title-line text-4xl sm:text-5xl md:text-7xl xl:text-8xl font-black leading-[0.85] tracking-tighter text-white mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
                 PARTH<br />
                 <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">KARETIYA</span>
               </h1>
@@ -146,7 +146,7 @@ const Hero = () => {
             <div className="hero-cta flex flex-wrap gap-4 mb-8">
               <a
                 href="#projects"
-                className="group relative px-7 py-3.5 bg-cyan-400 text-black font-black uppercase tracking-widest text-xs rounded-2xl overflow-hidden transition-all duration-300 hover:bg-cyan-300 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(34,211,238,0.3)]"
+                className="w-full sm:w-auto flex justify-center group relative px-7 py-3.5 bg-cyan-400 text-black font-black uppercase tracking-widest text-xs rounded-2xl overflow-hidden transition-all duration-300 hover:bg-cyan-300 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(34,211,238,0.3)]"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   View Projects <Rocket className="w-4 h-4" />
@@ -157,13 +157,13 @@ const Hero = () => {
                 href="https://drive.google.com/file/d/17YweYR--TMHxc9NHtMwxqRTVO_ZO0Xor/view"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group px-7 py-3.5 bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-xs rounded-2xl flex items-center gap-2 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 active:scale-95"
+                className="w-full sm:w-auto flex justify-center group px-7 py-3.5 bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-xs rounded-2xl items-center gap-2 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 active:scale-95"
               >
                 Download Resume <Download className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
               </a>
               <a
                 href="#contact"
-                className="group relative px-7 py-3.5 bg-purple-500 text-white font-black uppercase tracking-widest text-xs rounded-2xl overflow-hidden transition-all duration-300 hover:bg-purple-400 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(168,85,247,0.3)]"
+                className="w-full sm:w-auto flex justify-center group relative px-7 py-3.5 bg-purple-500 text-white font-black uppercase tracking-widest text-xs rounded-2xl overflow-hidden transition-all duration-300 hover:bg-purple-400 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(168,85,247,0.3)]"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Contact Me <ExternalLink className="w-4 h-4" />
@@ -218,7 +218,7 @@ const Hero = () => {
                   </div>
 
                   {/* Floating Tags */}
-                  <div className="absolute -top-4 -right-8 z-20 hero-badge pointer-events-none" style={{ transform: "translateZ(30px)" }}>
+                  <div className="absolute -top-4 -right-2 sm:-right-8 z-20 hero-badge pointer-events-none" style={{ transform: "translateZ(30px)" }}>
                     <div className="px-4 py-2.5 bg-black/80 backdrop-blur-md border border-white/10 rounded-xl flex flex-col shadow-2xl">
                       <span className="text-[8px] font-bold text-white/40 tracking-widest uppercase mb-1">Status</span>
                       <div className="flex items-center gap-2">
@@ -228,7 +228,7 @@ const Hero = () => {
                     </div>
                   </div>
 
-                  <div className="absolute -bottom-4 -left-8 z-20 hero-badge pointer-events-none" style={{ transform: "translateZ(60px)" }}>
+                  <div className="absolute -bottom-4 -left-2 sm:-left-8 z-20 hero-badge pointer-events-none" style={{ transform: "translateZ(60px)" }}>
                     <div className="px-4 py-2.5 bg-black/80 backdrop-blur-md border border-white/10 rounded-xl flex flex-col shadow-2xl">
                       <span className="text-[8px] font-bold text-white/40 tracking-widest uppercase mb-1">Stack</span>
                       <span className="text-xs font-bold text-cyan-400">React • Node • MongoDB</span>

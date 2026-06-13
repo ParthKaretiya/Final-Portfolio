@@ -208,8 +208,8 @@ const Projects = () => {
   return (
     <div ref={containerRef} id="projects">
       {/* Big Title */}
-      <div className="container mx-auto px-6 pt-24 pb-12 relative z-20 overflow-hidden project-section">
-        <h2 className="text-[12vw] leading-none font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/5 tracking-tighter uppercase project-content" style={{ fontFamily: "'Cinzel', serif" }}>
+      <div className="container mx-auto px-4 sm:px-6 pt-24 pb-12 relative z-20 overflow-hidden project-section">
+        <h2 className="text-6xl md:text-[12vw] leading-none font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/5 tracking-tighter uppercase project-content" style={{ fontFamily: "'Cinzel', serif" }}>
           Projects
         </h2>
       </div>
@@ -225,7 +225,7 @@ const Projects = () => {
             willChange: "transform"
           }}
         >
-          <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center z-10 relative">
+          <div className="container mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center z-10 relative">
             <div className={`project-content lg:col-span-5 ${index % 2 !== 0 ? 'lg:order-2' : ''}`}>
               <p className="text-cyan-400 font-mono text-sm tracking-widest uppercase mb-3">Featured Innovation</p>
               <h2 className="text-4xl md:text-6xl font-black text-white mb-2 tracking-tighter" style={{ fontFamily: "'Cinzel', serif" }}>{project.title}</h2>
@@ -242,7 +242,7 @@ const Projects = () => {
               {/* Buttons removed - now in image overlay */}
             </div>
             <div className={`project-image lg:col-span-7 relative ${index % 2 !== 0 ? 'lg:order-1' : ''}`}>
-              <div className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-white/10 group shadow-xl bg-[#080808]">
+              <div className="relative w-full aspect-video sm:aspect-[16/10] rounded-2xl overflow-hidden border border-white/10 group shadow-xl bg-[#080808]">
                 <ImageGallery images={project.images} name={project.title} />
                 
                 {/* Image Hover Overlay */}
@@ -296,7 +296,7 @@ const Projects = () => {
 
       {/* UI Clones */}
       <section className="py-20 bg-[#050505]">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-4 sm:px-6">
           <div className="clones-title mb-12 text-center">
             <h2 className="text-4xl md:text-5xl font-black text-white mb-3 tracking-tighter" style={{ fontFamily: "'Cinzel', serif" }}>UI <span className="text-white/30 font-light">Reconstructions</span></h2>
             <p className="text-white/40 text-base max-w-2xl mx-auto">High-fidelity clones and standalone projects focusing on pixel-perfect layouts and responsive design.</p>
@@ -304,7 +304,7 @@ const Projects = () => {
           <div className="clones-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {UIClones.map(clone => (
               <div key={clone.id} className="clone-card group flex flex-col bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden hover:bg-white/[0.04] transition-all duration-500 hover:border-white/20 hover:-translate-y-1">
-              <div className="relative aspect-[16/10] overflow-hidden bg-[#080808]">
+              <div className="relative w-full aspect-video sm:aspect-[16/10] overflow-hidden bg-[#080808]">
                 <ImageGallery images={clone.images} name={clone.title} />
                 
                 {/* Overlay for UI Clones */}

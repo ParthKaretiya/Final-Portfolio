@@ -20,7 +20,7 @@ const Footer = () => {
 
   return (
     <footer className="py-8 border-t border-border/50">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 sm:px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <img 
@@ -40,7 +40,7 @@ const Footer = () => {
             ))}
           </div>
 
-          <p className="text-muted-foreground text-sm flex items-center gap-1">
+          <p className="text-muted-foreground text-xs sm:text-sm flex flex-col sm:flex-row items-center gap-1 text-center mt-4 md:mt-0">
             &copy; {new Date().getFullYear()} <span className="text-foreground font-medium">Parth Karetiya</span> | Full Stack Developer Portfolio
           </p>
         </div>

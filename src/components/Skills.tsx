@@ -586,7 +586,7 @@ const Skills = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[50vh] bg-indigo-900/5 blur-[180px] rounded-full pointer-events-none z-0" />
       
       {/* Section Header */}
-      <div className="container mx-auto px-6 mb-16 text-center z-10 relative skills-header-content">
+      <div className="container mx-auto px-4 sm:px-6 mb-16 text-center z-10 relative skills-header-content">
          <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter" style={{ fontFamily: "'Cinzel', serif" }}>
            Skill <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-500">Core</span>
          </h2>
@@ -603,7 +603,7 @@ const Skills = () => {
       </div>
       
       {/* Dashboard Core Console */}
-      <div className="container mx-auto px-6 mb-24 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 mb-24 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
           {/* Left Panel: Category tabs & skill cartridges */}
@@ -628,7 +628,7 @@ const Skills = () => {
             </div>
 
             {/* Cartridges Grid list */}
-            <div className="skill-cartridges-grid grid grid-cols-2 gap-3 max-h-[350px] overflow-y-auto pr-1 custom-scrollbar flex-1">
+            <div className="skill-cartridges-grid grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[350px] overflow-y-auto pr-1 custom-scrollbar flex-1">
               {filteredSkills.map((skill) => {
                 const isActive = activeSkill.name === skill.name;
                 return (
@@ -675,7 +675,7 @@ const Skills = () => {
 
             {/* Core Reactor Visualisation with Constellation Orbiters */}
             <div className="w-full md:w-1/2 flex items-center justify-center relative shrink-0 min-h-[300px]">
-              <div className="relative w-72 h-72 flex items-center justify-center">
+              <div className="relative w-64 h-64 sm:w-72 sm:h-72 flex items-center justify-center">
                 
                 {/* Radial color backglow */}
                 <div 

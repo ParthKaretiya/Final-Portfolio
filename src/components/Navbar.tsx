@@ -109,7 +109,7 @@ const Navbar = () => {
           : "bg-transparent py-5"
       }`}
     >
-      <nav className="nav-wrapper container mx-auto px-6 flex items-center justify-between opacity-0">
+      <nav className="nav-wrapper container mx-auto px-4 md:px-6 flex items-center justify-between opacity-0">
         
         {/* Logo */}
         <Link to="/" className="nav-link relative group flex items-center gap-3 z-50 opacity-0">

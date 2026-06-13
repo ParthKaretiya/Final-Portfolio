@@ -153,7 +153,9 @@ const Hackathons = () => {
                 <div className="grid grid-cols-1 xl:grid-cols-2">
 
                   {/* Image Gallery Side */}
-                  <ImageGallery images={hack.images} name={hack.name} />
+                  <div className="relative w-full aspect-video sm:aspect-[16/10] xl:aspect-auto xl:h-full xl:min-h-[400px] border-b xl:border-b-0 xl:border-r border-white/10 rounded-t-[2rem] xl:rounded-tr-none xl:rounded-l-[2rem] overflow-hidden bg-[#080808]">
+                    <ImageGallery images={hack.images} name={hack.name} />
+                  </div>
 
                   {/* Storytelling Side */}
                   <div className="p-8 lg:p-12 flex flex-col justify-between">
