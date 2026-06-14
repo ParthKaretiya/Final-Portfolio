@@ -21,7 +21,7 @@ const ImageGallery = ({ images, name }: ImageGalleryProps) => {
     <div className="absolute inset-0 w-full h-full overflow-hidden group/gallery bg-[#080808]">
       {/* Sliding Images Container */}
       <div 
-        className="flex h-full transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]"
+        className="flex h-full transition-transform duration-700 ease-out"
         style={{ transform: `translateX(-${activeIdx * 100}%)` }}
       >
         {images.map((img, i) => (

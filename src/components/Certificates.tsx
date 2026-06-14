@@ -320,7 +320,7 @@ const CertCard = ({
 
       {/* ── Hover accent border shimmer ── */}
       <div
-        className="absolute -inset-px rounded-[1.25rem] opacity-0 group-hover:opacity-100 transition-opacity duration-[600ms] pointer-events-none z-[1]"
+        className="absolute -inset-px rounded-[1.25rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-[1]"
         style={{
           background: `linear-gradient(135deg, ${colors.accent}35, transparent 40%, transparent 60%, ${colors.accent}18)`,
         }}

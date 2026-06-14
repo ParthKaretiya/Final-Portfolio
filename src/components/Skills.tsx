@@ -7,6 +7,7 @@ import { Code2, Server, Database, Settings, Cpu, Sparkles } from "lucide-react";
 gsap.registerPlugin(ScrollTrigger);
 
 const DEVICON = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/";
+const getLogoUrl = (logo: string) => logo.startsWith("/") ? logo : `${DEVICON}${logo}`;
 
 interface Skill {
   name: string;
@@ -49,17 +50,31 @@ const skillsData: Skill[] = [
     ]
   },
   {
-    name: "TypeScript",
-    logo: "typescript/typescript-original.svg",
-    color: "#3178c6",
-    glow: "shadow-[0_0_20px_rgba(49,120,198,0.5)]",
-    level: 92,
-    specs: ["Strict Type Compilation", "Generic constraints & utilities", "Mapped & Conditional Types", "Configuring advanced build paths"],
+    name: "HTML",
+    logo: "html5/html5-original.svg",
+    color: "#e34f26",
+    glow: "shadow-[0_0_20px_rgba(227,79,38,0.5)]",
+    level: 95,
+    specs: ["Semantic markup schemas", "Web Accessibility standards", "SEO Optimization meta tags", "DOM Element Structure"],
     logs: [
-      "> Parsing project syntax AST...",
-      "> Scanning structural code layouts...",
-      "> TS compilation status: 0 errors.",
-      ">> STATIC ANALYZER: VALIDATED"
+      "> Parsing HTML document...",
+      "> Building DOM tree schemas...",
+      "> Rendering page structures...",
+      ">> HTML CORE: READY"
+    ]
+  },
+  {
+    name: "CSS",
+    logo: "css3/css3-original.svg",
+    color: "#1572b6",
+    glow: "shadow-[0_0_20px_rgba(21,114,182,0.5)]",
+    level: 90,
+    specs: ["Flexbox & Grid Layouts", "Responsive Media Queries", "Keyframe Animations", "Custom Variable Arch"],
+    logs: [
+      "> Applying CSS core rules...",
+      "> Calculating layout engines...",
+      "> Triggering visual animations...",
+      ">> CSS STYLING: ACTIVE"
     ]
   },
   {
@@ -147,34 +162,7 @@ const skillsData: Skill[] = [
       ">> PYTHON ENGINE: STANDBY"
     ]
   },
-  {
-    name: "GraphQL",
-    logo: "graphql/graphql-plain.svg",
-    color: "#e10098",
-    glow: "shadow-[0_0_20px_rgba(225,0,152,0.5)]",
-    level: 80,
-    specs: ["Defining complex query schemas", "Resolver structure design", "Apollo Server configurations", "Query performance tuning"],
-    logs: [
-      "> Compiling GraphQL schemas...",
-      "> Binding query resolver paths...",
-      "> Type schemas verified statically.",
-      ">> GRAPHQL SCHEMAS: RESOLVED"
-    ]
-  },
-  {
-    name: "Socket.io",
-    logo: "socketio/socketio-original.svg",
-    color: "#ffffff",
-    glow: "shadow-[0_0_20px_rgba(255,255,255,0.4)]",
-    level: 88,
-    specs: ["WebSocket full communication", "Heartbeat handshake checks", "Rooms & Namespace broadcasts", "Connection fallback scripts"],
-    logs: [
-      "> Initializing Socket IO Server...",
-      "> Mapping real-time listeners...",
-      "> Syncing active socket ports...",
-      ">> SOCKET SERVICES: STABLE"
-    ]
-  },
+
   {
     name: "C++",
     logo: "cplusplus/cplusplus-original.svg",
@@ -204,20 +192,7 @@ const skillsData: Skill[] = [
       ">> CLIENT ACCESS: GRANTED"
     ]
   },
-  {
-    name: "PostgreSQL",
-    logo: "postgresql/postgresql-original.svg",
-    color: "#336791",
-    glow: "shadow-[0_0_20px_rgba(51,103,145,0.5)]",
-    level: 85,
-    specs: ["Relational data schemas", "SQL joins and complex queries", "Postgres key indices tuning", "Database trigger scripts"],
-    logs: [
-      "> Creating PostgreSQL client pool...",
-      "> Synchronizing query schemas...",
-      "> Checking index configurations...",
-      ">> RELATIONAL STORAGE: READY"
-    ]
-  },
+
   {
     name: "Firebase",
     logo: "firebase/firebase-plain.svg",
@@ -303,34 +278,7 @@ const skillsData: Skill[] = [
       ">> CONTAINER DEPLOYER: ACTIVE"
     ]
   },
-  {
-    name: "Linux",
-    logo: "linux/linux-original.svg",
-    color: "#ffffff",
-    glow: "shadow-[0_0_20px_rgba(255,255,255,0.4)]",
-    level: 80,
-    specs: ["Bash CLI administration", "File permission schemas", "System services scheduling", "SSH setups & protocols"],
-    logs: [
-      "> Booting POSIX kernel core...",
-      "> Verifying global system pathing...",
-      "> Starting terminal tty listeners...",
-      ">> LINUX SUBSYSTEM: TERMINAL ONLINE"
-    ]
-  },
-  {
-    name: "Jest",
-    logo: "jest/jest-plain.svg",
-    color: "#c21325",
-    glow: "shadow-[0_0_20px_rgba(194,19,37,0.5)]",
-    level: 80,
-    specs: ["Unit & component tests", "Central code mocks / spies", "Static coverage matrices", "VDOM snapshot comparison"],
-    logs: [
-      "> Scanning test files index...",
-      "> Initializing Jest runners...",
-      "> Test coverage calculation complete.",
-      ">> JEST RUNNER: ALL PASSED"
-    ]
-  },
+
   {
     name: "GitHub",
     logo: "github/github-original.svg",
@@ -358,14 +306,56 @@ const skillsData: Skill[] = [
       "> Exporting asset raster targets...",
       ">> ASSETS COMPILED: OK"
     ]
+  },
+  {
+    name: "Postman",
+    logo: "postman/postman-original.svg",
+    color: "#ff6c37",
+    glow: "shadow-[0_0_20px_rgba(255,108,55,0.5)]",
+    level: 90,
+    specs: ["API Endpoint Testing", "Environment Variables", "Automated Test Scripts", "Collection Workspaces"],
+    logs: [
+      "> Sending HTTP GET request...",
+      "> Parsing JSON response body...",
+      "> Checking status code 200...",
+      ">> API ENDPOINTS: VERIFIED"
+    ]
+  },
+  {
+    name: "Vercel",
+    logo: "vercel/vercel-original.svg",
+    color: "#ffffff",
+    glow: "shadow-[0_0_20px_rgba(255,255,255,0.4)]",
+    level: 88,
+    specs: ["Edge Network Deployment", "Serverless Functions", "CI/CD Pipeline Integration", "Preview Deployments"],
+    logs: [
+      "> Syncing git repository...",
+      "> Building production bundle...",
+      "> Deploying to edge nodes...",
+      ">> DEPLOYMENT: SUCCESSFUL"
+    ]
+  },
+  {
+    name: "Render",
+    logo: "/render.svg",
+    color: "#46e3b7",
+    glow: "shadow-[0_0_20px_rgba(70,227,183,0.5)]",
+    level: 85,
+    specs: ["Web Services Hosting", "Managed PostgreSQL DBs", "Background Worker Processes", "Static Site Deployment"],
+    logs: [
+      "> Provisioning Render services...",
+      "> Connecting managed databases...",
+      "> Exposing web server ports...",
+      ">> RENDER CLOUD: ONLINE"
+    ]
   }
 ];
 
 const categoryMapping: Record<string, string[]> = {
-  frontend: ["React.js", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS", "Redux"],
-  backend: ["Node.js", "Express.js", "Python", "GraphQL", "Socket.io", "C++"],
-  database: ["MongoDB", "PostgreSQL", "Firebase", "AWS", "Supabase", "Redis"],
-  tools: ["Git", "Docker", "Linux", "Jest", "GitHub", "Figma"]
+  frontend: ["React.js", "Next.js", "HTML", "CSS", "JavaScript", "Tailwind CSS", "Redux"],
+  backend: ["Node.js", "Express.js", "Python", "C++"],
+  database: ["MongoDB", "Firebase", "AWS", "Supabase", "Redis", "Vercel", "Render"],
+  tools: ["Git", "Docker", "GitHub", "Figma", "Postman"]
 };
 
 /* ─────────────────────────────────────────────────────────────────
@@ -388,7 +378,7 @@ const MarqueeRow = ({ items, reverse = false, speed = 80 }: { items: Skill[], re
             style={{ willChange: "transform" }}
           >
             <div className="w-7 h-7 md:w-9 md:h-9 relative flex items-center justify-center">
-               <img src={`${DEVICON}${skill.logo}`} alt={skill.name} className="w-full h-full object-contain filter drop-shadow-md group-hover:scale-110 transition-transform duration-300" loading="lazy" style={{ transform: "translateZ(0)" }} />
+               <img src={getLogoUrl(skill.logo)} alt={skill.name} className="w-full h-full object-contain filter drop-shadow-md group-hover:scale-110 transition-transform duration-300" loading="lazy" style={{ transform: "translateZ(0)" }} />
                <div className="absolute inset-0 blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-300 z-[-1]" style={{ backgroundColor: skill.color }} />
             </div>
             <span className="text-white/80 font-bold text-sm md:text-base group-hover:text-white transition-colors duration-300 tracking-wide">
@@ -653,7 +643,7 @@ const Skills = () => {
                     
                     {/* Tech icon */}
                     <div className="w-7 h-7 relative flex items-center justify-center shrink-0">
-                      <img src={`${DEVICON}${skill.logo}`} alt={skill.name} className="w-full h-full object-contain filter drop-shadow-md" />
+                      <img src={getLogoUrl(skill.logo)} alt={skill.name} className="w-full h-full object-contain filter drop-shadow-md" />
                     </div>
                     
                     {/* Cartridge Text info */}
@@ -771,7 +761,7 @@ const Skills = () => {
                   style={{ borderColor: activeSkill.color, boxShadow: `0 0 20px ${activeSkill.color}33` }}
                 >
                   <img 
-                    src={`${DEVICON}${activeSkill.logo}`} 
+                    src={getLogoUrl(activeSkill.logo)} 
                     alt={activeSkill.name} 
                     className="w-8 h-8 object-contain filter drop-shadow-lg"
                   />
@@ -801,7 +791,7 @@ const Skills = () => {
                       }}
                     >
                       <img 
-                        src={`${DEVICON}${skill.logo}`} 
+                        src={getLogoUrl(skill.logo)} 
                         alt={skill.name} 
                         className={`w-full h-full object-contain filter transition-all duration-300 ${
                           isActive ? 'scale-100' : 'scale-90 opacity-60 group-hover/orbiter:opacity-100 group-hover/orbiter:scale-100'
@@ -832,28 +822,7 @@ const Skills = () => {
                   {activeSkill.name}
                 </h3>
                 
-                <p className="text-[8px] font-mono tracking-widest text-white/30 uppercase mt-0.5">
-                  CORE CAPACITY SCORE
-                </p>
 
-                {/* Segmented Power Grid */}
-                <div className="flex items-center gap-1.5 mt-2.5">
-                  {Array.from({ length: 12 }).map((_, i) => {
-                    const isLit = i < Math.round((activeSkill.level / 100) * 12);
-                    return (
-                      <div 
-                        key={i} 
-                        className="w-3 h-4 rounded-[2px] transform -skew-x-12 transition-all duration-500 border shrink-0"
-                        style={{
-                          backgroundColor: isLit ? `${activeSkill.color}22` : 'rgba(255, 255, 255, 0.02)',
-                          borderColor: isLit ? activeSkill.color : 'rgba(255, 255, 255, 0.04)',
-                          boxShadow: isLit ? `0 0 6px ${activeSkill.color}22` : 'none'
-                        }}
-                      />
-                    );
-                  })}
-                  <span className="text-[10px] font-mono font-bold ml-2 text-white/45">{activeSkill.level}%</span>
-                </div>
               </div>
 
               {/* Specs array parameters */}
