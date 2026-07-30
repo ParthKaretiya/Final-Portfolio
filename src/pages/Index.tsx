@@ -24,26 +24,37 @@ const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Initialize Lenis Smooth Scroll with optimized settings
+    // Initialize Lenis Smooth Scroll with universal cross-device settings
     const lenis = new Lenis({
-      duration: 1.2, // Faster, snappier scroll
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.1, // Slight boost for speed
-      touchMultiplier: 1.5,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.8,
+      infinite: false,
     });
 
     lenis.on('scroll', ScrollTrigger.update);
 
-    gsap.ticker.add((time)=>{
+    gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
 
-    gsap.ticker.lagSmoothing(1000, 16); // Better lag handling
+    gsap.ticker.lagSmoothing(1000, 16);
 
-    // Handle Anchor Links with Lenis
+    // Initial hash navigation scroll handling if landing with #hash
+    if (window.location.hash) {
+      const initialTarget = document.getElementById(window.location.hash.substring(1));
+      if (initialTarget) {
+        setTimeout(() => {
+          lenis.scrollTo(initialTarget, { offset: -70, duration: 1.2 });
+        }, 300);
+      }
+    }
+
+    // Handle Anchor Links seamlessly across all devices
     const handleClick = (e: MouseEvent) => {
       const anchor = (e.target as HTMLElement).closest('a');
       if (anchor) {
@@ -51,11 +62,11 @@ const Index = () => {
         if (href && href.includes("#")) {
           const [path, hash] = href.split("#");
           if (path === "" || path === "/" || path === window.location.pathname) {
-            const target = document.getElementById(hash);
-            if (target) {
+            const target = hash ? document.getElementById(hash) : document.body;
+            if (target || hash === "") {
               e.preventDefault();
-              lenis.scrollTo(target, { offset: 0, duration: 1.2 });
-              window.history.pushState(null, "", `#${hash}`);
+              lenis.scrollTo(hash === "" ? 0 : target!, { offset: -70, duration: 1.2 });
+              window.history.pushState(null, "", hash ? `#${hash}` : window.location.pathname);
             }
           }
         }

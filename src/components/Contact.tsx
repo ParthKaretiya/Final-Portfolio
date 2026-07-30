@@ -1,9 +1,8 @@
 import { useRef, useState } from "react";
-import { Mail, MapPin, Send, Linkedin, Github, Youtube, CheckCircle, Loader2, AlertCircle } from "lucide-react";
+import { Mail, MapPin, Send, Linkedin, Github, Youtube, CheckCircle, Loader2 } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import SonarRipples from "./animations/SonarRipples";
 import emailjs from "@emailjs/browser";
 import { toast } from "sonner";
 
@@ -21,44 +20,49 @@ const Contact = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [focusedField, setFocusedField] = useState<string | null>(null);
   const [submitState, setSubmitState] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formRef.current) return;
-
     setSubmitState("loading");
 
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_4ks2y1e";
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_tp80pag";
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "_recH7xfHdbhaKhqm";
+
+    const templateParams = {
+      name: formData.name,
+      email: formData.email,
+      reply_to: formData.email,
+      message: formData.message,
+      time: new Date().toLocaleString("en-US", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      }),
+    };
+
     try {
-      const result = await emailjs.sendForm(
-        "service_yzi4ecp",
-        "template_tfz37bb",
-        formRef.current,
-        "3Hah5t2_pT5FXOsy2"
+      const result = await emailjs.send(
+        serviceId,
+        templateId,
+        templateParams,
+        publicKey
       );
 
-      if (result.text === "OK") {
+      if (result.status === 200 || result.text === "OK") {
         setSubmitState("success");
         toast.success("Message sent successfully!");
-        
-        setTimeout(() => {
-          gsap.fromTo('.success-icon', 
-            { scale: 0, rotation: -180 }, 
-            { scale: 1, rotation: 0, duration: 0.6, ease: 'back.out(1.7)' }
-          );
-        }, 10);
 
-        setTimeout(() => { 
-          setSubmitState("idle"); 
-          setFormData({ name: "", email: "", message: "" }); 
+        setTimeout(() => {
+          setSubmitState("idle");
+          setFormData({ name: "", email: "", message: "" });
         }, 3000);
       }
     } catch (error) {
       console.error("EmailJS Error:", error);
       setSubmitState("error");
       toast.error("Failed to send message. Please try again.");
-      
+
       setTimeout(() => {
         setSubmitState("idle");
       }, 3000);
@@ -71,14 +75,6 @@ const Contact = () => {
       gsap.set(['.reveal', '.reveal-left', '.reveal-right'], { opacity: 1 });
       return;
     }
-
-    gsap.fromTo('.reveal', 
-      { opacity: 0, y: 30 }, 
-      { 
-        opacity: 1, y: 0, stagger: 0.1, duration: 0.8, ease: 'power3.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' }
-      }
-    );
 
     gsap.fromTo('.reveal-left', 
       { opacity: 0, x: -40 }, 
@@ -95,17 +91,6 @@ const Contact = () => {
         scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' }
       }
     );
-
-    // Continuous floating for social links
-    gsap.to('.social-icon-link', {
-      y: -6,
-      duration: 2,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      stagger: 0.15,
-      delay: 1.5
-    });
   }, { scope: sectionRef });
 
   return (
